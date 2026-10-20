@@ -74,6 +74,8 @@ function PasswordDialog({
           accessibilityViewIsModal
           style={{
             backgroundColor: c.card,
+            borderWidth: 1,
+            borderColor: c.border,
             borderRadius: 28,
             padding: 24,
             gap: 16,
