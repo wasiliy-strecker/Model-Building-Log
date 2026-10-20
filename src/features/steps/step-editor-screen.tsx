@@ -1,3 +1,4 @@
+import { messages } from '../../core/i18n';
 import { View } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import {
@@ -49,16 +50,8 @@ export function StepEditorScreen() {
             <Body strong style={{ fontSize: 18 }}>
               Merke dir, wo du weitermachst.
             </Body>
-            <Body>
-              Trage deinen aktuellen Bauschritt ein. Fotos und Notizen halten
-              fest, wie dein Modell gerade aussieht.
-            </Body>
-            <Body muted>
-              Für spätere Vergleiche helfen ein ähnlicher Blickwinkel und gutes
-              Licht. Fotos werden lokal als JPEG mit höchstens 1920 Pixeln
-              gespeichert. Standort- und Aufnahmemetadaten werden nicht
-              übernommen.
-            </Body>
+            <Body>{messages.stepFields.captureHint}</Body>
+            <Body muted>{messages.stepFields.photoHint}</Body>
           </Card>
           <Button
             icon="edit_note_outlined"
@@ -85,8 +78,8 @@ export function StepEditorScreen() {
         <View style={{ gap: 16 }}>
           <PhotoEditor photos={form.photos} actions={actions} />
           <Field
-            label="Aktueller Bauschritt *"
-            placeholder="z. B. 12"
+            label={messages.stepFields.number.label}
+            placeholder={messages.stepFields.number.placeholder}
             keyboardType="number-pad"
             value={form.number}
             onChangeText={(v) => vm.change('number', v)}
@@ -96,21 +89,19 @@ export function StepEditorScreen() {
             }
             maxLength={500}
           />
-          <Body muted>
-            Ganze Schrittnummer ab 0. Trage ein, wo du gerade aufgehört hast.
-          </Body>
+          <Body muted>{messages.stepFields.number.helper}</Body>
           <Field
-            label="Titel (optional)"
-            placeholder="z. B. Cockpit lackieren"
+            label={messages.stepFields.title.label}
+            placeholder={messages.stepFields.title.placeholder}
             value={form.title}
             onChangeText={(v) => vm.change('title', v)}
             editable={!vm.busy}
             maxLength={500}
           />
           <Card>
-            <Body strong>Datum und Uhrzeit</Body>
+            <Body strong>{messages.stepFields.occurredAt.title}</Body>
             <DateField
-              label="Zeitpunkt des Bauschritts"
+              label={messages.stepFields.occurredAt.label}
               time
               value={form.occurredAt}
               onChange={(v) => vm.change('occurredAt', v)}
@@ -118,8 +109,8 @@ export function StepEditorScreen() {
             />
           </Card>
           <Field
-            label="Notiz"
-            placeholder="Farben, Teile und Arbeitsschritte, z. B. Grundierung, Farbnummer oder nächste Handgriffe"
+            label={messages.stepFields.note.label}
+            placeholder={messages.stepFields.note.placeholder}
             multiline
             numberOfLines={4}
             maxLength={20000}

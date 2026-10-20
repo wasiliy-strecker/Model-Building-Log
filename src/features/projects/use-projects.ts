@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { AppState } from 'react-native';
 import { useFocusEffect, router } from 'expo-router';
 import { useServices } from '../../core/composition';
 import {
@@ -8,7 +7,6 @@ import {
   type Project,
   type BuildStep,
 } from '../../core/domain/models';
-import type { ReminderStatus } from '../../core/native/model-native';
 import { errorText } from '../../core/ui/components';
 import { useTask } from '../../core/ui/use-task';
 import { useFeedback } from '../../core/ui/feedback';
@@ -20,31 +18,8 @@ import {
   type ProjectSort,
 } from './presentation-model';
 
-export function useReminderStatus() {
-  const { native } = useServices();
-  const [status, setStatus] = useState<ReminderStatus>();
-  useFocusEffect(
-    useCallback(() => {
-      let active = true;
-      const load = () =>
-        native
-          .reminderStatus()
-          .then((s) => {
-            if (active) setStatus(s);
-          })
-          .catch(() => {});
-      void load();
-      const listener = AppState.addEventListener('change', (s) => {
-        if (s === 'active') void load();
-      });
-      return () => {
-        active = false;
-        listener.remove();
-      };
-    }, [native]),
-  );
-  return status;
-}
+import { useReminderStatus } from './use-reminder-status';
+
 export function useProjects() {
   const { log, revision } = useServices();
   const [items, setItems] = useState<DashboardItem[]>([]);

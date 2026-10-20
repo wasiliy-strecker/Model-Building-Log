@@ -97,6 +97,8 @@ internal object ReminderScheduler {
     )
 
     fun rescheduleAll(context: Context, clockChanged: Boolean = false) {
+        ReminderStore.statusIds(context).filter { ReminderStore.planningState(context, it) == "cancelFailed" }
+            .forEach { cancel(context, it) }
         ReminderStore.all(context).forEach { reminder ->
             if (clockChanged) {
                 scheduleNext(context, reminder)
@@ -150,6 +152,7 @@ internal enum class ReminderAvailability(val wireValue: String) {
 }
 
 internal object ReminderNotifier {
+    private val notificationColor = Color.rgb(49, 95, 105)
     private const val normalChannelId = "modellbaulog_reminders"
     private const val alarmChannelId = "modellbaulog_alarm_reminders_v1"
     private const val recordNotificationId = 1001
@@ -233,7 +236,7 @@ internal object ReminderNotifier {
         val summary = "${reminder.categoryLabel} · $latestReading"
         val notification = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_stat_model)
-            .setColor(Color.rgb(49, 95, 105))
+            .setColor(notificationColor)
             .setContentTitle("${reminder.categoryLabel} · ${reminder.label}")
             .setContentText(summary)
             .setStyle(
@@ -296,7 +299,7 @@ internal object ReminderNotifier {
             channelId(punctual),
         )
             .setSmallIcon(R.drawable.ic_stat_model)
-            .setColor(Color.rgb(49, 95, 105))
+            .setColor(notificationColor)
             .setContentTitle("Test: $categoryLabel · $label")
             .setContentText(latestReading)
             .setStyle(
@@ -385,10 +388,10 @@ internal object ReminderNotifier {
         val manager = context.getSystemService(NotificationManager::class.java)
         val normal = NotificationChannel(
             normalChannelId,
-            "ModellbauLog-Erinnerungen",
+            "Normal",
             NotificationManager.IMPORTANCE_HIGH,
         ).apply {
-            description = "Optionale Erinnerungen für regelmäßige Einträge."
+            description = "Optionale Erinnerungen zum Weiterbauen."
             enableVibration(true)
             setSound(
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
@@ -402,10 +405,10 @@ internal object ReminderNotifier {
             ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val alarm = NotificationChannel(
             alarmChannelId,
-            "Pünktliche ModellbauLog-Erinnerungen",
+            "Pünktlich mit Ton",
             NotificationManager.IMPORTANCE_HIGH,
         ).apply {
-            description = "Pünktliche ModellbauLog-Erinnerungen mit Alarmton."
+            description = "Pünktliche Erinnerungen zum Weiterbauen mit Alarmton."
             enableVibration(true)
             setSound(
                 alarmSound,

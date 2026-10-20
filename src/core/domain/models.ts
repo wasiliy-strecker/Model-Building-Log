@@ -97,14 +97,6 @@ export type ProjectPhoto = {
   occurredAt: string;
   photo: PhotoAttachment;
 };
-export const modelTypes = [
-  'Flugzeug',
-  'Fahrzeug',
-  'Schiff',
-  'Figur',
-  'Diorama',
-  'Sonstiges',
-];
 export const PAGE_SIZE = 10;
 export function stepLabel(step: Pick<BuildStep, 'number' | 'title'>): string {
   return `Schritt ${step.number}${step.title.trim() ? ` · ${step.title.trim()}` : ''}`;

@@ -1,6 +1,6 @@
 # Prüfung von ModellbauLog
 
-Stand: 2. Oktober 2026.
+Erstprüfung: 2. Oktober 2026. Abgleich der Erinnerungen und Modelltypen: 20. Oktober 2026.
 
 ## Automatisierte Prüfung
 
@@ -96,3 +96,50 @@ aufwendigen visuellen Testreihen oder Emulator-Reihen durchgeführt.
 führt am Prüfungstag keine korrigierte Version auf. Eine von npm vorgeschlagene
 Rückstufung auf Expo 44 wurde nicht vorgenommen. ModellbauLog-Backups verwenden
 Noble und die Android-Passwortableitung, nicht node-forge.
+
+## Abgleich vom 20. Oktober 2026
+
+Referenzen sind SerienLog `84be04e` und `e0eeece` sowie der dokumentierte
+MaschinenLog-Store-Stand `3052bc8` mit Version 1.0.0 (5).
+
+`npm run check` besteht mit 24 Tests in sechs Dateien, Prettier, ESLint und
+TypeScript. `npm run check:native` besteht mit 41 Tests, null Lint-Fehlern und
+22 bestehenden Hinweisen. Die neuen Tests decken Moduswechsel mit abgelehntem
+oder unbekanntem Status, fehlende Einstellungsseiten, passende Kanalauswahl,
+Intervallwechsel, Test-Benachrichtigungen und Erhalt eigener Modelltypen ab.
+Native Tests prüfen das gemeinsame eigene Symbol und #315F69 für normale und
+pünktliche Benachrichtigungen, Projektlinks, blockierte Kanäle und die erneute
+Aufhebung fehlgeschlagener Termine.
+
+Ein DevDebug-Update war wegen der nativen Schnittstelle und des neuen
+Benachrichtigungssymbols nötig. `npm run build:dev` und der datenbewahrende
+Installationshelfer bestehen. Paket und Signatur passen zur vorhandenen
+Dev-Installation. Version bleibt 1.0.0 (1). Startseite und Formular mit den
+sechs Modelltypen auf dem HONOR-Gerät geprüft. Keine Projekte gespeichert.
+Weitere Gerätebedienung beendet, als SerienLog im Vordergrund erschien.
+Benachrichtigungsanzeige und tatsächliche Zustellung sind nicht am Gerät
+abgenommen. Kein Store-Build und kein Push.
+
+Kurze ergänzende manuelle Prüfung:
+
+1. Ein vorhandenes Projekt mit eigenem Modelltyp öffnen. Der Wert bleibt
+   erhalten. Die Vorschlagsliste enthält nur Flugzeug, Fahrzeug, Schiff,
+   Figur, Diorama und Sonstiges. Einen eigenen Begriff eingeben, speichern
+   und erneut öffnen.
+2. Zwischen Normal und Pünktlich mit Ton wechseln. Bei fehlender Freigabe
+   öffnet sich Alarme & Erinnerungen. Nach Rückkehr aktualisiert sich der
+   Status. Den gewählten Modus und die Intervallfelder beibehalten.
+3. Nur einen Erinnerungskanal in Android sperren. Die betroffene Art meldet
+   die Sperre und öffnet ihren Kanal. Der andere Modus bleibt verfügbar.
+   Anschließend die vorherige Android-Einstellung wiederherstellen.
+4. Beide Arten testen. Eigenes Flugzeug-und-Pinsel-Symbol, App-Farbe und
+   korrekter Bauschritt sollen erscheinen. Ein gespeichertes Projekt wird
+   beim Antippen geöffnet. Die Testmeldung verschwindet nach einer Minute.
+   Nicht-stören-Hinweise beachten, ohne daraus eine Tonzusage abzuleiten.
+5. Einen regulären Termin auslösen lassen. Erinnerung deaktivieren und erneut
+   öffnen. Es soll kein Projektalarm zurückbleiben. Keine Testdaten oder
+   geänderten Systemfreigaben dauerhaft zurücklassen.
+
+Die Vorschläge und Formulartexte liegen in `src/core/i18n/de.ts` unter
+stabilen Schlüsseln. Gespeicherte Modelltypen bleiben freie Zeichenketten.
+Eine spätere Übersetzung der Vorschläge darf diese Werte nicht umschreiben.

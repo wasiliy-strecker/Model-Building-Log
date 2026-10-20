@@ -27,6 +27,7 @@ import {
 } from './presentation-model';
 import { PAGE_SIZE, type Project } from '../../core/domain/models';
 import type { ReminderStatus } from '../../core/native/model-native';
+import { ReminderScheduleStatus } from './reminder-status';
 export function ReminderInfo({
   project,
   status,
@@ -37,22 +38,22 @@ export function ReminderInfo({
   const c = useTheme();
   const r = project.reminder;
   const s = status?.schedules.find((s) => s.recordId === project.id);
-  if (!r) return null;
+  if (!r && s?.planningState !== 'cancelFailed') return null;
   return (
     <View style={{ gap: 6 }}>
-      <Body strong style={{ fontSize: 12 }}>
-        Erinnern: {reminderSummary(r)}
-      </Body>
-      <Body muted style={{ fontSize: 12 }}>
-        {s?.nextTriggerAtMillis
-          ? `Nächste Erinnerung: ${dateTime(s.nextTriggerAtMillis)} Uhr`
-          : 'Erinnerung noch nicht bestätigt'}
-        {status && !status.notifications ? ' · In Android blockiert' : ''}
-        {s?.planningState && s.planningState !== 'scheduled'
-          ? ' · Planung prüfen'
-          : ''}
-        {s?.deliveryFailed ? ' · Zustellfehler' : ''}
-      </Body>
+      {r && (
+        <Body strong style={{ fontSize: 12 }}>
+          Erinnern: {reminderSummary(r)}
+        </Body>
+      )}
+      <ReminderScheduleStatus
+        reminder={r}
+        status={status}
+        recordId={project.id}
+        onEdit={() =>
+          router.push({ pathname: '/project/edit', params: { id: project.id } })
+        }
+      />
       <View
         style={{
           paddingHorizontal: 10,

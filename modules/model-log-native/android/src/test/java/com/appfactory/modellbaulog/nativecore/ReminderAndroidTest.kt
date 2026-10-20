@@ -8,6 +8,7 @@ import java.time.Duration
 import android.app.NotificationManager
 import android.media.AudioAttributes
 import android.os.Build
+import android.graphics.Color
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -66,6 +67,34 @@ class ReminderAndroidTest {
         assertEquals("Letzter Bauschritt: Schritt 12", notification.extras.getCharSequence("android.text").toString())
     }
 
+    @Test fun realAndTestNotificationsUseTheAppBrandInBothModes() {
+        for (punctual in listOf(false, true)) {
+            notifications.cancelAll()
+            assertNotNull(ReminderNotifier.showRecord(context, reminder(punctual = punctual)))
+            assertEquals("posted", ReminderNotifier.showTest(context, "saved", "Spitfire", "Flugzeug", "12", "Schritt", punctual))
+            assertEquals(2, shadowOf(notifications).allNotifications.size)
+            for (notification in shadowOf(notifications).allNotifications) {
+                assertEquals(R.drawable.ic_stat_model, notification.smallIcon.resId)
+                assertEquals(Color.rgb(49, 95, 105), notification.color)
+                val intent = shadowOf(notification.contentIntent).savedIntent
+                assertEquals("modellbaulog://project/saved", intent.data.toString())
+                assertEquals(context.packageName, intent.`package` ?: intent.component?.packageName)
+            }
+        }
+    }
+
+    @Test @Config(sdk = [35])
+    fun blockedChannelsAreReportedIndependently() {
+        assertEquals(ReminderAvailability.AVAILABLE, ReminderNotifier.availability(context, false))
+        val channel = notifications.getNotificationChannel(ReminderNotifier.channelId(false))
+        channel.importance = NotificationManager.IMPORTANCE_NONE
+        notifications.createNotificationChannel(channel)
+        assertEquals(ReminderAvailability.CHANNEL_BLOCKED, ReminderNotifier.availability(context, false))
+        assertEquals(ReminderAvailability.AVAILABLE, ReminderNotifier.availability(context, true))
+        assertEquals("channelBlocked", ReminderNotifier.showTest(context, null, "Test", "Test", null, null, false))
+        assertNull(ReminderNotifier.showRecord(context, reminder()))
+    }
+
     @Test fun acceptedScheduleReportsItsActualAlarmAndCancellationRemovesIt() {
         val saved = reminder()
         assertTrue(ReminderScheduler.update(context, saved))
@@ -76,6 +105,7 @@ class ReminderAndroidTest {
         assertEquals(false, status["isExact"])
         assertTrue(ReminderScheduler.cancel(context, saved.recordId))
         assertNull(ReminderStore.find(context, saved.recordId))
+        assertFalse(ReminderStore.statusIds(context).contains(saved.recordId))
         assertEquals("none", ReminderScheduler.status(context, saved.recordId)["planningState"])
         assertTrue(shadowOf(context.getSystemService(AlarmManager::class.java)).scheduledAlarms.isEmpty())
     }
@@ -165,11 +195,13 @@ class ReminderAndroidTest {
         assertFalse(ReminderScheduler.cancel(context, saved.recordId))
         assertEquals("cancelFailed", ReminderScheduler.status(context, saved.recordId)["planningState"])
         assertNull(ReminderStore.find(context, saved.recordId))
+        assertTrue(ReminderStore.statusIds(context).contains(saved.recordId))
         ModelReminderReceiver().onReceive(context, Intent().putExtra("record_id", saved.recordId))
         assertTrue(shadowOf(notifications).allNotifications.isEmpty())
         FailingCancellation.fail = false
-        assertTrue(ReminderScheduler.cancel(context, saved.recordId))
+        ReminderScheduler.rescheduleAll(context)
         assertEquals("none", ReminderScheduler.status(context, saved.recordId)["planningState"])
+        assertFalse(ReminderStore.statusIds(context).contains(saved.recordId))
     }
 
     @Implements(AlarmManager::class)

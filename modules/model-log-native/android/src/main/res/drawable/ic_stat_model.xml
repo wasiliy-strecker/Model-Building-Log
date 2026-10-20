@@ -1,3 +1,11 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
-  <path android:fillColor="#FFFFFFFF" android:pathData="M21,16v-2l-8,-5V3.5C13,2.67 12.33,2 11.5,2S10,2.67 10,3.5V9l-8,5v2l8,-2.5V19l-2,1.5V22l3.5,-1 3.5,1v-1.5L13,19v-5.5Z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="720" android:viewportHeight="720">
+  <!-- Monochrome aircraft and brush from assets/branding/modellbaulog_icon.svg. -->
+  <group android:translateX="-150" android:translateY="-162">
+    <group android:translateX="-34">
+      <path android:fillColor="#FFFFFFFF" android:pathData="M510,238c-15,0 -25,22 -28,50l-24,156 -177,133v48l177,-60v150l-57,52v38l109,-37 109,37v-38l-57,-52V565l177,60v-48L562,444l-24,-156c-3,-28 -13,-50 -28,-50Z"/>
+    </group>
+    <group android:rotation="24" android:pivotX="740" android:pivotY="460">
+      <path android:fillColor="#FFFFFFFF" android:pathData="M722,272q18,-22 36,0v258h-36Z M721,508h38v57h-38Z M721,558h38l13,58q-10,36 -41,51 10,-37 -15,-55Z"/>
+    </group>
+  </group>
 </vector>

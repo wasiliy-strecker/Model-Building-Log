@@ -4,11 +4,8 @@ import type {
   Reminder,
   BuildStepDraft,
 } from '../../core/domain/models';
-import {
-  modelTypes,
-  stepDifference,
-  stepLabel,
-} from '../../core/domain/models';
+import { stepDifference, stepLabel } from '../../core/domain/models';
+import { messages } from '../../core/i18n';
 
 export type HistoryItem = {
   step: BuildStep;
@@ -25,17 +22,7 @@ export function historyComparison(
     ? `${previous.number} → ${step.number} · ${stepDifference(step, previous)} Schritte`
     : null;
 }
-export function modelTypeSuggestions(projects: Project[]): string[] {
-  const unique = new Map<string, string>();
-  const saved = projects
-    .map((p) => p.modelType.trim())
-    .filter(Boolean)
-    .sort((a, b) => a.localeCompare(b, 'de-DE'));
-  for (const name of [...modelTypes, ...saved])
-    if (!unique.has(name.toLocaleLowerCase('de-DE')))
-      unique.set(name.toLocaleLowerCase('de-DE'), name);
-  return [...unique.values()];
-}
+export const modelTypeSuggestions = Object.values(messages.modelTypes);
 export type DashboardItem = {
   project: Project;
   latest: BuildStep | null;
