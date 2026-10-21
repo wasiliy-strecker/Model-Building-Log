@@ -53,3 +53,17 @@ NIO-Aufrufe von Commons IO auch unter Android 7 verfügbar bleiben.
 Die gezielten Robolectric-Tests führen Gson-Verarbeitung sowie Commons-IO-
 Stream- und Dateinamenoperationen auf API 24, 25 und 35 aus. Sie ergänzen die
 bestehenden nativen Prüfungen. Ein Store-Build ist dafür nicht erforderlich.
+
+## PDF-Erzeugung
+
+`pdf-lib` 1.17.1 und `@pdf-lib/fontkit` 1.1.1 entsprechen dem verwendeten Stand
+von SerienLog. Vorhandene Roboto-Dateien werden lokal eingebettet. Die Android-
+Vorschau verwendet `PdfRenderer`, Drucken den Android-Druckdienst und Teilen
+zeitlich vom System verwaltete Leserechte auf private Dateien. Keine weitere
+native PDF-Bibliothek, Scanner-Abhängigkeit oder Netzwerkberechtigung.
+
+Audit vom 21. Oktober 2026: `npm audit --omit=dev` meldet 18 hohe Einträge
+entlang der bereits bestehenden Expo-/Metro-Abhängigkeiten (`braces` und
+`node-forge` einschließlich abhängiger Pakete). Derselbe Audit gegen das
+Lockfile vor dieser Aufgabe liefert identische Meldungen. Keine neue Meldung
+durch pdf-lib oder fontkit. Kein erzwungenes `npm audit fix` oder Downgrade.

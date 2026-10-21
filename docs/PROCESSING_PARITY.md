@@ -36,11 +36,17 @@ private Dateiablage, Dialogaktionen, Vorschlagsfelder, Datumsauswahl,
 Fotoeditor, Viewer, Snackbar, Verlassen-Schutz und verschlüsselte Backups
 übernommen oder passend angepasst.
 
-OCR, Dokumentenscanner, PDF-Erzeugung, PDF-Vorschau, Dokumentanhänge und
-entsprechende native Abhängigkeiten wurden nicht übernommen. Die Android-
-Dokumentauswahl bleibt ausschließlich für verschlüsselte Backup-Dateien.
-Teilelager, Einkauf und weitere fachliche Zusatzfunktionen sind nicht enthalten.
+PDF-Einzel- und Bauverlaufsprotokolle übernehmen nun den fachlichen Umfang von
+Strick & Häkelbuch: alle aktuellen Fotos, geordnete Zweierzeilen, vollständiger
+Bauverlauf, gespeicherte Erfassungsdaten und ursprünglicher UTC-Versatz.
+Die React-Native-Erzeugung, Android-Vorschau, Mehrteiler, Teilen, Drucken und
+Zehner-Pagination beider PDF-Listen basieren auf lokal angepassten SerienLog-
+Bausteinen. Kein PDF-Import, OCR oder Dokumentenscanner. Die Dokumentauswahl
+bleibt ausschließlich für verschlüsselte Backup-Dateien.
 
-Die Gestaltung bleibt in Aufbau und Bedienung an der Referenz orientiert.
-Petrol, Kupferakzente, warme Flächen und ein eigenes Icon geben der neuen App
-eine unabhängige Identität. Das dunkle Thema folgt der Systemeinstellung.
+Gespeicherte Protokolle bleiben nach Fotoänderungen unverändert und sind Teil
+des ModellbauLog-Backups. SQLite-Schema 2 und optionale Erfassungsfelder erhalten
+bestehende Daten. Alte Backups ohne Reports und Erfassungsdaten bleiben lesbar.
+
+Die Gestaltung verwendet dunkles Anthrazit, weiße Schrift, gelbe Aktionen und
+rote Löschkonturen. Kein zusätzlicher Hellmodus, Fotovergleich oder Sortierbutton.

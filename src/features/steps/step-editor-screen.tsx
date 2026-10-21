@@ -129,6 +129,7 @@ export function StepEditorScreen() {
                 label={messages.stepFields.occurredAt.label}
                 time
                 value={form.occurredAt}
+                timezoneOffsetMinutes={form.timezoneOffsetMinutes}
                 onChange={(v) => vm.change('occurredAt', v)}
                 disabled={vm.busy}
               />

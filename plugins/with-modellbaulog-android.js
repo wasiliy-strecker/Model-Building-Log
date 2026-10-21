@@ -10,6 +10,8 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const os = require('node:os');
 
+// PDF provider and private vault paths live in modules/model-log-native. Android
+// autolinking merges that manifest after every prebuild, including --clean.
 module.exports = function withModellbaulogAndroid(config) {
   config = withAndroidStyles(config, (mod) => {
     const styles = mod.modResults.resources.style;

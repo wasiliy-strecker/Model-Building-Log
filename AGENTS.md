@@ -17,7 +17,14 @@ optionalen Titel, Zeitpunkt, Notiz und geordnete Fotos. Der aktuelle Stand ist
 der zeitlich neueste Bauschritt, nicht die höchste Schrittnummer. Bearbeiten
 ersetzt den aktuellen Datensatz ohne Revisionen.
 
-Keine OCR, Scanner, PDF-Funktionen, Teilelager, Einkaufsverwaltung oder Cloud.
+PDF-Einzel- und Bauverlaufsprotokolle werden lokal erzeugt. Die Foto-Variante
+enthält alle aktuell gespeicherten Fotos in ihrer Reihenfolge. Gespeicherte PDFs
+bleiben unverändert und gehören zum verschlüsselten Backup. Beide PDF-Listen
+zeigen zehn Dateien pro Seite. Keine PDF-Importfunktion, OCR, Scanner,
+Teilelager, Einkaufsverwaltung oder Cloud.
+Neue Bauschritte bewahren Projektangaben bei Erfassung und den UTC-Versatz.
+Altbestände ohne diese Daten bleiben unbekannt. Bearbeiten bewahrt die damaligen
+Projektangaben. Nur ein geänderter Zeitpunkt aktualisiert seinen UTC-Versatz.
 Fotoauswahl hat keine feste Mengenbegrenzung. Fotos werden im Editor sortiert.
 Kein eigener Fotovergleich. Technische Backup-Größenlimits bleiben erhalten.
 Dateibereinigung erst nach erfolgreichen Transaktionen. Gespeicherte Fotos und

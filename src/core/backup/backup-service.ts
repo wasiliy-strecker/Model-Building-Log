@@ -1,3 +1,4 @@
+import { inspectPdf } from '../pdf/pdf-service';
 import { pbkdf2Async } from '@noble/hashes/pbkdf2.js';
 import { sha256 } from '@noble/hashes/sha2.js';
 import { concatBytes } from '@noble/hashes/utils.js';
@@ -84,7 +85,7 @@ async function validateContents(
     throw new ContentLimitError(
       'Das Backup überschreitet die Grenze von 30000 Dateien.',
     );
-  const items = data.steps.flatMap((step) => step.photos);
+  const items = [...data.steps.flatMap((step) => step.photos), ...data.reports];
   const labels = new Map(items.map((item) => [item.file, item.name]));
   if (
     files.size !== snapshotFiles(data).length ||
@@ -119,12 +120,13 @@ async function validateContents(
           original.size !== descriptor.size ||
           original.sha256 !== descriptor.sha256)
       )
-        throw new Error('Das Foto fehlt oder seine Prüfsumme ist ungültig.');
-      await inspector.validate(bytes);
+        throw new Error('Die Datei fehlt oder ihre Prüfsumme ist ungültig.');
+      if (file.endsWith('.pdf')) await inspectPdf(bytes);
+      else await inspector.validate(bytes);
       verified.set(file, descriptor);
       descriptors.push(descriptor);
     } catch (error) {
-      const message = `${labels.get(file) ?? 'Backup-Foto'}: ${error instanceof Error ? error.message : 'Foto nicht lesbar.'}`;
+      const message = `${labels.get(file) ?? 'Backup-Datei'}: ${error instanceof Error ? error.message : 'Datei nicht lesbar.'}`;
       if (error instanceof ContentLimitError)
         throw new ContentLimitError(message);
       throw new Error(message);
@@ -138,7 +140,7 @@ async function validateContents(
   for (const item of items) {
     const file = verified.get(item.file);
     if (!file || file.sha256 !== item.sha256 || file.size !== item.size)
-      throw new Error(`${item.name}: Eine Fotoreferenz ist beschädigt.`);
+      throw new Error(`${item.name}: Eine Dateireferenz ist beschädigt.`);
   }
   return descriptors;
 }
@@ -386,7 +388,10 @@ export class BackupService {
       };
       try {
         const references = new Map<string, CheckedFile[]>();
-        for (const item of incoming.steps.flatMap((step) => step.photos)) {
+        for (const item of [
+          ...incoming.steps.flatMap((step) => step.photos),
+          ...incoming.reports,
+        ]) {
           const rows = references.get(item.file) ?? [];
           rows.push(item);
           references.set(item.file, rows);
@@ -405,9 +410,14 @@ export class BackupService {
             )
           )
             throw new Error(
-              'Eine Fotoreferenz des Backups ist beschädigt. Es wurde nichts übernommen.',
+              'Eine Dateireferenz des Backups ist beschädigt. Es wurde nichts übernommen.',
             );
-          const file = await this.log.vault.put(bytes);
+          if (key.endsWith('.pdf')) await inspectPdf(bytes);
+          else await this.log.inspector.validate(bytes);
+          const file = await this.log.vault.put(
+            bytes,
+            key.endsWith('.pdf') ? 'pdf' : 'jpg',
+          );
           staged.push(file);
           const stored = await inspectStored(file);
           if (stored?.sha256 !== sha256 || stored.size !== bytes.length)
@@ -422,7 +432,10 @@ export class BackupService {
             totalFiles: decoded.files.size,
           });
         }
-        for (const item of incoming.steps.flatMap((step) => step.photos))
+        for (const item of [
+          ...incoming.steps.flatMap((step) => step.photos),
+          ...incoming.reports,
+        ])
           item.file = mapping.get(item.file)!;
         const projects = new Map(old.projects.map((p) => [p.id, p]));
         for (const project of incoming.projects)
@@ -444,13 +457,35 @@ export class BackupService {
           )
             steps.set(step.id, step);
         }
+        const reports = new Map(old.reports.map((r) => [r.id, r]));
+        for (const report of incoming.reports) {
+          const existing = reports.get(report.id);
+          if (
+            existing &&
+            (existing.projectId !== report.projectId ||
+              existing.stepId !== report.stepId ||
+              existing.sha256 !== report.sha256 ||
+              existing.size !== report.size ||
+              existing.createdAt !== report.createdAt ||
+              existing.full !== report.full ||
+              existing.groupId !== report.groupId ||
+              existing.partIndex !== report.partIndex ||
+              existing.partCount !== report.partCount)
+          )
+            throw new Error(
+              'Widersprüchliche Protokollzuordnung im Backup. Es wurde nichts übernommen.',
+            );
+          if (!existing) reports.set(report.id, report);
+        }
         const data: Snapshot = {
           projects: [...projects.values()],
           steps: [...steps.values()],
+          reports: [...reports.values()],
         };
 
         const items = [
           ...data.steps.flatMap((step) => step.photos),
+          ...data.reports,
           ...drafts.flatMap((draft) => draft.form.photos),
         ];
         const keys = [...new Set(items.map((item) => item.file))];

@@ -140,7 +140,7 @@ it('reads the pre-migration archive through the actual Expo wrappers and retains
     ),
   ) as Snapshot;
   const decoded = await f.codec.decode(await legacy(), password);
-  expect(decoded.data).toEqual(expected);
+  expect(decoded.data).toEqual({ ...expected, reports: [] });
   const androidValidatedPhoto = new Uint8Array(
     await readFile(
       new URL(
@@ -250,7 +250,11 @@ it('preserves exact binary slices at the native boundary and clears secrets afte
     },
   );
   await expect(
-    failing.encode({ projects: [], steps: [] }, new Map(), password),
+    failing.encode(
+      { projects: [], steps: [], reports: [] },
+      new Map(),
+      password,
+    ),
   ).rejects.toThrow('Synthetic native failure');
   expect(derived?.every((b) => b === 0)).toBe(true);
   expect(cleartext?.every((b) => b === 0)).toBe(true);

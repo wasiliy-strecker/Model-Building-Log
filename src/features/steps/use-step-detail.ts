@@ -52,7 +52,7 @@ export function useStepDetail(id: string) {
       if (
         !(await feedback.confirm(
           'Bauschritt löschen?',
-          'Der Bauschritt und alle zugehörigen Fotos werden dauerhaft gelöscht.',
+          'Der Bauschritt, seine Fotos und Einzelprotokolle werden dauerhaft gelöscht. Gespeicherte Bauverlaufsprotokolle bleiben erhalten.',
         ))
       )
         return;

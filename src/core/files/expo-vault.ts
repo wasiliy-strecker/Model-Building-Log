@@ -19,8 +19,8 @@ export class ExpoVault implements FileVault {
   uri(key: string) {
     return this.file(key).uri;
   }
-  async put(bytes: Uint8Array): Promise<string> {
-    const name = `${randomUUID()}.jpg`;
+  async put(bytes: Uint8Array, kind: 'jpg' | 'pdf' = 'jpg'): Promise<string> {
+    const name = `${randomUUID()}.${kind}`;
     const temp = new File(this.directory, `${randomUUID()}.tmp`);
     try {
       temp.write(bytes);

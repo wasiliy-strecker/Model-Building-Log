@@ -30,7 +30,39 @@ lokal gesichert und sind im Projekt wieder erreichbar.
 Optionale Projekterinnerungen sind zunächst ausgeschaltet und werden lokal von
 Android geplant. Einstellungen bieten verschlüsselte Backups mit Passwort,
 Speichern, Teilen und Wiederherstellen. Es gibt keine Konten, Cloud, Werbung,
-OCR, Dokumentenscanner, PDF-Funktionen, Teilelager oder Einkaufsverwaltung.
+OCR, Dokumentenscanner, PDF-Import, Teilelager oder Einkaufsverwaltung.
+
+## PDF-Protokolle und Erfassungsdaten
+
+„PDF erstellen“ bietet „PDF mit Fotos erstellen“ und „PDF ohne Fotos erstellen“.
+Beim Bauschritt entsteht ein Einzelprotokoll. Beim Projekt enthält das
+Bauverlaufsprotokoll alle gespeicherten Bauschritte, Notizen und Schrittdifferenzen,
+unabhängig von Suche oder angezeigter Verlaufsseite. Alle aktuellen Fotos folgen
+ihrer gespeicherten Reihenfolge, zwei je Zeile. Ein letztes einzelnes Bild wird
+in derselben Größe zentriert. Bilder werden nicht beschnitten. Die Variante ohne
+Fotos benötigt keine Fotodateien. Ohne Bauschritte ist kein Export möglich.
+
+Gespeicherte Einzelprotokolle und Bauverlaufsprotokolle haben getrennte Listen
+mit zehn Dateien pro Seite. Ab elf erscheinen Seitennummer, Zurück und Weiter.
+Die integrierte Android-Vorschau unterstützt Scrollen, Zoom, Drucken und Teilen.
+Löschen eines Bauschritts entfernt dessen Einzelprotokolle. Gespeicherte
+Bauverlaufsprotokolle bleiben bis zur eigenen Löschung oder Projektlöschung
+bestehen. Exportierte Kopien werden dadurch nicht gelöscht.
+
+Neue Bauschritte speichern Name, Modelltyp, Hersteller und Material beim ersten
+Speichern sowie den UTC-Versatz des gewählten Zeitpunkts. Abweichende damalige
+Projektangaben erscheinen in den Details und PDFs. Bearbeiten erhält diese
+Angaben. Der UTC-Versatz ändert sich nur bei bewusst geändertem Zeitpunkt.
+Bei älteren Einträgen werden fehlende Erfassungsdaten nicht erfunden. PDFs
+kennzeichnen die Verwendung heutiger Projektangaben und der Gerätezeitzone.
+
+PDF-Dateien sind auf 50 MiB und Protokolle auf 2000 Seiten einschließlich
+Teil-Deckblättern begrenzt. Eingebettete Fotodateien dürfen zusammen höchstens
+64 MiB umfassen. Größere Verläufe lassen sich ohne Fotos oder als Einzelprotokolle
+exportieren. Ab mehr als 100 Seiten entstehen Teile mit höchstens 100 Seiten,
+inklusive Deckblatt. Die Vorschau hält höchstens sechs gerenderte Seiten auf
+Disk und einen begrenzten Bitmap-Cache. Es werden keine großen Test-PDF-Sammlungen
+auf dem Smartphone angelegt.
 
 ## Entwicklung
 
@@ -77,17 +109,17 @@ Der normale Ablauf baut keine Store-Version und erhöht keine Versionsnummer.
 
 ## Struktur und Identität
 
-| Bereich                    | Zuständigkeit                                                  |
-| -------------------------- | -------------------------------------------------------------- |
-| `src/app`                  | Schlanke Expo-Router-Routen und Bootstrap                      |
-| `src/features/projects`    | Übersicht, Projektdetails, Verlauf und Erinnerungen            |
-| `src/features/steps`       | Bauschritte, Entwürfe und Geschäftsregeln                      |
-| `src/features/media`       | Fotoeditor und Vollbildansicht                                 |
-| `src/features/settings`    | Einstellungen und Backup-Dialoge                               |
-| `src/core`                 | Ports, SQLite, Dateiablage, Backups, Medienadapter und UI      |
-| `modules/model-log-native` | JPEG-Prüfung, Backup-Dateispeicherung und Android-Erinnerungen |
-| `plugins`                  | Wiederholbare Android-Konfiguration für Expo Prebuild          |
-| `tests`                    | Kleine Tests mit echtem SQLite und synthetischem JPEG          |
+| Bereich                    | Zuständigkeit                                                         |
+| -------------------------- | --------------------------------------------------------------------- |
+| `src/app`                  | Schlanke Expo-Router-Routen und Bootstrap                             |
+| `src/features/projects`    | Übersicht, Projektdetails, Verlauf und Erinnerungen                   |
+| `src/features/steps`       | Bauschritte, Entwürfe und Geschäftsregeln                             |
+| `src/features/media`       | Fotoeditor und Vollbildansicht                                        |
+| `src/features/settings`    | Einstellungen und Backup-Dialoge                                      |
+| `src/core`                 | Ports, SQLite, Dateiablage, Backups, Medienadapter und UI             |
+| `modules/model-log-native` | JPEG-Prüfung, PDF-Vorschau, Teilen, Drucken, Backups und Erinnerungen |
+| `plugins`                  | Wiederholbare Android-Konfiguration für Expo Prebuild                 |
+| `tests`                    | Kleine Tests mit echtem SQLite und synthetischem JPEG                 |
 
 Dev: `com.appfactory.modellbaulog.dev`, sichtbarer Name `ModellbauLog Dev`.
 Store: `com.appfactory.modellbaulog`, sichtbarer Name `ModellbauLog`.
@@ -97,7 +129,7 @@ andernfalls brechen Store-Paketaufgaben ab. Die Dev-Signatur liegt app-lokal in 
 wird nicht versioniert. Das Build-Skript erhält sie auch bei einer Neuerzeugung
 des Android-Ordners. Expo Prebuild läuft normalerweise mit `--no-clean`.
 
-Die Datenbank heißt `modellbaulog.db`. Fotos liegen im privaten App-Speicher.
+Die Datenbank heißt `modellbaulog.db`. Schema 2 ergänzt die Protokolltabelle datenbewahrend. Fotos und PDFs liegen im privaten App-Speicher.
 Android-Cloud-Backups und Geräteübertragung sind ausdrücklich ausgeschlossen.
 Das eigene Backupformat verwendet
 `.mlbackup`, `modellbaulog_backup` und `MLBACK01`. Backups anderer Apps werden
@@ -107,7 +139,7 @@ SHA-256 und AES-GCM verwenden die nativen Expo-Funktionen. Die native
 Passwortableitung ab Android 8 und der bisherige Fallback für Android 7 bleiben
 erhalten. Vorhandene Sicherungen bleiben lesbar.
 
-Ein Backup enthält gespeicherte Projekte, Bauschritte und Fotos. Entwürfe
+Ein Backup enthält gespeicherte Projekte, Bauschritte samt Erfassungsdaten, Fotos und gespeicherte PDF-Protokolle. Entwürfe
 gehören nicht zum Export. Lokale Entwürfe bleiben beim Wiederherstellen erhalten.
 Neuere lokale Datensätze gewinnen beim Zusammenführen gleicher IDs.
 Fotos werden als JPEG neu kodiert und auf höchstens 1920 Pixel Kantenlänge
@@ -116,7 +148,7 @@ verkleinert. Backups sind auf 128 MiB, das Inhaltsverzeichnis auf 16 MiB und auf
 
 Gestaltung: dauerhaft dunkles Anthrazit, weiße Schrift und kräftiges Gelb für
 Aktionen. Gelb gefüllte Buttons verwenden dunkle Schrift. Karten, Eingaben und
-Dialoge haben dezente graue Konturen. Die App folgt nicht dem System-Farbmodus.
+Dialoge haben dünne gelbe Konturen mit leichtem Schein. Die App folgt nicht dem System-Farbmodus.
 Das eigene App-Icon liegt als SVG in `assets/branding`.
 `python3 scripts/generate_icons.py` erzeugt die PNGs mit librsvg und cairo.
 

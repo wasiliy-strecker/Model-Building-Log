@@ -1,5 +1,6 @@
 import type {
   Project,
+  SavedReport,
   BuildStep,
   Snapshot,
   BuildStepDraft,
@@ -11,7 +12,17 @@ export interface SqlConnection {
   run(sql: string, ...params: (string | number | null)[]): Promise<void>;
   all<T>(sql: string, ...params: (string | number | null)[]): Promise<T[]>;
 }
+export type ReportPageRequest = {
+  projectId: string;
+  stepId: string | null;
+  offset: number;
+};
 export interface Repository {
+  reportPage(
+    request: ReportPageRequest,
+  ): Promise<{ rows: SavedReport[]; total: number; offset: number }>;
+  saveReports(reports: SavedReport[]): Promise<void>;
+  deleteReport(id: string): Promise<void>;
   snapshot(): Promise<Snapshot>;
   projects(): Promise<Project[]>;
   project(id: string): Promise<Project | null>;
@@ -43,7 +54,7 @@ export interface Repository {
 }
 export interface FileVault {
   read(key: string): Promise<Uint8Array>;
-  put(bytes: Uint8Array): Promise<string>;
+  put(bytes: Uint8Array, kind?: 'jpg' | 'pdf'): Promise<string>;
   remove(key: string): Promise<void>;
   list(): Promise<string[]>;
   uri(key: string): string;

@@ -1,3 +1,8 @@
+import { Asset } from 'expo-asset';
+import { File } from 'expo-file-system';
+import { PdfService, type ReportFontBytes } from './pdf/pdf-service';
+import { PdfViewerService } from './pdf/viewer-service';
+import { ReportService } from '../features/pdf/report-service';
 import {
   createContext,
   useContext,
@@ -24,6 +29,8 @@ import type { Environment } from './ports';
 
 export type Services = {
   log: ProjectService;
+  reports: ReportService;
+  viewer: PdfViewerService;
   backup: BackupService;
   media: MediaPort;
   native: ModelLogNative;
@@ -85,6 +92,27 @@ async function createServices(): Promise<Services> {
     },
     androidPhotoInspector,
   );
+  let fontBytes: Promise<ReportFontBytes> | undefined;
+  const pdf = new PdfService(vault, () => {
+    if (!fontBytes)
+      fontBytes = (async () => {
+        const read = async (module: number) => {
+          const asset = Asset.fromModule(module);
+          await asset.downloadAsync();
+          return new File(asset.localUri!).bytes();
+        };
+        return {
+          regular: await read(require('../../assets/ui/Roboto-Regular.ttf')),
+          bold: await read(require('../../assets/ui/Roboto-Bold.ttf')),
+        };
+      })().catch((error) => {
+        fontBytes = undefined;
+        throw error;
+      });
+    return fontBytes;
+  });
+  const reports = new ReportService(log, pdf);
+  const viewer = new PdfViewerService(log, modelNative);
   const media = new ExpoMedia(log);
   const interrupted = (await repository.drafts()).find((d) => d.external);
   if (interrupted) {
@@ -104,6 +132,8 @@ async function createServices(): Promise<Services> {
   await log.syncReminders();
   return {
     log,
+    reports,
+    viewer,
     backup: new BackupService(
       log,
       new BackupCodec(

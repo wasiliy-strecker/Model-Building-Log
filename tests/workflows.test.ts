@@ -164,7 +164,11 @@ it('deletes a project together with steps, drafts and unreferenced photos', asyn
   draft.form.photos = [await f.log.importPhoto(await photo(), 'Entwurf.jpg')];
   await f.log.persistDraft(draft);
   await f.log.delete('project', f.project.id);
-  expect(await f.repo.snapshot()).toEqual({ projects: [], steps: [] });
+  expect(await f.repo.snapshot()).toEqual({
+    projects: [],
+    steps: [],
+    reports: [],
+  });
   expect(await f.repo.drafts()).toEqual([]);
   expect(await f.vault.list()).toEqual([]);
 });

@@ -72,7 +72,10 @@
 
         <h2>Data handled by the app on your device</h2>
         <ul>
-          <li>Project name, model type, manufacturer and material.</li>
+          <li>
+            Project name, model type, manufacturer and material. New build steps
+            retain these details at capture and the original UTC offset.
+          </li>
           <li>
             Build steps with a step number, optional title, date, time, time
             zone information and notes, for example on paints, parts and work
@@ -85,7 +88,7 @@
           <li>Reminder settings and local form drafts.</li>
           <li>
             Encrypted backup files created by the user, including all saved
-            build steps and their photos.
+            build steps, their photos and saved PDF reports.
           </li>
         </ul>
 
@@ -165,12 +168,28 @@
           analytics or profiling.
         </p>
 
+        <h2>PDF reports</h2>
+        <p>
+          At your request, the app creates single-step or full history PDF
+          reports locally. They contain project details, build steps,
+          timestamps, notes and optionally all currently associated photos.
+          Saved PDFs remain unchanged when entries are edited later and are
+          included in encrypted backups.
+        </p>
+        <p>
+          Sharing grants the selected app temporary read access to the PDF.
+          Printing passes it to the selected Android print service. That
+          service’s terms govern further processing. Exported PDFs are not
+          password encrypted. Copies already shared must be deleted separately
+          outside the app.
+        </p>
+
         <h2>Security</h2>
         <p>
-          The database, photos and drafts are kept in private app storage
-          protected by the operating system. Automatic Android cloud backups and
-          device transfers are excluded for this data through Android backup
-          settings. Dev and Store use independent storage areas.
+          The database, photos, PDF reports and drafts are kept in private app
+          storage protected by the operating system. Automatic Android cloud
+          backups and device transfers are excluded for this data through
+          Android backup settings. Dev and Store use independent storage areas.
         </p>
         <p>
           Backups created manually in the app are encrypted with AES-256-GCM and
@@ -180,9 +199,9 @@
         </p>
         <p>
           Backups include saved projects, all build steps, notes, reminder
-          settings and all associated photos. Unsaved form drafts are not
-          included in the backup. Existing local drafts are preserved when
-          restoring.
+          settings, capture details, all associated photos and saved PDF
+          reports. Unsaved form drafts are not included in the backup. Existing
+          local drafts are preserved when restoring.
         </p>
 
         <h2>Retention</h2>
@@ -194,20 +213,22 @@
           replaces its previous details.
         </p>
         <p>
-          Backups saved outside the app remain at the chosen location until you
-          delete them there. This also applies to files shared with other apps
-          or people.
+          Backups and PDFs saved outside the app remain at the chosen location
+          until you delete them there. This also applies to files shared with
+          other apps or people.
         </p>
 
         <h2>Deletion</h2>
         <ul>
           <li>
-            Deleting a build step removes its data. Photos are removed once no
+            Deleting a build step removes its data and single-step reports.
+            Saved history reports remain available. Photos are removed once no
             saved entry or draft references them.
           </li>
           <li>
-            Deleting a project removes its build steps, drafts and reminders.
-            Photos that are no longer needed are then cleaned up.
+            Deleting a project removes its build steps, drafts, reminders and
+            all associated reports. Files that are no longer needed are then
+            cleaned up.
           </li>
           <li>
             Files saved or shared outside the app must be deleted separately at

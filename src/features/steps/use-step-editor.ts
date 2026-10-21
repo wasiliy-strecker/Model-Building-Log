@@ -45,6 +45,7 @@ export function useStepEditor(projectId: string, stepId?: string) {
             number: '',
             title: '',
             occurredAt: saved.createdAt,
+            timezoneOffsetMinutes: saved.form.timezoneOffsetMinutes,
             note: '',
             photos: [],
           };
@@ -89,7 +90,17 @@ export function useStepEditor(projectId: string, stepId?: string) {
     formErrors.clear(key);
     void apply({
       ...current.current,
-      form: { ...current.current.form, [key]: value },
+      form: {
+        ...current.current.form,
+        [key]: value,
+        ...(key === 'occurredAt'
+          ? {
+              timezoneOffsetMinutes: -new Date(
+                value as string,
+              ).getTimezoneOffset(),
+            }
+          : {}),
+      },
     }).catch((e) =>
       setError(`Entwurf konnte nicht gesichert werden: ${errorText(e)}`),
     );

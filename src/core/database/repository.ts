@@ -1,6 +1,13 @@
-import { SerialQueue, type Repository, type SqlConnection } from '../ports';
+import {
+  SerialQueue,
+  type Repository,
+  type ReportPageRequest,
+  type SqlConnection,
+} from '../ports';
 import {
   type BuildStep,
+  type SavedReport,
+  reportSchema,
   type Project,
   type Snapshot,
   type BuildStepDraft,
@@ -26,20 +33,26 @@ export async function migrate(db: SqlConnection): Promise<void> {
   const version =
     (await db.all<{ user_version: number }>('PRAGMA user_version'))[0]
       ?.user_version ?? 0;
-  if (version > 1)
+  if (version > 2)
     throw new Error(
       'Die Datenbank stammt aus einer neueren ModellbauLog-Version.',
     );
-  if (version === 1) return;
+  if (version === 2) return;
   await db.exec('BEGIN IMMEDIATE');
   try {
-    await db.exec(`
+    if (version === 0)
+      await db.exec(`
       CREATE TABLE projects (id TEXT PRIMARY KEY, body TEXT NOT NULL CHECK(json_valid(body)));
       CREATE TABLE steps (id TEXT PRIMARY KEY, project_id TEXT NOT NULL REFERENCES projects(id) ON DELETE CASCADE, occurred_at TEXT NOT NULL, created_at TEXT NOT NULL, search TEXT NOT NULL, body TEXT NOT NULL CHECK(json_valid(body)));
       CREATE TABLE drafts (id TEXT PRIMARY KEY, project_id TEXT NOT NULL REFERENCES projects(id) ON DELETE CASCADE, step_id TEXT REFERENCES steps(id) ON DELETE CASCADE, body TEXT NOT NULL CHECK(json_valid(body)));
       CREATE INDEX steps_history ON steps(project_id,occurred_at DESC,created_at DESC,id DESC);
       CREATE UNIQUE INDEX draft_target ON drafts(project_id,ifnull(step_id,''));
       PRAGMA user_version=1;
+    `);
+    await db.exec(`
+      CREATE TABLE reports (id TEXT PRIMARY KEY, project_id TEXT NOT NULL REFERENCES projects(id) ON DELETE CASCADE, step_id TEXT REFERENCES steps(id) ON DELETE CASCADE, body TEXT NOT NULL CHECK(json_valid(body)));
+      CREATE INDEX reports_scope ON reports(project_id,step_id,json_extract(body,'$.createdAt') DESC,id DESC);
+      PRAGMA user_version=2;
     `);
     await db.exec('COMMIT');
   } catch (error) {
@@ -159,6 +172,61 @@ export class SqlRepository implements Repository {
         )[0] ?? null,
     );
   }
+  reportPage(request: ReportPageRequest) {
+    return this.queue.run(async () => {
+      const clause = 'WHERE project_id=? AND step_id IS ?';
+      const params = [request.projectId, request.stepId];
+      const total =
+        (
+          await this.db.all<{ n: number }>(
+            `SELECT count(*) n FROM reports ${clause}`,
+            ...params,
+          )
+        )[0]?.n ?? 0;
+      const lastOffset = Math.max(
+        0,
+        Math.floor((total - 1) / PAGE_SIZE) * PAGE_SIZE,
+      );
+      const offset = Math.min(
+        lastOffset,
+        Math.max(0, Math.floor(request.offset / PAGE_SIZE) * PAGE_SIZE),
+      );
+      const rows = await this.bodies<SavedReport>(
+        'reports',
+        `${clause} ORDER BY json_extract(body,'$.createdAt') DESC, json_extract(body,'$.groupId') DESC, json_extract(body,'$.partIndex') ASC, id DESC LIMIT ? OFFSET ?`,
+        [...params, PAGE_SIZE, offset],
+      );
+      return { rows, total, offset };
+    });
+  }
+  private async putReport(report: SavedReport) {
+    const r = reportSchema.parse(report);
+    if (r.stepId) {
+      const step = (
+        await this.db.all<{ project_id: string }>(
+          'SELECT project_id FROM steps WHERE id=?',
+          r.stepId,
+        )
+      )[0];
+      if (step?.project_id !== r.projectId)
+        throw new Error('Ungültige Bauschrittzuordnung im Protokoll.');
+    }
+    await this.db.run(
+      'INSERT INTO reports VALUES (?,?,?,?)',
+      r.id,
+      r.projectId,
+      r.stepId,
+      JSON.stringify(r),
+    );
+  }
+  saveReports(reports: SavedReport[]) {
+    return this.write(async () => {
+      for (const report of reports) await this.putReport(report);
+    });
+  }
+  deleteReport(id: string) {
+    return this.write(() => this.db.run('DELETE FROM reports WHERE id=?', id));
+  }
   drafts() {
     return this.queue.run(() => this.bodies<BuildStepDraft>('drafts'));
   }
@@ -167,6 +235,7 @@ export class SqlRepository implements Repository {
       validateSnapshot({
         projects: await this.bodies('projects'),
         steps: await this.bodies('steps'),
+        reports: await this.bodies('reports'),
       }),
     );
   }
@@ -237,10 +306,11 @@ export class SqlRepository implements Repository {
       const drafts =
         preservedDrafts ?? (await this.bodies<BuildStepDraft>('drafts'));
       await this.db.exec(
-        'DELETE FROM drafts; DELETE FROM steps; DELETE FROM projects;',
+        'DELETE FROM reports; DELETE FROM drafts; DELETE FROM steps; DELETE FROM projects;',
       );
       for (const p of data.projects) await this.putProject(p);
       for (const s of data.steps) await this.putStep(s);
+      for (const r of data.reports) await this.putReport(r);
       for (const draft of drafts)
         if (
           data.projects.some((p) => p.id === draft.projectId) &&

@@ -1,9 +1,10 @@
+import { stepDateTime } from '../../core/domain/capture-data';
 import { useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Body, Card, useTheme } from '../../core/ui/components';
 import { Icon } from '../../core/ui/icon';
-import { dateTime, type HistoryItem } from './presentation-model';
+import { type HistoryItem } from './presentation-model';
 
 export function HistoryTile({ item }: { item: HistoryItem }) {
   const c = useTheme();
@@ -19,7 +20,7 @@ export function HistoryTile({ item }: { item: HistoryItem }) {
     >
       <View
         style={[s.dateBadge, { backgroundColor: c.soft }]}
-        accessibilityLabel={`Erfasst am ${dateTime(step.occurredAt)} Uhr`}
+        accessibilityLabel={`Erfasst am ${stepDateTime(step)} Uhr`}
       >
         <Icon name="calendar_month_outlined" size={17} />
         <Text
@@ -27,7 +28,7 @@ export function HistoryTile({ item }: { item: HistoryItem }) {
           ellipsizeMode="tail"
           style={[s.date, { color: c.ink }]}
         >
-          Erfasst · {dateTime(step.occurredAt)} Uhr
+          Erfasst · {stepDateTime(step)} Uhr
         </Text>
       </View>
       <View style={s.row}>

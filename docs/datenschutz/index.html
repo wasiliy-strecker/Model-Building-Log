@@ -74,7 +74,11 @@
 
         <h2>Auf Ihrem Gerät in der App verarbeitete Daten</h2>
         <ul>
-          <li>Projektname, Modelltyp, Hersteller und Material.</li>
+          <li>
+            Projektname, Modelltyp, Hersteller und Material. Neue Bauschritte
+            bewahren diese Angaben bei Erfassung sowie den ursprünglichen
+            UTC-Versatz.
+          </li>
           <li>
             Bauschritte mit Schrittnummer, optionalem Titel, Datum, Uhrzeit,
             Zeitzonenangaben und Notizen, etwa zu Farben, Teilen und
@@ -87,7 +91,8 @@
           <li>Erinnerungseinstellungen und lokale Formularentwürfe.</li>
           <li>
             Vom Nutzer erstellte verschlüsselte Sicherungsdateien einschließlich
-            aller gespeicherten Bauschritte und ihrer Fotos.
+            aller gespeicherten Bauschritte, ihrer Fotos und gespeicherter
+            PDF-Protokolle.
           </li>
         </ul>
 
@@ -174,13 +179,30 @@
           Werbe-, Analyse- oder Profilingzwecken weiter.
         </p>
 
+        <h2>PDF-Protokolle</h2>
+        <p>
+          Auf Ihren Aufruf erstellt die App Einzel- oder Bauverlaufsprotokolle
+          lokal als PDF. Sie enthalten Projektdaten, Bauschritte, Zeitpunkte,
+          Notizen und wahlweise alle aktuell zugeordneten Fotos. Gespeicherte
+          PDFs werden bei späteren Änderungen der Einträge nicht verändert und
+          sind Teil verschlüsselter Backups.
+        </p>
+        <p>
+          Beim Teilen erhält die von Ihnen gewählte App zeitweilige Leserechte
+          auf die PDF. Beim Drucken wird sie an den ausgewählten
+          Android-Druckdienst übergeben. Für die weitere Verarbeitung gelten die
+          Bedingungen dieses Dienstes. Exportierte PDFs sind nicht
+          passwortverschlüsselt. Bereits geteilte Kopien müssen außerhalb der
+          App separat gelöscht werden.
+        </p>
+
         <h2>Sicherheit</h2>
         <p>
-          Datenbank, Fotos und Entwürfe liegen im privaten, vom Betriebssystem
-          geschützten App-Speicher. Automatische Android-Cloud-Backups und
-          Geräteübertragungen sind für diese Daten durch die
-          Android-Backup-Einstellungen ausgeschlossen. Dev und Store verwenden
-          voneinander unabhängige Speicherbereiche.
+          Datenbank, Fotos, PDF-Protokolle und Entwürfe liegen im privaten, vom
+          Betriebssystem geschützten App-Speicher. Automatische
+          Android-Cloud-Backups und Geräteübertragungen sind für diese Daten
+          durch die Android-Backup-Einstellungen ausgeschlossen. Dev und Store
+          verwenden voneinander unabhängige Speicherbereiche.
         </p>
         <p>
           Manuell in der App erstellte Backups werden mit AES-256-GCM und einem
@@ -191,9 +213,10 @@
         </p>
         <p>
           Backups enthalten gespeicherte Projekte, sämtliche Bauschritte,
-          Notizen, Erinnerungseinstellungen und alle zugehörigen Fotos. Nicht
-          gespeicherte Formularentwürfe sind nicht im Backup enthalten. Bereits
-          vorhandene lokale Entwürfe bleiben beim Wiederherstellen erhalten.
+          Notizen, Erfassungsdaten, Erinnerungseinstellungen, alle zugehörigen
+          Fotos und gespeicherte PDF-Protokolle. Nicht gespeicherte
+          Formularentwürfe sind nicht im Backup enthalten. Bereits vorhandene
+          lokale Entwürfe bleiben beim Wiederherstellen erhalten.
         </p>
 
         <h2>Aufbewahrung</h2>
@@ -206,7 +229,7 @@
           dessen bisherige Angaben.
         </p>
         <p>
-          Außerhalb der App gespeicherte Backups bleiben am gewählten
+          Außerhalb der App gespeicherte Backups und PDFs bleiben am gewählten
           Speicherort bestehen, bis Sie sie dort löschen. Das gilt auch für
           Dateien, die mit anderen Apps oder Personen geteilt wurden.
         </p>
@@ -214,14 +237,15 @@
         <h2>Löschung</h2>
         <ul>
           <li>
-            Beim Löschen eines Bauschritts entfernt die App dessen Daten. Fotos
-            werden entfernt, sobald kein gespeicherter Eintrag oder Entwurf mehr
-            auf sie verweist.
+            Beim Löschen eines Bauschritts entfernt die App dessen Daten und
+            Einzelprotokolle. Gespeicherte Bauverlaufsprotokolle bleiben
+            erhalten. Fotos werden entfernt, sobald kein gespeicherter Eintrag
+            oder Entwurf mehr auf sie verweist.
           </li>
           <li>
             Beim Löschen eines Projekts entfernt die App dessen Bauschritte,
-            Entwürfe und Erinnerungen. Nicht mehr benötigte Fotos werden
-            anschließend bereinigt.
+            Entwürfe, Erinnerungen und sämtliche zugehörigen Protokolle. Nicht
+            mehr benötigte Dateien werden anschließend bereinigt.
           </li>
           <li>
             Extern gespeicherte oder geteilte Dateien müssen am jeweiligen

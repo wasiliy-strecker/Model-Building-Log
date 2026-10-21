@@ -29,7 +29,16 @@ export type ReminderStatus = {
   availability: Record<Reminder['deliveryMode'], ReminderAvailability>;
   schedules: ReminderScheduleStatus[];
 };
+export type PdfSession = {
+  session: string;
+  pages: { width: number; height: number }[];
+};
 export interface ModelLogNative {
+  openPdfPreview(uri: string): Promise<PdfSession>;
+  renderPdfPage(session: string, index: number, width: number): Promise<string>;
+  closePdfPreview(session: string): Promise<void>;
+  printPdf(uri: string, name: string): Promise<void>;
+  sharePdfs(uris: string[]): Promise<void>;
   saveBackupFile(
     uri: string,
     name: string,

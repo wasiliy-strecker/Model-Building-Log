@@ -1,3 +1,5 @@
+import { PdfService } from '../src/core/pdf/pdf-service';
+import { ReportService } from '../src/features/pdf/report-service';
 import { DatabaseSync } from 'node:sqlite';
 import { randomBytes, randomUUID, pbkdf2Sync } from 'node:crypto';
 import {
@@ -30,9 +32,9 @@ export class NodeVault implements FileVault {
   async read(key: string) {
     return new Uint8Array(await readFile(this.uri(key)));
   }
-  async put(bytes: Uint8Array) {
+  async put(bytes: Uint8Array, kind: 'jpg' | 'pdf' = 'jpg') {
     await mkdir(this.directory, { recursive: true });
-    const key = `${randomUUID()}.jpg`;
+    const key = `${randomUUID()}.${kind}`;
     await writeFile(this.uri(key) + '.tmp', bytes);
     await rename(this.uri(key) + '.tmp', this.uri(key));
     return key;
@@ -96,6 +98,17 @@ export async function fixture() {
       new Uint8Array(pbkdf2Sync(password, salt, iterations, 32, 'sha256')),
   );
   const backup = new BackupService(log, codec);
+  const pdf = new PdfService(vault, async () => ({
+    regular: new Uint8Array(
+      await readFile(
+        new URL('../assets/ui/Roboto-Regular.ttf', import.meta.url),
+      ),
+    ),
+    bold: new Uint8Array(
+      await readFile(new URL('../assets/ui/Roboto-Bold.ttf', import.meta.url)),
+    ),
+  }));
+  const reports = new ReportService(log, pdf);
   const now = env.now();
   const project: Project = {
     id: env.id(),
@@ -119,6 +132,8 @@ export async function fixture() {
     inspector,
     log,
     backup,
+    pdf,
+    reports,
     project,
     async close() {
       raw.close();

@@ -707,6 +707,7 @@ export function DateField({
   time = false,
   optional = false,
   disabled = false,
+  timezoneOffsetMinutes,
 }: {
   label: string;
   value: string;
@@ -714,10 +715,24 @@ export function DateField({
   time?: boolean;
   optional?: boolean;
   disabled?: boolean;
+  timezoneOffsetMinutes?: number | null;
 }) {
   const c = useTheme(),
     picker = useMaterialDateTime();
-  const date = value ? localDate(value) : new Date();
+  const instant = value ? localDate(value) : new Date();
+  const shifted = new Date(
+    instant.getTime() + (timezoneOffsetMinutes ?? 0) * 60000,
+  );
+  const date =
+    time && timezoneOffsetMinutes != null
+      ? new Date(
+          shifted.getUTCFullYear(),
+          shifted.getUTCMonth(),
+          shifted.getUTCDate(),
+          shifted.getUTCHours(),
+          shifted.getUTCMinutes(),
+        )
+      : instant;
   async function pick() {
     const next = await picker.date(
       date,

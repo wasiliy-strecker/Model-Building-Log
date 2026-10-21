@@ -1,3 +1,5 @@
+import { Reports } from '../pdf/reports';
+import { stepDateTime } from '../../core/domain/capture-data';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ProjectCover } from './project-cover';
 import { View, Text, FlatList, useWindowDimensions } from 'react-native';
@@ -418,9 +420,7 @@ export function ProjectDetailScreen() {
         >
           {stepSummary(vm.steps[0] ?? null)}
         </Body>
-        {!!vm.steps[0] && (
-          <Body>Zuletzt am {dateTime(vm.steps[0].occurredAt)}</Body>
-        )}
+        {!!vm.steps[0] && <Body>Zuletzt am {stepDateTime(vm.steps[0])}</Body>}
         <View style={{ marginTop: 10 }}>
           {!!r.manufacturer && <Body>Hersteller: {r.manufacturer}</Body>}
           {!!r.material && <Body>Material: {r.material}</Body>}
@@ -532,6 +532,7 @@ export function ProjectDetailScreen() {
           }
         />
       )}
+      {vm.total > 0 && <Reports projectId={id} hasPhotos={!!vm.photo} />}
     </Page>
   );
 }

@@ -1,3 +1,9 @@
+import { Reports } from '../pdf/reports';
+import {
+  captureDifferences,
+  stepDateTime,
+} from '../../core/domain/capture-data';
+import { messages } from '../../core/i18n';
 import { View, Text } from 'react-native';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import {
@@ -78,12 +84,30 @@ export function StepDetailScreen() {
       <Notice error text={vm.error} />
       <Card>
         <Body strong>Bauschrittinformationen</Body>
-        <Body>{dateTime(step.occurredAt)}</Body>
+        <Body>{stepDateTime(step, true)}</Body>
+        {step.timezoneOffsetMinutes == null && (
+          <Body muted>{messages.reportContent.unknownZone}</Body>
+        )}
         {!!step.note && <Body>{step.note}</Body>}
         <Body muted style={{ fontSize: 12 }}>
           Zuletzt bearbeitet: {dateTime(step.updatedAt)}
         </Body>
       </Card>
+      {vm.project && captureDifferences(step, vm.project).length > 0 && (
+        <Card>
+          <Body strong>{messages.reportContent.captureTitle}</Body>
+          {captureDifferences(step, vm.project).map(([label, value]) => (
+            <Body key={label}>
+              {label}: {value}
+            </Body>
+          ))}
+        </Card>
+      )}
+      <Reports
+        projectId={step.projectId}
+        stepId={step.id}
+        hasPhotos={step.photos.length > 0}
+      />
     </Page>
   );
 }

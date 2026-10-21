@@ -9,9 +9,28 @@ import org.json.JSONArray
 import java.util.UUID
 
 class ModelLogNativeModule : Module() {
+    private var previews: PdfPreviewStore? = null
+    @Synchronized private fun previewStore(): PdfPreviewStore = previews ?: PdfPreviewStore(context).also { previews = it }
     private val context get() = requireNotNull(appContext.reactContext)
     override fun definition() = ModuleDefinition {
         Name("ModelLogNative")
+        View(ModelPdfView::class) {
+            Prop("session") { view: ModelPdfView, id: String -> view.open(previewStore(), id) }
+        }
+        AsyncFunction("openPdfPreview") { uri: String -> previewStore().open(uri) }
+        AsyncFunction("renderPdfPage") { session: String, index: Int, width: Int -> previewStore().render(session, index, width) }
+        AsyncFunction("closePdfPreview") { session: String -> previewStore().close(session) }
+        AsyncFunction("sharePdfs") { uris: List<String> ->
+            context.startActivity(pdfShareIntent(context, uris))
+        }.runOnQueue(Queues.MAIN)
+        AsyncFunction("printPdf") { uri: String, name: String ->
+            val file = privateDocument(context, uri)
+            val activity = requireNotNull(appContext.currentActivity)
+            val manager = activity.getSystemService(android.content.Context.PRINT_SERVICE) as android.print.PrintManager
+            manager.print(name, OriginalPdfPrintAdapter(file, name), null)
+            Unit
+        }.runOnQueue(Queues.MAIN)
+        OnDestroy { previews?.closeAll() }
         AsyncFunction("validatePhoto") { uri: String -> validatePhoto(privateFile(context, uri)); Unit }
         AsyncFunction("saveBackupFile") { uri: String, name: String, promise: Promise ->
             try {

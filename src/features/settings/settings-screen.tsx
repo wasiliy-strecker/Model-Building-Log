@@ -195,7 +195,7 @@ export function SettingsScreen() {
               <Body style={{ fontSize: 16 }}>
                 Verschlüsseltes Backup erstellen
               </Body>
-              <Body muted>Projekte, Bauschritte und Fotos</Body>
+              <Body muted>Projekte, Bauschritte, Fotos und PDF-Protokolle</Body>
             </View>
             <Icon name="chevron_right" />
           </Pressable>
@@ -225,9 +225,9 @@ export function SettingsScreen() {
         </View>
         <Card style={{ padding: 18, gap: 0 }}>
           <Body>
-            Projekte, Bauschritte und Fotos werden lokal auf deinem Gerät
-            verarbeitet. Die App überträgt deine Projektinhalte nicht an einen
-            Server.
+            Projekte, Bauschritte, Fotos und PDF-Protokolle werden lokal auf
+            deinem Gerät verarbeitet. Die App überträgt deine Projektinhalte
+            nicht an einen Server.
           </Body>
           <Body style={{ marginTop: 10 }}>
             Deine Daten bleiben lokal auf deinem Gerät gespeichert, bis du sie

@@ -1,5 +1,6 @@
 import {
   projectSchema,
+  projectAtCaptureSchema,
   stepSchema,
   photoSchema,
   parseStepNumber,
@@ -26,6 +27,7 @@ export function stepForm(step: BuildStep): BuildStepForm {
     number: step.number,
     title: step.title,
     occurredAt: step.occurredAt,
+    timezoneOffsetMinutes: step.timezoneOffsetMinutes ?? null,
     note: step.note,
     photos: step.photos,
   };
@@ -117,7 +119,14 @@ export class ProjectService {
         captureSource: null,
         form: step
           ? stepForm(step)
-          : { number: '', title: '', occurredAt: now, note: '', photos: [] },
+          : {
+              number: '',
+              title: '',
+              occurredAt: now,
+              timezoneOffsetMinutes: -new Date(now).getTimezoneOffset(),
+              note: '',
+              photos: [],
+            },
       };
       await this.repository.saveDraft(draft);
       return draft;
@@ -151,7 +160,25 @@ export class ProjectService {
     return this.queue.run(async () => {
       if (draft.stepId && !(await this.repository.step(draft.stepId)))
         throw new Error('Der Bauschritt wurde inzwischen gelöscht.');
+      const previous = draft.stepId
+        ? await this.repository.step(draft.stepId)
+        : null;
+      const project = await this.repository.project(draft.projectId);
+      if (!project) throw new Error('Projekt nicht gefunden.');
       const step = stepSchema.parse({
+        projectAtCapture: previous
+          ? (previous.projectAtCapture ?? null)
+          : projectAtCaptureSchema.parse({
+              name: project.name,
+              modelType: project.modelType,
+              manufacturer: project.manufacturer,
+              material: project.material,
+            }),
+        timezoneOffsetMinutes:
+          draft.form.timezoneOffsetMinutes ??
+          (previous
+            ? (previous.timezoneOffsetMinutes ?? null)
+            : -new Date(draft.form.occurredAt).getTimezoneOffset()),
         id: draft.stepId ?? this.env.id(),
         projectId: draft.projectId,
         number: parseStepNumber(draft.form.number),
@@ -163,9 +190,6 @@ export class ProjectService {
         updatedAt: this.env.now(),
       });
       for (const photo of step.photos) await verifiedFile(this.vault, photo);
-      const previous = draft.stepId
-        ? await this.repository.step(draft.stepId)
-        : null;
       await this.repository.saveStep(step, draft.id);
       await this.cleanup(previous?.photos.map((p) => p.file) ?? []);
       return { step, warnings: await this.syncReminders() };
@@ -177,7 +201,7 @@ export class ProjectService {
       await this.cleanup(draft.form.photos.map((p) => p.file));
     });
   }
-  delete(kind: 'project' | 'step', id: string): Promise<string[]> {
+  delete(kind: 'project' | 'step' | 'report', id: string): Promise<string[]> {
     return this.queue.run(async () => {
       const candidates = snapshotFiles(await this.repository.snapshot());
       candidates.push(
@@ -186,7 +210,8 @@ export class ProjectService {
         ),
       );
       if (kind === 'project') await this.repository.deleteProject(id);
-      else await this.repository.deleteStep(id);
+      else if (kind === 'step') await this.repository.deleteStep(id);
+      else await this.repository.deleteReport(id);
       await this.cleanup(candidates);
       return this.syncReminders();
     });

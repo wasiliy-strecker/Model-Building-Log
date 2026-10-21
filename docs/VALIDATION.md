@@ -259,3 +259,17 @@ Es wurde kein neues Projekt gespeichert und kein vorhandenes Projekt geändert.
 Ausstehend ist die kurze Sichtprüfung von Feldfehler, Dialog, Bottom Sheet und
 Test-Benachrichtigung. Keine aufwendige visuelle Testreihe, kein Store-Build und
 kein Push.
+
+## PDF-Protokolle
+
+`npm run check` prüft auch Einzel-/Verlaufs-PDFs mit allen Fotos und Notizen,
+Zweierzeilen, Schrittreihenfolge, lange Texte, Erfassungsdaten, Migration,
+Backups sowie die echte React-Liste mit zehn und elf Reports.
+`npm run check:native -- -PreactNativeArchitectures=arm64-v8a` prüft die nativen
+Ports und hält die Vorbereitung auf die Smartphone-Architektur begrenzt.
+
+Manuell: Bei einem Bauschritt „PDF erstellen“ öffnen. Verfügbarkeit mit/ohne
+Fotos kontrollieren. In einer erzeugten Vorschau Scrollen und Zoom prüfen,
+Android-Teilen und Drucken öffnen und ohne Versand/Druck abbrechen. Im Projekt
+den einklappbaren PDF-Bereich kontrollieren. Keine elf Test-PDFs auf dem
+Nutzergerät erzeugen. Testdaten nach einer gezielten Vorschauprüfung entfernen.
