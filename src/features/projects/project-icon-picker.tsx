@@ -3,24 +3,19 @@ import type { ProjectIconId } from '../../core/domain/project-icon';
 import { messages } from '../../core/i18n';
 import { Body, Card, useTheme } from '../../core/ui/components';
 import { Icon } from '../../core/ui/icon';
-import { projectIconOption, projectIconOptions } from './project-icon-model';
+import { projectIconOptions } from './project-icon-model';
 
 export function ProjectIconPicker({
   value,
-  modelType,
   disabled,
   onChange,
 }: {
-  value?: ProjectIconId;
-  modelType: string;
+  value: ProjectIconId;
   disabled: boolean;
-  onChange(value: ProjectIconId | undefined): void;
+  onChange(value: ProjectIconId): void;
 }) {
   const c = useTheme();
   const text = messages.projectIcons;
-  const automatic = value === undefined;
-  const suggested = projectIconOption({ modelType });
-  const selected = projectIconOption({ modelType, icon: value });
   function optionStyle(checked: boolean, pressed: boolean): ViewStyle {
     return {
       minHeight: 56,
@@ -43,34 +38,6 @@ export function ProjectIconPicker({
         accessibilityLabel={text.title}
         style={{ gap: 8 }}
       >
-        <Pressable
-          accessibilityRole="radio"
-          accessibilityLabel={text.automaticLabel.replace(
-            '{symbol}',
-            suggested.label,
-          )}
-          accessibilityState={{
-            checked: automatic,
-            selected: automatic,
-            disabled,
-          }}
-          disabled={disabled}
-          onPress={() => onChange(undefined)}
-          style={({ pressed }) => [
-            optionStyle(automatic, pressed),
-            { flexDirection: 'row', gap: 10 },
-          ]}
-        >
-          <Icon
-            name={suggested.glyph}
-            size={28}
-            color={automatic ? c.primary : c.muted}
-          />
-          <Body strong={automatic} style={{ flex: 1 }}>
-            {text.automatic}
-          </Body>
-          {automatic && <Icon name="check" size={20} color={c.primary} />}
-        </Pressable>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           {projectIconOptions.map((option) => {
             const checked = option.id === value;
@@ -106,10 +73,7 @@ export function ProjectIconPicker({
         </View>
       </View>
       <Body strong>
-        {(automatic ? text.selectedAutomatic : text.selected).replace(
-          '{symbol}',
-          selected.label,
-        )}
+        {text.selected.replace('{symbol}', text.labels[value])}
       </Body>
     </Card>
   );

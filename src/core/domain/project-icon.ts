@@ -1,5 +1,5 @@
 // Stable IDs are stored in project JSON and encrypted backups.
-// An absent icon keeps automatic selection based on the model type.
+// Older projects and backups may omit the icon. Resolve it from their model type.
 export const projectIconIds = [
   'aircraft',
   'vehicle',

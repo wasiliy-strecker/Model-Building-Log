@@ -15,6 +15,7 @@ import { SuggestionField } from '../../core/ui/suggestion-field';
 import { useProjectEditor } from './use-project-editor';
 import { ReminderEditor } from './reminder-editor';
 import { ProjectIconPicker } from './project-icon-picker';
+import { projectIconOption } from './project-icon-model';
 export function ProjectEditorScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const vm = useProjectEditor(id);
@@ -81,7 +82,7 @@ export function ProjectEditorScreen() {
             disabled={vm.busy}
             onOpenChange={setSuggestionsOpen}
             showAllOnFocus
-            onChange={(v) => vm.change('modelType', v)}
+            onChange={vm.changeModelType}
           />
         </View>
         <View
@@ -94,8 +95,7 @@ export function ProjectEditorScreen() {
           style={{ gap: 16 }}
         >
           <ProjectIconPicker
-            value={r.icon}
-            modelType={r.modelType}
+            value={projectIconOption(r).id}
             disabled={vm.busy}
             onChange={(value) => vm.change('icon', value)}
           />

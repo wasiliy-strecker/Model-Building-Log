@@ -13,6 +13,7 @@ import { errorText } from '../../core/ui/components';
 import { useFeedback } from '../../core/ui/feedback';
 import { useLeaveGuard } from '../../core/ui/use-leave-guard';
 import { modelTypeSuggestions } from './presentation-model';
+import { projectIconOption } from './project-icon-model';
 import { useReminderStatusSnapshot } from './use-reminder-status';
 import {
   needsReminderRepair,
@@ -30,6 +31,7 @@ export function useProjectEditor(id?: string) {
       id: log.env.id(),
       name: '',
       modelType: '',
+      icon: 'tools',
       material: '',
       manufacturer: '',
       reminder: null,
@@ -74,12 +76,24 @@ export function useProjectEditor(id?: string) {
     formErrors.clear(key);
     setProject((current) => current && { ...current, [key]: value });
   }
+  function changeModelType(modelType: string) {
+    formErrors.clear('modelType');
+    setProject(
+      (current) =>
+        current && {
+          ...current,
+          modelType,
+          icon: projectIconOption({ modelType }).id,
+        },
+    );
+  }
   return {
     project,
     fieldErrors: formErrors.fieldErrors,
     errorTarget: formErrors.errorTarget,
     dirty,
     change,
+    changeModelType,
     modelTypeSuggestions,
     reminderStatus: reminderState.status,
     refreshReminderStatus: reminderState.refresh,
@@ -108,7 +122,10 @@ export function useProjectEditor(id?: string) {
           await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
           );
-        const warnings = await log.saveProject(project);
+        const warnings = await log.saveProject({
+          ...project,
+          icon: projectIconOption(project).id,
+        });
         refresh();
         let reminderWarning: string | null;
         try {

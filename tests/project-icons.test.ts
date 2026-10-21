@@ -18,7 +18,7 @@ it.each([
   expect(projectIconOption({ modelType }).id).toBe(expected);
 });
 
-it('keeps a chosen symbol through edits and SQLite reopening, then returns to automatic selection', async () => {
+it('reads legacy symbols and keeps a chosen symbol through edits and SQLite reopening', async () => {
   const f = await fixture();
   try {
     const original = (await f.repo.project(f.project.id))!;
@@ -27,7 +27,7 @@ it('keeps a chosen symbol through edits and SQLite reopening, then returns to au
 
     await f.log.saveProject({ ...original, icon: 'rocket' });
     const chosen = (await f.repo.project(original.id))!;
-    await f.log.saveProject({ ...chosen, modelType: 'Eisenbahn' });
+    await f.log.saveProject({ ...chosen, manufacturer: 'Eigene Werkstatt' });
     const reopened = connect(f.path);
     try {
       const repo = new SqlRepository(reopened.db);
@@ -36,15 +36,7 @@ it('keeps a chosen symbol through edits and SQLite reopening, then returns to au
       expect(projectIconOption(edited).id).toBe('rocket');
       expect((await repo.dashboard())[0]?.project.icon).toBe('rocket');
 
-      await f.log.saveProject({ ...edited, icon: undefined });
-      const automatic = (await repo.project(original.id))!;
-      expect(automatic).not.toHaveProperty('icon');
-      expect(projectIconOption(automatic).id).toBe('train');
-
-      await f.log.saveProject({ ...automatic, modelType: 'Schiff' });
-      expect(projectIconOption((await repo.project(original.id))!).id).toBe(
-        'ship',
-      );
+      expect(edited.manufacturer).toBe('Eigene Werkstatt');
     } finally {
       reopened.raw.close();
     }

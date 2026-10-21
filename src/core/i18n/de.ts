@@ -111,13 +111,9 @@ export const de = {
   },
   projectIcons: {
     title: 'Projektsymbol',
-    helper:
-      'Das Symbol erscheint in der Projektübersicht und in den Projektdetails.',
-    automatic: 'Automatisch nach Modelltyp',
-    automaticLabel: 'Automatisch nach Modelltyp: {symbol}',
+    helper: 'Wähle das passende Symbol für dein Projekt.',
     optionLabel: 'Projektsymbol: {symbol}',
     selected: 'Ausgewählt: {symbol}',
-    selectedAutomatic: 'Ausgewählt: {symbol} (automatisch)',
     labels: {
       aircraft: 'Flugzeug',
       vehicle: 'Fahrzeug',
