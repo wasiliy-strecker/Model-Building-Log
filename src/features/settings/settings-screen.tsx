@@ -225,9 +225,8 @@ export function SettingsScreen() {
         </View>
         <Card style={{ padding: 18, gap: 0 }}>
           <Body>
-            Projekte, Bauschritte, Fotos und PDF-Protokolle werden lokal auf
-            deinem Gerät verarbeitet. Die App überträgt deine Projektinhalte
-            nicht an einen Server.
+            Fotos, Einträge und PDFs werden lokal auf deinem Gerät verarbeitet.
+            Die App überträgt deine Projektdaten nicht an einen Server.
           </Body>
           <Body style={{ marginTop: 10 }}>
             Deine Daten bleiben lokal auf deinem Gerät gespeichert, bis du sie
@@ -237,16 +236,17 @@ export function SettingsScreen() {
             Entwickler und Datenschutzkontakt{'\n'}
             Wasiliy Strecker · AppFabrik AI
           </Body>
-          <Body style={{ marginTop: 10 }}>
-            Die App verwendet keine Konten, Werbung, eigenen Analysedienste oder
-            Cloud. Kamera und Galerie dienen ausschließlich deinen Projektfotos.
-            Erinnerungen werden lokal von Android geplant.
+          <Body muted style={{ marginTop: 10 }}>
+            Kamera und Galerie werden nur auf deinen Wunsch geöffnet. Fotos
+            werden auf maximal 1920 Pixel verkleinert, ohne Standortmetadaten
+            gespeichert und nicht automatisch hochgeladen. Benachrichtigungen
+            erinnern lokal ans Weiterbauen. Es gibt keine Werbung und keine
+            eigene Telemetrie.
           </Body>
-          <Body style={{ marginTop: 10 }}>
-            Nur wenn du ein Backup ausdrücklich speicherst oder teilst, wird
-            eine verschlüsselte Datei an den von dir gewählten Ort oder die
-            gewählte App übergeben. Das Backup-Passwort wird nicht dauerhaft
-            gespeichert.
+          <Body muted style={{ marginTop: 10 }}>
+            Beim Exportieren oder Teilen entscheidest du über Ziel und
+            Empfänger. Backups sind passwortgeschützt. Ohne Passwort können sie
+            nicht wiederhergestellt werden.
           </Body>
         </Card>
         <View style={{ marginTop: 6 }}>

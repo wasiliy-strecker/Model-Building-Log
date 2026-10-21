@@ -7,7 +7,7 @@
     <title>Privacy Policy · ModellbauLog</title>
     <meta
       name="description"
-      content="Privacy policy for ModellbauLog: projects, build steps, photos and backups on your own device."
+      content="Privacy policy for ModellbauLog: processing and storage of your projects and build steps, photos, PDFs and backups on your own device."
     />
     <link
       rel="canonical"
@@ -71,48 +71,48 @@
         </p>
 
         <h2>Data handled by the app on your device</h2>
-        <ul>
+        <ul class="list">
+          <li>Project names, model types, manufacturers and materials.</li>
           <li>
-            Project name, model type, manufacturer and material. New build steps
-            retain these details at capture and the original UTC offset.
+            Saved build steps with step number, optional title, date, time, time
+            zone information, project details at capture and optional notes.
           </li>
           <li>
-            Build steps with a step number, optional title, date, time, time
-            zone information and notes, for example on paints, parts and work
-            steps.
-          </li>
-          <li>
-            Captured or selected photos in their saved order and technical
+            Captured or selected photos, existing attachments and technical
             integrity hashes.
           </li>
-          <li>Reminder settings and local form drafts.</li>
           <li>
-            Encrypted backup files created by the user, including all saved
-            build steps, their photos and saved PDF reports.
+            Reminder settings, form drafts, PDF reports and export information.
+          </li>
+          <li>
+            Encrypted backup files created by the user. Older saved photos and
+            PDF attachments also remain part of the backup.
           </li>
         </ul>
 
         <h2>Processing on your device and purposes</h2>
         <p>
-          ModellbauLog processes projects, build steps, photos, notes, reminders
-          and backups locally on your device. There is no user account, cloud
-          synchronization, server AI, advertising or analytics operated by the
-          app. App content is not transmitted to AppFabrik AI or an AppFabrik AI
-          server.
+          ModellbauLog processes project details, build steps, photos, notes,
+          reminders, PDF reports and backups locally on your device. There is no
+          user account, cloud synchronization, server AI, advertising or
+          analytics operated by the app. App content is not transmitted to
+          AppFabrik AI or an AppFabrik AI server.
         </p>
         <p>
-          The data is used to document model building projects and their
-          history, manage photos, schedule personal reminders and create
-          encrypted backups. The current position is the chronologically latest
-          build step, regardless of its number. Editing updates the relevant
-          entry. No separate correction history is kept.
+          The data is used to display the current build step and the build
+          history of a project, schedule personal building reminders, and create
+          PDF reports and encrypted backups. The current step is the
+          chronologically most recent build step, regardless of its number.
+          Editing updates the relevant entry. No separate correction history is
+          kept.
         </p>
         <p>
           The Store variant has neither the internet permission nor the
           permission to access network state. Its own network connections are
           therefore blocked. The standalone Dev preview uses the same
           restriction. Dev Debug retains internet permission for a local
-          connection to the Metro development tool.
+          connection to the Metro development tool. Websites opened deliberately
+          are handled by the external browser.
         </p>
 
         <h2>Camera and photos</h2>
@@ -120,124 +120,112 @@
           The camera opens only after a corresponding user action. Gallery
           content is selected through the system photo picker. The app receives
           access to the selected files. A build step can be saved without a
-          photo or with multiple photos. Photos can be opened, reordered,
-          replaced and removed. ModellbauLog does not use text recognition.
+          photo or with multiple photos in their saved order. ModellbauLog does
+          not use text recognition.
         </p>
         <p>
-          After capture or selection, the app creates a JPEG photo for its
-          private storage, with a maximum longest edge of 1920 pixels and
+          After capture or selection, the app creates a JPEG photo for private
+          app storage with a longest edge of no more than 1920 pixels and
           quality level 88. Capture and location metadata are not retained. The
-          source file itself is not changed. It is not archived in ModellbauLog
-          as an unchanged camera original. A replaced or removed photo remains
-          stored only while another entry or draft references it.
+          source file itself is not modified, but it is not archived as an
+          unchanged camera original inside ModellbauLog. A replaced or removed
+          photo is retained only while another entry or draft references it.
         </p>
         <p>
-          SHA-256 hashes refer to the files stored by the app. They help detect
-          subsequent file changes and are neither an official timestamp nor a
-          guarantee of evidentiary integrity.
+          SHA-256 integrity hashes refer to the files stored by the app. They
+          support detection of later file changes and are neither an official
+          timestamp nor a guarantee of evidentiary value.
         </p>
 
         <h2>Device features and permissions</h2>
         <p>
-          Depending on the feature used, the app accesses the camera, photo
-          picker or file picker for backups. Notifications, alarms and boot
-          events are used exclusively to schedule project reminders chosen by
-          the user and restore their scheduling after a device restart. Android
-          permissions determine whether these features are available. The
-          project name, model type and latest build step may appear in
+          Depending on the features used, the app accesses the camera, photo
+          picker or file picker for backups. Notifications, alarms and
+          system-start events are used only to schedule building reminders
+          selected by the user and restore them after the device restarts.
+          Android permissions determine whether these features are available.
+          Project names, model types and the latest build step may appear in
           notifications and, depending on your device settings, on the lock
           screen.
         </p>
         <p>
           Camera, save-location and sharing actions are initiated by the user.
-          Older Android versions may require storage permissions for these
-          actions. Reminders can be disabled in the app and in Android settings.
+          Storage permissions may be required on older Android versions. An
+          external link opens the corresponding website in the browser.
         </p>
 
         <h2>Export, sharing and recipients</h2>
         <p>
-          Data leaves the private app storage when the user saves an encrypted
-          backup at a chosen location or passes it to another app or service
-          through the system share dialog. The user chooses the destination and
-          recipient. This may include an external cloud storage provider. From
-          that point, the selected storage or communication provider's privacy
-          terms also apply.
+          Data leaves private app storage when the user saves a PDF report or an
+          encrypted backup to a selected location, or sends it to another app or
+          service through the system share sheet. When printing, the PDF is
+          passed to the selected Android print service. The user chooses the
+          destination and recipient. From that point, the privacy terms of the
+          selected storage or communication provider also apply.
         </p>
         <p>
           ModellbauLog does not sell data or share app content for advertising,
           analytics or profiling.
         </p>
 
-        <h2>PDF reports</h2>
-        <p>
-          At your request, the app creates single-step or full history PDF
-          reports locally. They contain project details, build steps,
-          timestamps, notes and optionally all currently associated photos.
-          Saved PDFs remain unchanged when entries are edited later and are
-          included in encrypted backups.
-        </p>
-        <p>
-          Sharing grants the selected app temporary read access to the PDF.
-          Printing passes it to the selected Android print service. That
-          service’s terms govern further processing. Exported PDFs are not
-          password encrypted. Copies already shared must be deleted separately
-          outside the app.
-        </p>
-
         <h2>Security</h2>
         <p>
-          The database, photos, PDF reports and drafts are kept in private app
-          storage protected by the operating system. Automatic Android cloud
-          backups and device transfers are excluded for this data through
-          Android backup settings. Dev and Store use independent storage areas.
+          The app database, photos, attachments and internally stored PDFs are
+          held in private app storage, protected by the operating system.
+          Automatic Android cloud backups and device transfers are excluded for
+          this data through the Android backup configuration. Backups created
+          manually in the app are encrypted with AES-256-GCM and a password
+          selected by the user. Key derivation uses PBKDF2-SHA256 with 600000
+          iterations. The app does not permanently store that password. Recovery
+          is not possible without the password. Exported PDFs are not encrypted
+          by the backup password.
         </p>
         <p>
-          Backups created manually in the app are encrypted with AES-256-GCM and
-          a password chosen by the user. Key derivation uses PBKDF2-SHA256 with
-          600000 iterations. The app does not permanently store this password.
-          Without the password, restoration is not possible.
-        </p>
-        <p>
-          Backups include saved projects, all build steps, notes, reminder
-          settings, capture details, all associated photos and saved PDF
-          reports. Unsaved form drafts are not included in the backup. Existing
-          local drafts are preserved when restoring.
+          Backups include saved projects, build steps, notes, reminder settings,
+          older and current photos, and PDFs. Unsaved form drafts are not
+          included in backups.
         </p>
 
         <h2>Retention</h2>
         <p>
           Your projects and build steps remain in private app storage on your
-          device until you delete them, remove the app data through device
-          settings or uninstall the app. ModellbauLog does not operate a server
-          that additionally retains this app content. Editing a build step
-          replaces its previous details.
+          device until you delete them, clear the app data through device
+          settings, or uninstall the app. ModellbauLog operates no server on
+          which this app content is additionally retained. Editing a build step
+          replaces its previous values.
         </p>
         <p>
-          Backups and PDFs saved outside the app remain at the chosen location
-          until you delete them there. This also applies to files shared with
-          other apps or people.
+          PDFs and backups stored outside the app remain at the selected
+          location until you delete them there. This also applies to files
+          shared with other apps or people.
         </p>
 
         <h2>Deletion</h2>
-        <ul>
+        <ul class="list">
           <li>
-            Deleting a build step removes its data and single-step reports.
-            Saved history reports remain available. Photos are removed once no
-            saved entry or draft references them.
+            Deleting a build step removes its data and single-entry reports
+            stored inside the app. Photos and attachments are removed when no
+            saved entry or draft still references them.
           </li>
           <li>
-            Deleting a project removes its build steps, drafts, reminders and
-            all associated reports. Files that are no longer needed are then
-            cleaned up.
+            Existing history reports remain separate documents and can be
+            deleted separately.
           </li>
           <li>
-            Files saved or shared outside the app must be deleted separately at
-            their respective locations.
+            Deleting a project removes its build steps, drafts, reports and
+            reminders.
+          </li>
+          <li>
+            Deleting a PDF report removes the PDF file stored inside the app.
+          </li>
+          <li>
+            Files stored or shared outside the app must be deleted separately at
+            their respective location.
           </li>
         </ul>
         <p>
-          Because ModellbauLog has no account or server storage, no account
-          deletion or server-side deletion request is necessary.
+          Because ModellbauLog has no account and no server-side storage, no
+          account deletion or server-side deletion request is required.
         </p>
 
         <h2>Contact and support</h2>
@@ -272,8 +260,9 @@
         </p>
         <p>
           We embed no analytics or advertising scripts and no external fonts
-          here. This website receives no projects, build steps, photos or
-          backups from the app. External websites have their own privacy terms.
+          here. This website receives no project details, build steps, photos,
+          PDFs or backups from the app. Opening an external link loads the
+          destination website in your browser. Its privacy terms apply.
         </p>
 
         <h2>Your rights</h2>
