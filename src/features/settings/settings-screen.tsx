@@ -11,6 +11,7 @@ import {
 import {
   Body,
   BusyOverlay,
+  Button,
   Card,
   Field,
   Heading,
@@ -225,8 +226,9 @@ export function SettingsScreen() {
         </View>
         <Card style={{ padding: 18, gap: 0 }}>
           <Body>
-            Fotos, Einträge und PDFs werden lokal auf deinem Gerät verarbeitet.
-            Die App überträgt deine Projektdaten nicht an einen Server.
+            Projektdaten, Fotos, Bauschritte und PDFs werden lokal auf deinem
+            Gerät verarbeitet. Die App überträgt deine Projektdaten nicht an
+            einen Server.
           </Body>
           <Body style={{ marginTop: 10 }}>
             Deine Daten bleiben lokal auf deinem Gerät gespeichert, bis du sie
@@ -236,18 +238,15 @@ export function SettingsScreen() {
             Entwickler und Datenschutzkontakt{'\n'}
             Wasiliy Strecker · AppFabrik AI
           </Body>
-          <Body muted style={{ marginTop: 10 }}>
-            Kamera und Galerie werden nur auf deinen Wunsch geöffnet. Fotos
-            werden auf maximal 1920 Pixel verkleinert, ohne Standortmetadaten
-            gespeichert und nicht automatisch hochgeladen. Benachrichtigungen
-            erinnern lokal ans Weiterbauen. Es gibt keine Werbung und keine
-            eigene Telemetrie.
-          </Body>
-          <Body muted style={{ marginTop: 10 }}>
-            Beim Exportieren oder Teilen entscheidest du über Ziel und
-            Empfänger. Backups sind passwortgeschützt. Ohne Passwort können sie
-            nicht wiederhergestellt werden.
-          </Body>
+          <View style={{ marginTop: 14 }}>
+            <Button
+              secondary
+              icon="open_in_new"
+              title="Datenschutzerklärung öffnen"
+              disabled={vm.busy}
+              onPress={() => void vm.openPrivacy()}
+            />
+          </View>
         </Card>
         <View style={{ marginTop: 6 }}>
           <Heading>Über ModellbauLog</Heading>

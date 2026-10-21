@@ -7,6 +7,7 @@ import { useFeedback } from '../../core/ui/feedback';
 import { useLeaveGuard } from '../../core/ui/use-leave-guard';
 import { errorText } from '../../core/ui/components';
 import type { PreparedBackup } from '../../core/media/media-service';
+import { privacyUrl } from './project-links';
 export function backupProgressLabel(progress: BackupProgress): string {
   const label = messages.backupProgress[progress.phase];
   return progress.totalFiles && progress.completedFiles !== undefined
@@ -16,7 +17,7 @@ export function backupProgressLabel(progress: BackupProgress): string {
 export function useSettings(
   askPassword: (confirm: boolean) => Promise<string | null>,
 ) {
-  const { backup, media, refresh } = useServices();
+  const { backup, media, refresh, links } = useServices();
   const task = useTask(),
     feedback = useFeedback();
   const [phase, setPhase] = useState('');
@@ -26,6 +27,16 @@ export function useSettings(
   return {
     ...task,
     phase,
+    openPrivacy: () =>
+      task.run(async () => {
+        try {
+          await links.open(privacyUrl);
+        } catch {
+          throw new Error(
+            'Die Datenschutzerklärung konnte nicht geöffnet werden. Bitte versuche es erneut.',
+          );
+        }
+      }),
     create: () =>
       task.run(async () => {
         const password = await askPassword(true);

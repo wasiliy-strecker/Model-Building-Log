@@ -81,6 +81,13 @@ Store und DevRelease entfernen `INTERNET` und `ACCESS_NETWORK_STATE`.
 `allowBackup=false` und explizite Regeln schließen Cloud-Backup und
 Geräteübertragung für alle Android-Speicherdomänen aus.
 
-Die Datenschutzseiten unter `docs/datenschutz/` und `docs/privacy/` sind für
-GitHub Pages vorbereitet. Veröffentlichung und Aktivierung des App-Links sind
-ein gesonderter Schritt. Bis dahin enthält die App keinen unerreichbaren Link.
+Die Datenschutzseiten unter `docs/datenschutz/` und `docs/privacy/` sind auf
+GitHub Pages veröffentlicht. Die Einstellungen öffnen
+`https://wasiliy-strecker.github.io/Model-Building-Log/datenschutz/` im externen
+Browser. Dafür benötigt die App keine eigene Netzwerkberechtigung.
+
+GitHub Pages verwendet den Zweig `gh-pages` mit dem Wurzelverzeichnis `/`.
+Er enthält ausschließlich die Kopien von `docs/index.html`,
+`docs/datenschutz/index.html`, `docs/privacy/index.html`,
+`docs/assets/privacy.css` sowie `.nojekyll`. Bei späteren Datenschutzänderungen
+diese statischen Dateien aktualisieren. Der App-Code bleibt getrennt auf `main`.

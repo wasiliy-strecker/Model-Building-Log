@@ -26,6 +26,10 @@ import { BackupCodec, BackupService } from './backup/backup-service';
 import { ExpoMedia, type MediaPort } from './media/media-service';
 import { modelNative, type ModelLogNative } from './native/model-native';
 import type { Environment } from './ports';
+import {
+  DeviceExternalLinks,
+  type ExternalLinks,
+} from './links/external-links';
 
 export type Services = {
   log: ProjectService;
@@ -34,6 +38,7 @@ export type Services = {
   backup: BackupService;
   media: MediaPort;
   native: ModelLogNative;
+  links: ExternalLinks;
 };
 const Context = createContext<
   (Services & { revision: number; refresh(): void }) | null
@@ -145,6 +150,7 @@ async function createServices(): Promise<Services> {
     ),
     media,
     native: modelNative,
+    links: new DeviceExternalLinks(),
   };
 }
 export function ServicesProvider({ children }: { children: ReactNode }) {

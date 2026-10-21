@@ -162,4 +162,5 @@ Das eigene App-Icon liegt als SVG in `assets/branding`.
 [Prüfung und manuelle Schritte](docs/VALIDATION.md),
 [Android-Varianten und Signierung](docs/ANDROID_RELEASES.md),
 [Abhängigkeiten](docs/DEPENDENCIES.md),
-[Datenschutz](PRIVACY.md) und [Drittanbieterhinweise](THIRD_PARTY_NOTICES.md).
+[Datenschutz](https://wasiliy-strecker.github.io/Model-Building-Log/datenschutz/)
+und [Drittanbieterhinweise](THIRD_PARTY_NOTICES.md).

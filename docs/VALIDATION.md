@@ -185,10 +185,11 @@ Der Store-Runtime-Baum löst Gson 2.13.2 und Commons IO 2.14.0 auf. Die private
 Store-Signierung besteht die eigenständige Prüfung. Eine fehlende Konfiguration
 führt zum erwarteten Abbruch. Dabei wurde kein Store-Artefakt gebaut.
 
-Die lokal vorbereiteten deutschen und englischen Datenschutzseiten wurden
-auf Modellbau-Inhalte und funktionierende relative Links geprüft. Sie laden
-keine externen Schriften oder Skripte. Veröffentlichung und App-Link bleiben
-einem gesonderten Auftrag vorbehalten.
+Die deutschen und englischen Datenschutzseiten wurden auf Modellbau-Inhalte
+und funktionierende relative Links geprüft. Sie laden keine externen Schriften
+oder Skripte. Auf den ergänzten Nutzerauftrag vom 21. Oktober sind die Seiten
+über GitHub Pages veröffentlicht. Die kurze Datenschutzkarte in den Einstellungen
+öffnet die vollständige Erklärung im externen Browser wie bei MaschinenLog.
 
 ### Dev-Vorschau auf dem HONOR BVL-N49
 

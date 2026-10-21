@@ -1,14 +1,15 @@
 # Datenschutzerklärung / Privacy Policy
 
-Die Datenschutzerklärung für ModellbauLog ist für GitHub Pages vorbereitet.
+Die vollständige Datenschutzerklärung für ModellbauLog wird auf GitHub Pages
+in deutscher und englischer Sprache veröffentlicht.
 
-[Deutsch](docs/datenschutz/index.html)
+[Deutsch](https://wasiliy-strecker.github.io/Model-Building-Log/datenschutz/)
 
-[English](docs/privacy/index.html)
+[English](https://wasiliy-strecker.github.io/Model-Building-Log/privacy/)
 
 Die Quelldateien liegen unter `docs/datenschutz/` und `docs/privacy/`.
-Sie folgen Aufbau und Wortlaut aus SerienLog und beschreiben die
+Sie folgen dem Aufbau aus MaschinenLog und beschreiben die
 Datenverarbeitung von ModellbauLog.
 
-GitHub Pages und der zugehörige App-Link werden erst mit einem gesonderten
-Veröffentlichungsauftrag aktiviert.
+Die App zeigt wie MaschinenLog eine kurze Zusammenfassung und öffnet die
+vollständige Erklärung über „Datenschutzerklärung öffnen“ im Browser.
