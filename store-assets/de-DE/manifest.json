@@ -1,0 +1,296 @@
+{
+  "locale": "de-DE",
+  "source": {
+    "gitCommit": "5d76cfedc105f1c57d539462c7cf16cbf0a64d0e",
+    "apkPath": "android/app/build/outputs/apk/dev/release/app-dev-release.apk",
+    "apkSha256": "fb55d1c7833b0b0b65d536c5c7cb9e5637ef2fdab2cc5830140458a0e7b7198b",
+    "package": "com.appfactory.modellbaulog.dev",
+    "versionName": "1.0.0",
+    "versionCode": 1,
+    "variant": "devRelease",
+    "architecture": "x86_64",
+    "androidApi": 35
+  },
+  "images": [
+    {
+      "file": "icon/modellbaulog-icon-512.png",
+      "playConsoleField": "App-Symbol",
+      "altText": "ModellbauLog-Symbol mit weißem Modellflugzeug und gelbem Pinsel auf dunklem Hintergrund.",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "bytes": 22389,
+      "sha256": "a7e559a9ef12de828c65b7d1bf1ff59f26da4db548573a563266048b37cd0cc2"
+    },
+    {
+      "file": "feature/modellbaulog-feature-1024x500.png",
+      "playConsoleField": "Vorstellungsgrafik",
+      "altText": "ModellbauLog: Dein Modellbau. Schritt für Schritt. Bauschritte, Fotos und PDF-Protokolle mit echter App-Ansicht.",
+      "width": 1024,
+      "height": 500,
+      "mode": "RGB",
+      "bytes": 262495,
+      "sha256": "20718afcbc6f30ba7ad290280203c5b6d9c83e7c8e62b1e41a3b324c88f5f9eb"
+    },
+    {
+      "file": "phone/01-uebersicht.png",
+      "playConsoleField": "Smartphone-Screenshots",
+      "altText": "Modellbauprojekte mit aktuellem Bauschritt und einem Foto der Cockpitmontage.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 667318,
+      "sha256": "704ea74130041ec2d8b03b3723fd226758da061fbb0326977bc67bf75aa9e77b",
+      "capture": {
+        "capturedAt": "2026-10-21T20:24:03.302782+00:00",
+        "serial": "emulator-5588",
+        "avd": "ml_store_assets_phone_1792613226",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 360",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "ffbd7c422e5f27ce02138e528fffe7769c8135d008ca165f014b2f734846f8b2"
+      }
+    },
+    {
+      "file": "phone/02-projektdetails.png",
+      "playConsoleField": "Smartphone-Screenshots",
+      "altText": "Propellerflugzeug mit Projektfoto, Modelltyp, Material und zuletzt gespeichertem Bauschritt.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 717863,
+      "sha256": "05cec86d47a6e5d03f28d13411d0b11ae37531ff7c039136a1e5d2839ec91ba2",
+      "capture": {
+        "capturedAt": "2026-10-21T20:24:08.587139+00:00",
+        "serial": "emulator-5588",
+        "avd": "ml_store_assets_phone_1792613226",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 360",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "59f3dfec79c0b887ce3e63f77e026c745a1ebcc81f41066c988e24363612ce80"
+      }
+    },
+    {
+      "file": "phone/03-bauschritt.png",
+      "playConsoleField": "Smartphone-Screenshots",
+      "altText": "Manuelle Erfassung eines Bauschritts mit Schrittnummer, Titel, Zeitpunkt und Notiz.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 299129,
+      "sha256": "fe70c581ee774f685af23bad3378b6e2482f302dac50e65ec36b4e021337ed8d",
+      "capture": {
+        "capturedAt": "2026-10-21T20:25:33.119147+00:00",
+        "serial": "emulator-5588",
+        "avd": "ml_store_assets_phone_1792613226",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 360",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "243c22e50b7553bec514c14a3eca6a9e76d6ef1af2e6ee341e422335fc5266cc"
+      }
+    },
+    {
+      "file": "phone/04-bauverlauf.png",
+      "playConsoleField": "Smartphone-Screenshots",
+      "altText": "Bauverlauf des Propellerflugzeugs mit drei gespeicherten Schritten, Datum, Notizen und Foto.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 364787,
+      "sha256": "3b09df0a10e45f2604e2f1d8e6c1c7387c4168af1019e680aeaa77a1631d12f3",
+      "capture": {
+        "capturedAt": "2026-10-21T20:28:18.355000+00:00",
+        "serial": "emulator-5588",
+        "avd": "ml_store_assets_phone_1792613226",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 360",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "0422cfdddfa66075685a161ee57357d24ba9df41254334470dcc72537778c6a2"
+      }
+    },
+    {
+      "file": "phone/05-pdf-protokoll.png",
+      "playConsoleField": "Smartphone-Screenshots",
+      "altText": "Echtes Bauverlaufsprotokoll in der integrierten PDF-Vorschau mit Drucken und Teilen.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 413977,
+      "sha256": "c85c7906009f580d721f37573ea30cbc21d0c50d7b129c1385eaafee8e7e91d6",
+      "capture": {
+        "capturedAt": "2026-10-21T20:25:52.623265+00:00",
+        "serial": "emulator-5588",
+        "avd": "ml_store_assets_phone_1792613226",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 360",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "bc5ba59ffaf897303442335e7c51de66064906660ce3ecee5eeee8a103935fa7"
+      }
+    },
+    {
+      "file": "tablet7/01-uebersicht.png",
+      "playConsoleField": "7-Zoll-Tablet-Screenshots",
+      "altText": "Modellbauprojekte mit aktuellem Bauschritt und einem Foto der Cockpitmontage.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 678856,
+      "sha256": "f0fe6333c1fc976fc80f817e1ae3f60b0f4fcf91d5a2f40b087eff1f4e5c4aad",
+      "capture": {
+        "capturedAt": "2026-10-21T20:25:14.095954+00:00",
+        "serial": "emulator-5590",
+        "avd": "ml_store_assets_tablet7_1792613358",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 240",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "f0fe6333c1fc976fc80f817e1ae3f60b0f4fcf91d5a2f40b087eff1f4e5c4aad"
+      }
+    },
+    {
+      "file": "tablet7/02-bauverlauf.png",
+      "playConsoleField": "7-Zoll-Tablet-Screenshots",
+      "altText": "Bauverlauf des Propellerflugzeugs mit drei gespeicherten Schritten, Datum, Notizen und Foto.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 186483,
+      "sha256": "98467126fca2f3d58be20dbb9cf84e480af2a0708a6a8bdc3c031959ae64fd91",
+      "capture": {
+        "capturedAt": "2026-10-21T20:27:28.778757+00:00",
+        "serial": "emulator-5590",
+        "avd": "ml_store_assets_tablet7_1792613358",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 240",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "98467126fca2f3d58be20dbb9cf84e480af2a0708a6a8bdc3c031959ae64fd91"
+      }
+    },
+    {
+      "file": "tablet7/03-bauschritt.png",
+      "playConsoleField": "7-Zoll-Tablet-Screenshots",
+      "altText": "Manuelle Erfassung eines Bauschritts mit Schrittnummer, Titel, Zeitpunkt und Notiz.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 104204,
+      "sha256": "9c248fadd5c53eef0b36616c358a1671e4f5e41ad0839dfffc11b054817016b2",
+      "capture": {
+        "capturedAt": "2026-10-21T20:26:40.916630+00:00",
+        "serial": "emulator-5590",
+        "avd": "ml_store_assets_tablet7_1792613358",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 240",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "9c248fadd5c53eef0b36616c358a1671e4f5e41ad0839dfffc11b054817016b2"
+      }
+    },
+    {
+      "file": "tablet7/04-pdf-protokoll.png",
+      "playConsoleField": "7-Zoll-Tablet-Screenshots",
+      "altText": "Echtes Bauverlaufsprotokoll in der integrierten PDF-Vorschau mit Drucken und Teilen.",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 351257,
+      "sha256": "469d5942469d43e6688fc98e749f542787808131649a35050b664d9471fb9d42",
+      "capture": {
+        "capturedAt": "2026-10-21T20:26:58.190476+00:00",
+        "serial": "emulator-5590",
+        "avd": "ml_store_assets_tablet7_1792613358",
+        "size": "Physical size: 1080x1920",
+        "density": "Physical density: 240",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "469d5942469d43e6688fc98e749f542787808131649a35050b664d9471fb9d42"
+      }
+    },
+    {
+      "file": "tablet10/01-uebersicht.png",
+      "playConsoleField": "10-Zoll-Tablet-Screenshots",
+      "altText": "Modellbauprojekte mit aktuellem Bauschritt und einem Foto der Cockpitmontage.",
+      "width": 1440,
+      "height": 2560,
+      "mode": "RGB",
+      "bytes": 797007,
+      "sha256": "78a139259822ada92dbbdb6101265b0bf31e28dfe22849b8115561082f9d33da",
+      "capture": {
+        "capturedAt": "2026-10-21T20:25:14.997604+00:00",
+        "serial": "emulator-5592",
+        "avd": "ml_store_assets_tablet10_1792613359",
+        "size": "Physical size: 1440x2560",
+        "density": "Physical density: 240",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "78a139259822ada92dbbdb6101265b0bf31e28dfe22849b8115561082f9d33da"
+      }
+    },
+    {
+      "file": "tablet10/02-bauverlauf.png",
+      "playConsoleField": "10-Zoll-Tablet-Screenshots",
+      "altText": "Bauverlauf des Propellerflugzeugs mit drei gespeicherten Schritten, Datum, Notizen und Foto.",
+      "width": 1440,
+      "height": 2560,
+      "mode": "RGB",
+      "bytes": 451432,
+      "sha256": "0d0645ead4396f023219e8a72509418f4b64031572657f27a63a1ab6f7b7363d",
+      "capture": {
+        "capturedAt": "2026-10-21T20:27:37.681285+00:00",
+        "serial": "emulator-5592",
+        "avd": "ml_store_assets_tablet10_1792613359",
+        "size": "Physical size: 1440x2560",
+        "density": "Physical density: 240",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "0d0645ead4396f023219e8a72509418f4b64031572657f27a63a1ab6f7b7363d"
+      }
+    },
+    {
+      "file": "tablet10/03-bauschritt.png",
+      "playConsoleField": "10-Zoll-Tablet-Screenshots",
+      "altText": "Manuelle Erfassung eines Bauschritts mit Schrittnummer, Titel, Zeitpunkt und Notiz.",
+      "width": 1440,
+      "height": 2560,
+      "mode": "RGB",
+      "bytes": 111314,
+      "sha256": "5a7b4e1ac68f7264a0ff77cd1818ae3dd96e1e6f6510aad6e27c986a554bbb9a",
+      "capture": {
+        "capturedAt": "2026-10-21T20:26:47.138339+00:00",
+        "serial": "emulator-5592",
+        "avd": "ml_store_assets_tablet10_1792613359",
+        "size": "Physical size: 1440x2560",
+        "density": "Physical density: 240",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "5a7b4e1ac68f7264a0ff77cd1818ae3dd96e1e6f6510aad6e27c986a554bbb9a"
+      }
+    },
+    {
+      "file": "tablet10/04-pdf-protokoll.png",
+      "playConsoleField": "10-Zoll-Tablet-Screenshots",
+      "altText": "Echtes Bauverlaufsprotokoll in der integrierten PDF-Vorschau mit Drucken und Teilen.",
+      "width": 1440,
+      "height": 2560,
+      "mode": "RGB",
+      "bytes": 565441,
+      "sha256": "4ae4b7a58b03f8d1580339cd31753ce913d177bc90dac8b2754557cdd3609ef8",
+      "capture": {
+        "capturedAt": "2026-10-21T20:27:03.890670+00:00",
+        "serial": "emulator-5592",
+        "avd": "ml_store_assets_tablet10_1792613359",
+        "size": "Physical size: 1440x2560",
+        "density": "Physical density: 240",
+        "locale": "de-DE",
+        "package": "com.appfactory.modellbaulog.dev",
+        "rawSha256": "4ae4b7a58b03f8d1580339cd31753ce913d177bc90dac8b2754557cdd3609ef8"
+      }
+    }
+  ]
+}
