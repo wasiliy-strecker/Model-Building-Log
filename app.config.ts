@@ -41,6 +41,9 @@ const config: ExpoConfig = {
     [
       'expo-splash-screen',
       {
+        image: './assets/icon-foreground.png',
+        imageWidth: 256,
+        resizeMode: 'contain',
         backgroundColor: '#315F69',
         dark: { backgroundColor: '#315F69' },
       },

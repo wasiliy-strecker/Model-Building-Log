@@ -5,6 +5,7 @@ import {
   PAGE_SIZE,
   type BuildStepDraft,
   type Project,
+  type ProjectPhoto,
   type BuildStep,
 } from '../../core/domain/models';
 import { errorText } from '../../core/ui/components';
@@ -77,6 +78,7 @@ export function useProjectDetail(id: string, history = false) {
     {},
   );
   const [total, setTotal] = useState(0);
+  const [photo, setPhoto] = useState<ProjectPhoto | null>(null);
   const [photoCount, setPhotoCount] = useState(0);
   const [drafts, setDrafts] = useState<BuildStepDraft[]>([]);
   const [offset, setOffset] = useState(0);
@@ -96,8 +98,9 @@ export function useProjectDetail(id: string, history = false) {
         log.repository.steps(id, history ? search : '', history ? offset : 0),
         log.repository.photos(id, 0, 0),
         log.repository.drafts(),
+        history ? Promise.resolve(null) : log.repository.latestPhoto(id),
       ])
-        .then(async ([p, page, photos, drafts]) => {
+        .then(async ([p, page, photos, drafts, latestPhoto]) => {
           const comparisons = await Promise.all(
             page.rows.map(
               async (s) =>
@@ -114,6 +117,7 @@ export function useProjectDetail(id: string, history = false) {
           );
           if (!active) return;
           setProject(p ?? undefined);
+          setPhoto(latestPhoto);
           setSteps(page.rows);
           setTotal(page.total);
           setPhotoCount(photos.total);
@@ -144,6 +148,7 @@ export function useProjectDetail(id: string, history = false) {
     steps,
     total,
     photoCount,
+    photo,
     drafts,
     offset,
     setOffset,

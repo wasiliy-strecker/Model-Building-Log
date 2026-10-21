@@ -1,0 +1,61 @@
+{
+  "projects": [
+    {
+      "id": "ef5eee7b-601d-4af7-8ed8-d451f9c52449",
+      "name": "Spitfire 1:48",
+      "modelType": "Flugzeug",
+      "manufacturer": "Modellhersteller",
+      "material": "Kunststoff",
+      "reminder": null,
+      "createdAt": "2026-10-02T06:00:00.000Z",
+      "updatedAt": "2026-10-02T06:00:00.001Z"
+    }
+  ],
+  "steps": [
+    {
+      "id": "9485344f-4084-422c-aaa7-1d6ddd39e225",
+      "projectId": "ef5eee7b-601d-4af7-8ed8-d451f9c52449",
+      "number": "0",
+      "title": "",
+      "occurredAt": "2026-10-02T06:00:00.002Z",
+      "note": "Nur synthetische Testdaten.",
+      "photos": [
+        {
+          "id": "7f9c6dfe-f675-40cd-9e6c-904f323d63bb",
+          "name": "Synthetisches Foto B.jpg",
+          "file": "474a4586-9980-4102-9acb-7d8de1fd688c.jpg",
+          "sha256": "b23ea762c938f734bc4512f5934fe05d573c1d8767ef68d3faab48d5cf1554a7",
+          "size": 740
+        },
+        {
+          "id": "1fd4122b-3365-4a40-8ac4-1cebc6beabd9",
+          "name": "Synthetisches Foto A.jpg",
+          "file": "95e6e5ab-c002-4749-892e-c6d9f1175fc2.jpg",
+          "sha256": "b23ea762c938f734bc4512f5934fe05d573c1d8767ef68d3faab48d5cf1554a7",
+          "size": 740
+        }
+      ],
+      "createdAt": "2026-10-02T06:00:00.002Z",
+      "updatedAt": "2026-10-02T06:00:00.003Z"
+    },
+    {
+      "id": "d46ff461-1704-4527-b4db-4f8e563ea658",
+      "projectId": "ef5eee7b-601d-4af7-8ed8-d451f9c52449",
+      "number": "9007199254740993",
+      "title": "",
+      "occurredAt": "2026-10-02T06:00:00.004Z",
+      "note": "Nur synthetische Testdaten.",
+      "photos": [
+        {
+          "id": "1fd4122b-3365-4a40-8ac4-1cebc6beabd9",
+          "name": "Synthetisches Foto A.jpg",
+          "file": "95e6e5ab-c002-4749-892e-c6d9f1175fc2.jpg",
+          "sha256": "b23ea762c938f734bc4512f5934fe05d573c1d8767ef68d3faab48d5cf1554a7",
+          "size": 740
+        }
+      ],
+      "createdAt": "2026-10-02T06:00:00.004Z",
+      "updatedAt": "2026-10-02T06:00:00.005Z"
+    }
+  ]
+}

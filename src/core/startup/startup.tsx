@@ -1,3 +1,4 @@
+import { messages } from '../i18n';
 import {
   createContext,
   useCallback,
@@ -8,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SystemUI from 'expo-system-ui';
@@ -18,7 +19,7 @@ export const startupColor = '#315F69';
 // Run before any React rendering. Router must not dismiss the native surface
 // as soon as navigation mounts, while fonts or the first query are still pending.
 void SplashScreen.preventAutoHideAsync().catch(console.warn);
-SplashScreen.setOptions({ duration: 0, fade: false });
+SplashScreen.setOptions({ duration: 180, fade: true });
 
 const StartupContext = createContext({
   pending: true,
@@ -91,8 +92,24 @@ export function useStartupLayout(ready: boolean, background: string) {
 
 export function StartupPending() {
   return (
-    <View style={{ flex: 1, backgroundColor: startupColor }}>
+    <View
+      accessible
+      accessibilityLabel={messages.startup.loading}
+      style={{
+        flex: 1,
+        backgroundColor: startupColor,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
       <StatusBar style="light" />
+      <Image
+        source={require('../../../assets/icon-foreground.png')}
+        style={{ width: 256, height: 256 }}
+        resizeMode="contain"
+        accessible={false}
+        fadeDuration={0}
+      />
     </View>
   );
 }

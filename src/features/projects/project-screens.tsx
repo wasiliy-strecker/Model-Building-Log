@@ -1,4 +1,6 @@
-import { View, Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ProjectCover } from './project-cover';
+import { View, Text, FlatList, useWindowDimensions } from 'react-native';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import {
   Body,
@@ -24,6 +26,7 @@ import {
   reminderSummary,
   sortLabels,
   type ProjectSort,
+  type DashboardItem,
 } from './presentation-model';
 import { PAGE_SIZE, type Project } from '../../core/domain/models';
 import type { ReminderStatus } from '../../core/native/model-native';
@@ -76,19 +79,183 @@ export function ReminderInfo({
     </View>
   );
 }
+function DashboardHeader({ vm }: { vm: ReturnType<typeof useProjects> }) {
+  const feedback = useFeedback();
+  return (
+    <View style={{ gap: 12, paddingBottom: 12 }}>
+      {!!vm.error && (
+        <>
+          <Notice error text={vm.error} />
+          <Button title="Erneut laden" onPress={vm.retry} />
+        </>
+      )}
+      <Title subtitle="Deine Modelle, dein Tempo. Merke dir, wo du weitermachst.">
+        Deine Projekte
+      </Title>
+      <View style={{ marginTop: 4 }}>
+        <Field
+          label="Projekte suchen"
+          leading="search"
+          value={vm.search}
+          onChangeText={vm.setSearch}
+          trailing={vm.search ? 'close' : undefined}
+          onTrailingPress={() => vm.setSearch('')}
+          returnKeyType="search"
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 12,
+          flexWrap: 'wrap',
+        }}
+      >
+        <Body muted>
+          {vm.items.length}{' '}
+          {vm.search
+            ? 'Treffer'
+            : vm.items.length === 1
+              ? 'Projekt'
+              : 'Projekte'}
+        </Body>
+        <Button
+          secondary
+          icon="sort"
+          menu
+          title={sortLabels[vm.sort]}
+          onPress={(anchor) =>
+            void feedback
+              .choose({
+                title: 'Projekte sortieren',
+                anchor,
+                options: (Object.keys(sortLabels) as ProjectSort[]).map(
+                  (value) => ({
+                    value,
+                    label: sortLabels[value],
+                    icon: value === vm.sort ? 'check' : undefined,
+                  }),
+                ),
+              })
+              .then((value) => {
+                if (value) vm.setSort(value as ProjectSort);
+              })
+          }
+        />
+      </View>
+    </View>
+  );
+}
+function DashboardCard({
+  item,
+  hasDraft,
+  status,
+}: {
+  item: DashboardItem;
+  hasDraft: boolean;
+  status?: ReminderStatus;
+}) {
+  const c = useTheme();
+  const { project, latest, lastEdited, photo } = item;
+  return (
+    <Card
+      style={{ padding: 0, gap: 0 }}
+      onPress={() =>
+        router.push({
+          pathname: '/project/[id]',
+          params: { id: project.id },
+        })
+      }
+    >
+      <ProjectCover photo={photo} title={project.name} />
+      <View
+        style={{
+          padding: 16,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 14,
+        }}
+      >
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            backgroundColor: c.primary + '1F',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon name={modelTypeIcon(project.modelType)} color={c.primary} />
+          {status?.schedules.find((s) => s.recordId === project.id)
+            ?.isNotificationActive && (
+            <View
+              style={{
+                position: 'absolute',
+                right: -2,
+                top: -4,
+                backgroundColor: c.danger,
+                borderRadius: 10,
+                paddingHorizontal: 5,
+              }}
+            >
+              <Text style={{ color: c.background, fontSize: 11 }}>1</Text>
+            </View>
+          )}
+        </View>
+        <View style={{ flex: 1, gap: 4 }}>
+          <Body strong style={{ fontSize: 16, lineHeight: 24 }}>
+            {project.name}
+          </Body>
+          <Body muted>
+            {[project.modelType, project.material].filter(Boolean).join(' · ')}
+          </Body>
+          <Text
+            style={{
+              fontFamily: 'RobotoBlack',
+              fontSize: 22,
+              lineHeight: 28,
+              color: c.ink,
+              marginTop: 2,
+            }}
+          >
+            {stepSummary(latest)}
+          </Text>
+          <Body muted style={{ fontSize: 12, lineHeight: 16 }}>
+            Zuletzt bearbeitet: {dateTime(lastEdited)}
+          </Body>
+          {hasDraft && (
+            <Body muted style={{ fontSize: 12 }}>
+              Gesicherter Formularentwurf
+            </Body>
+          )}
+          <ReminderInfo project={project} status={status} />
+        </View>
+        <Icon name="chevron_right" />
+      </View>
+    </Card>
+  );
+}
+function ProjectSeparator() {
+  return <View style={{ height: 12 }} />;
+}
+const dashboardKey = (item: DashboardItem) => item.project.id;
 export function ProjectsScreen() {
   const vm = useProjects(),
     c = useTheme(),
-    feedback = useFeedback();
+    safe = useSafeAreaInsets(),
+    { fontScale } = useWindowDimensions();
   const create = () => router.push('/project/edit');
   return (
     <Page
       ready={!vm.loading}
+      scroll={vm.loading || vm.empty}
       fab={<Fab title="Projekt anlegen" onPress={create} />}
     >
       {vm.loading ? (
         <Busy label="Projekte werden geladen …" />
-      ) : vm.error ? (
+      ) : vm.error && vm.empty ? (
         <>
           <Notice error text={vm.error} />
           <Button title="Erneut laden" onPress={vm.retry} />
@@ -112,148 +279,37 @@ export function ProjectsScreen() {
           </Body>
         </View>
       ) : (
-        <>
-          <Title subtitle="Deine Modelle, dein Tempo. Merke dir, wo du weitermachst.">
-            Deine Projekte
-          </Title>
-          <View style={{ marginTop: 4 }}>
-            <Field
-              label="Projekte suchen"
-              leading="search"
-              value={vm.search}
-              onChangeText={vm.setSearch}
-              trailing={vm.search ? 'close' : undefined}
-              onTrailingPress={() => vm.setSearch('')}
-              returnKeyType="search"
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: 12,
-              flexWrap: 'wrap',
-            }}
-          >
-            <Body muted>
-              {vm.items.length}{' '}
-              {vm.search
-                ? 'Treffer'
-                : vm.items.length === 1
-                  ? 'Projekt'
-                  : 'Projekte'}
-            </Body>
-            <Button
-              secondary
-              icon="sort"
-              menu
-              title={sortLabels[vm.sort]}
-              onPress={(anchor) =>
-                void feedback
-                  .choose({
-                    title: 'Projekte sortieren',
-                    anchor,
-                    options: (Object.keys(sortLabels) as ProjectSort[]).map(
-                      (value) => ({
-                        value,
-                        label: sortLabels[value],
-                        icon: value === vm.sort ? 'check' : undefined,
-                      }),
-                    ),
-                  })
-                  .then((value) => {
-                    if (value) vm.setSort(value as ProjectSort);
-                  })
-              }
-            />
-          </View>
-          {!vm.items.length && (
+        <FlatList
+          style={{ flex: 1 }}
+          contentContainerStyle={{
+            paddingHorizontal: 16,
+            paddingTop: 8,
+            paddingBottom: Math.max(112, 56 * fontScale + 48) + safe.bottom,
+            width: '100%',
+            maxWidth: 800,
+            alignSelf: 'center',
+            flexGrow: 1,
+          }}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          data={vm.items}
+          keyExtractor={dashboardKey}
+          ListHeaderComponent={<DashboardHeader vm={vm} />}
+          ListEmptyComponent={
             <Card>
               <Icon name="search" size={42} color={c.primary} />
               <Body>Keine passenden Projekte gefunden.</Body>
             </Card>
+          }
+          ItemSeparatorComponent={ProjectSeparator}
+          renderItem={({ item }) => (
+            <DashboardCard
+              item={item}
+              hasDraft={vm.drafts.some((d) => d.projectId === item.project.id)}
+              status={vm.status}
+            />
           )}
-          {vm.items.map(({ project, latest, lastEdited }) => (
-            <Card
-              key={project.id}
-              onPress={() =>
-                router.push({
-                  pathname: '/project/[id]',
-                  params: { id: project.id },
-                })
-              }
-            >
-              <View
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}
-              >
-                <View
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 20,
-                    backgroundColor: c.primary + '1F',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Icon
-                    name={modelTypeIcon(project.modelType)}
-                    color={c.primary}
-                  />
-                  {vm.status?.schedules.find((s) => s.recordId === project.id)
-                    ?.isNotificationActive && (
-                    <View
-                      style={{
-                        position: 'absolute',
-                        right: -2,
-                        top: -4,
-                        backgroundColor: c.danger,
-                        borderRadius: 10,
-                        paddingHorizontal: 5,
-                      }}
-                    >
-                      <Text style={{ color: c.background, fontSize: 11 }}>
-                        1
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                <View style={{ flex: 1, gap: 4 }}>
-                  <Body strong style={{ fontSize: 16, lineHeight: 24 }}>
-                    {project.name}
-                  </Body>
-                  <Body muted>
-                    {[project.modelType, project.material]
-                      .filter(Boolean)
-                      .join(' · ')}
-                  </Body>
-                  <Text
-                    style={{
-                      fontFamily: 'RobotoBlack',
-                      fontSize: 22,
-                      lineHeight: 28,
-                      color: c.ink,
-                      marginTop: 2,
-                    }}
-                  >
-                    {stepSummary(latest)}
-                  </Text>
-                  <Body muted style={{ fontSize: 12, lineHeight: 16 }}>
-                    Zuletzt bearbeitet: {dateTime(lastEdited)}
-                  </Body>
-                  {vm.drafts.some((d) => d.projectId === project.id) && (
-                    <Body muted style={{ fontSize: 12 }}>
-                      Gesicherter Formularentwurf
-                    </Body>
-                  )}
-                  <ReminderInfo project={project} status={vm.status} />
-                </View>
-                <Icon name="chevron_right" />
-              </View>
-            </Card>
-          ))}
-        </>
+        />
       )}
     </Page>
   );
@@ -323,6 +379,7 @@ export function ProjectDetailScreen() {
       }
     >
       <Stack.Screen options={{ title: r.name }} />
+      <ProjectCover photo={vm.photo} title={r.name} expandable />
       <Card onPress={edit} style={{ margin: 4, padding: 17, gap: 0 }}>
         <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
           <View

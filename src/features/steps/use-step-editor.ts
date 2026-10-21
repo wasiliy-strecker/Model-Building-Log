@@ -1,3 +1,5 @@
+import { useFormErrors } from '../../core/ui/use-form-errors';
+import { validateStepForm, stepFieldOrder } from './step-form-validation';
 import { useEffect, useRef, useState } from 'react';
 import { router } from 'expo-router';
 import { useServices } from '../../core/composition';
@@ -22,6 +24,7 @@ export function useStepEditor(projectId: string, stepId?: string) {
   const initial = useRef('');
   const committed = useRef(false);
   const task = useTask();
+  const formErrors = useFormErrors();
   const { setError } = task;
   useEffect(() => {
     let active = true;
@@ -83,6 +86,7 @@ export function useStepEditor(projectId: string, stepId?: string) {
     value: BuildStepForm[K],
   ) {
     if (!current.current) return;
+    formErrors.clear(key);
     void apply({
       ...current.current,
       form: { ...current.current.form, [key]: value },
@@ -95,6 +99,8 @@ export function useStepEditor(projectId: string, stepId?: string) {
   }
   return {
     draft,
+    fieldErrors: formErrors.fieldErrors,
+    errorTarget: formErrors.errorTarget,
     dirty,
     phase: draft ? capturePhase(draft) : 'choose',
     change,
@@ -163,6 +169,12 @@ export function useStepEditor(projectId: string, stepId?: string) {
     save: () =>
       task.run(async () => {
         if (!current.current) return;
+        const errors = validateStepForm(current.current.form);
+        if (Object.keys(errors).length) {
+          formErrors.show(errors, stepFieldOrder);
+          return;
+        }
+        formErrors.clear();
         await log.persistDraft(current.current);
         const result = await log.saveStep(current.current);
         committed.current = true;

@@ -1,3 +1,8 @@
+import { useFormErrors } from '../../core/ui/use-form-errors';
+import {
+  validateProjectForm,
+  projectFieldOrder,
+} from './project-form-validation';
 import { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import { PermissionsAndroid, Platform } from 'react-native';
@@ -35,6 +40,7 @@ export function useProjectEditor(id?: string) {
   const [initial, setInitial] = useState(() => JSON.stringify(project));
   const [initialReady, setReady] = useState(!id);
   const task = useTask();
+  const formErrors = useFormErrors();
   const { setError } = task;
   useEffect(() => {
     let active = true;
@@ -65,10 +71,13 @@ export function useProjectEditor(id?: string) {
     title: id ? 'Änderungen verwerfen?' : 'Eingaben verwerfen?',
   });
   function change<K extends keyof Project>(key: K, value: Project[K]) {
+    formErrors.clear(key);
     setProject((current) => current && { ...current, [key]: value });
   }
   return {
     project,
+    fieldErrors: formErrors.fieldErrors,
+    errorTarget: formErrors.errorTarget,
     dirty,
     change,
     modelTypeSuggestions,
@@ -85,6 +94,12 @@ export function useProjectEditor(id?: string) {
     save: () =>
       task.run(async () => {
         if (!project) return;
+        const errors = validateProjectForm(project);
+        if (Object.keys(errors).length) {
+          formErrors.show(errors, projectFieldOrder);
+          return;
+        }
+        formErrors.clear();
         if (
           project.reminder &&
           Platform.OS === 'android' &&

@@ -46,6 +46,9 @@ ihn vor Gradle in die App. Keine fremden Metro-Sitzungen beenden.
 Dev ist `com.appfactory.modellbaulog.dev`, Name `ModellbauLog Dev`.
 Store ist `com.appfactory.modellbaulog`, Name `ModellbauLog`. Store-Debug ist
 gesperrt. Store-Release bleibt ohne private Signierung unbaubar zur Auslieferung.
+Der eigene Upload-Schlüssel liegt außerhalb des Checkouts. Einrichtung und
+Guard-Prüfung stehen in `docs/ANDROID_RELEASES.md`. Store und DevRelease haben
+keine Netzwerkberechtigungen. Nur DevDebug verwendet Metro.
 Kein Store-Build, Push oder Upload ohne Auftrag. Dev-Arbeit erhöht keine Version.
 
 Vor Installation Paket, Version, Debug-Flag, Installer und Signatur prüfen.

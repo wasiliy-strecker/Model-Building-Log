@@ -8,8 +8,9 @@ const {
 } = require('expo/config-plugins');
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const os = require('node:os');
 
-module.exports = function withHouseAndroid(config) {
+module.exports = function withModellbaulogAndroid(config) {
   config = withAndroidStyles(config, (mod) => {
     const styles = mod.modResults.resources.style;
     const setItem = (style, name, value) => {
@@ -22,16 +23,10 @@ module.exports = function withHouseAndroid(config) {
     const app = styles.find((style) => style.$.name === 'AppTheme');
     if (!splash || !app)
       throw new Error('ModellbauLog: Android start themes missing.');
-    // Explicitly suppress Android's default launcher icon, including API 31+.
-    setItem(
-      splash,
-      'windowSplashScreenAnimatedIcon',
-      '@drawable/modellbaulog_splash_empty',
-    );
-    setItem(
-      splash,
-      'android:windowBackground',
-      '@color/splashscreen_background',
+    // Preserve Expo's icon and Android < 12 compatibility background.
+    // Remove the earlier flat background override on existing native projects.
+    splash.item = (splash.item ?? []).filter(
+      (item) => item.$.name !== 'android:windowBackground',
     );
     setItem(splash, 'android:windowLightStatusBar', 'false');
     setItem(splash, 'android:windowLightNavigationBar', 'false');
@@ -111,22 +106,58 @@ ${startup}`,
   config = withDangerousMod(config, [
     'android',
     async (mod) => {
+      const androidRoot = mod.modRequest.platformProjectRoot;
+      for (const [source, target] of [
+        ['store-signing.gradle', 'app/store-signing.gradle'],
+        ['key.properties.example', 'key.properties.example'],
+        ['dependency-versions.gradle', 'dependency-versions.gradle'],
+        [
+          'data-extraction-rules.xml',
+          'app/src/main/res/xml/modellbaulog_data_extraction_rules.xml',
+        ],
+      ]) {
+        const destination = path.join(androidRoot, target);
+        await fs.mkdir(path.dirname(destination), { recursive: true });
+        await fs.copyFile(path.join(__dirname, source), destination);
+      }
+      // A prebuild must never create or replace a private key.
+      const privateProperties = path.join(
+        os.homedir(),
+        '.local/share/app-factory/signing/modellbaulog/key.properties',
+      );
+      try {
+        await fs.access(privateProperties);
+        const localProperties = path.join(androidRoot, 'key.properties');
+        try {
+          await fs.lstat(localProperties);
+        } catch (error) {
+          if (error.code !== 'ENOENT') throw error;
+          await fs.symlink(privateProperties, localProperties);
+        }
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+      }
+      for (const sourceSet of ['store', 'devRelease']) {
+        const target = path.join(
+          mod.modRequest.platformProjectRoot,
+          'app/src',
+          sourceSet,
+        );
+        await fs.mkdir(target, { recursive: true });
+        await fs.copyFile(
+          path.join(__dirname, 'offline-AndroidManifest.xml'),
+          path.join(target, 'AndroidManifest.xml'),
+        );
+      }
       const res = path.join(
         mod.modRequest.platformProjectRoot,
         'app/src/main/res',
       );
       await fs.mkdir(path.join(res, 'anim'), { recursive: true });
       await fs.mkdir(path.join(res, 'values'), { recursive: true });
-      await fs.mkdir(path.join(res, 'drawable'), { recursive: true });
-      await fs.writeFile(
-        path.join(res, 'drawable/modellbaulog_splash_empty.xml'),
-        `<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="@android:color/transparent" />
-    <size android:width="1dp" android:height="1dp" />
-</shape>
-`,
-      );
+      await fs.rm(path.join(res, 'drawable/modellbaulog_splash_empty.xml'), {
+        force: true,
+      });
       await fs.writeFile(
         path.join(res, 'values/modellbaulog_navigation.xml'),
         `<?xml version="1.0" encoding="utf-8"?>
@@ -159,6 +190,13 @@ ${startup}`,
     if (!mod.modResults.contents.includes('ext.ndkVersion'))
       mod.modResults.contents =
         'ext.ndkVersion = "28.2.13676358"\n' + mod.modResults.contents;
+    if (
+      !mod.modResults.contents.includes(
+        "apply from: file('dependency-versions.gradle')",
+      )
+    )
+      mod.modResults.contents +=
+        "\n// ModellbauLog transitive dependency security updates.\napply from: file('dependency-versions.gradle')\n";
     return mod;
   });
   config = withAppBuildGradle(config, (mod) => {
@@ -214,10 +252,28 @@ android {
     compileOptions { coreLibraryDesugaringEnabled true }
 }
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.5'
 }
 `;
     }
+    if (!source.includes('// ModellbauLog stable local Dev signing')) {
+      source += `
+// ModellbauLog stable local Dev signing
+android.signingConfigs.debug.storeFile = rootProject.file("../.local/dev.keystore")
+`;
+    }
+    // Commons IO uses java.nio.file, which Android 7 does not provide.
+    source = source.replaceAll(
+      'com.android.tools:desugar_jdk_libs:2.1.5',
+      'com.android.tools:desugar_jdk_libs_nio:2.1.5',
+    );
+    source = source.replace(
+      '// ModellbauLog standalone Dev preview. Store releases remain unsigned.',
+      '// ModellbauLog standalone Dev preview.',
+    );
+    if (!source.includes("apply from: file('store-signing.gradle')"))
+      source +=
+        "\n// ModellbauLog private Store upload signing.\napply from: file('store-signing.gradle')\n";
     mod.modResults.contents = source;
     return mod;
   });
@@ -233,6 +289,8 @@ dependencies {
     const app = manifest.application[0];
     app.$['android:allowBackup'] = 'false';
     app.$['android:fullBackupContent'] = 'false';
+    app.$['android:dataExtractionRules'] =
+      '@xml/modellbaulog_data_extraction_rules';
     const menuDefaults = {
       EXDevMenuShowFloatingActionButton: false,
       EXDevMenuShowsAtLaunch: false,

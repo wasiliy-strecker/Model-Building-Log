@@ -143,3 +143,84 @@ Kurze ergänzende manuelle Prüfung:
 Die Vorschläge und Formulartexte liegen in `src/core/i18n/de.ts` unter
 stabilen Schlüsseln. Gespeicherte Modelltypen bleiben freie Zeichenketten.
 Eine spätere Übersetzung der Vorschläge darf diese Werte nicht umschreiben.
+
+## Gezielter Abgleich vom 21. Oktober 2026
+
+SerienLog `7a11906` dient als technische Referenz. Die bestehende Modellbau-
+Fachlogik, Erinnerungen, sechs Modelltypen, Dialoge und Buttonformen bleiben
+erhalten. PDF-Funktionen sind für ModellbauLog nicht relevant.
+
+`npm run check` besteht mit 35 Tests in zehn Dateien, Prettier, ESLint und
+TypeScript. Die ergänzten Tests prüfen:
+
+- Alte MLBACK01-Datei mit dem neuen nativen Crypto-Adapter, vollständiger
+  Historie, Fotoreihenfolge und Nummern oberhalb der JavaScript-Zahlengenauigkeit.
+- Einmaliges Lesen und Hashen je Datei beim Export, Fortschrittsphasen,
+  AES-GCM-Austausch mit unabhängiger Implementierung und korrekte Byte-Ausschnitte.
+- Beschädigte Eingaben und geschriebene Dateien sowie einen Datenbankfehler
+  beim Wiederherstellen. Vorhandene Daten und Entwürfe bleiben erhalten,
+  vorbereitete Dateien werden bereinigt.
+- Abwarten verzögerter Dateioperationen beim Speichern und Teilen.
+- Letztes bebildertes Projektfoto trotz zwölf neuerer Schritte ohne Foto,
+  geänderte Fotoreihenfolge und Entfernen des letzten bebilderten Schritts.
+- Vorhandene Formularregeln und die Vorschlagsposition oberhalb oder unterhalb
+  des Feldes bei begrenztem Platz.
+
+`npm run check:native` besteht mit 51 Tests, null Fehlern und 24 Lint-Hinweisen.
+Gson und Commons IO werden zusätzlich auf Android-API 24, 25 und 35 geprüft.
+Das Foto der alten Backup-Testdatei wird zusätzlich vom Android-Decoder geprüft.
+Die Hinweise umfassen weiterhin übernommene API-Zweige, KTX-Schreibweisen und
+Abhängigkeitsversionen. Die Einschränkung bei der Analyse der Expo-/Worklets-
+Abhängigkeiten aus der Erstprüfung bleibt bestehen.
+
+`expo install --check` bestätigt die SDK-Kompatibilität. Der aktuelle
+[Abhängigkeitsbericht](DEPENDENCIES.md) dokumentiert die verbleibenden
+18 hohen npm-Audit-Einträge. Es wurden keine erzwungenen Rückstufungen vorgenommen.
+
+Die drei zusammengeführten Android-Manifeste wurden geprüft. StoreRelease und
+DevRelease haben keine Netzwerkrechte. DevDebug behält die Rechte für Metro.
+Alle Varianten schließen Android-Cloud-Backups und Geräteübertragungen aus.
+Der Store-Runtime-Baum löst Gson 2.13.2 und Commons IO 2.14.0 auf. Die private
+Store-Signierung besteht die eigenständige Prüfung. Eine fehlende Konfiguration
+führt zum erwarteten Abbruch. Dabei wurde kein Store-Artefakt gebaut.
+
+Die lokal vorbereiteten deutschen und englischen Datenschutzseiten wurden
+auf Modellbau-Inhalte und funktionierende relative Links geprüft. Sie laden
+keine externen Schriften oder Skripte. Veröffentlichung und App-Link bleiben
+einem gesonderten Auftrag vorbehalten.
+
+### Dev-Vorschau auf dem HONOR BVL-N49
+
+Der ausdrücklich beauftragte einmalige `npm run build:preview` besteht.
+Die APK enthält JavaScript und hat keine Netzwerkrechte. Paket ist
+`com.appfactory.modellbaulog.dev`, Version bleibt 1.0.0 (1), ARM64, minSdk 24,
+targetSdk 36, nicht debuggable. `npm run install:preview -- A5CS024205005243`
+hat die Signatur mit der bisherigen DevDebug-Installation verglichen und die
+App datenbewahrend aktualisiert. Der Installer wird weiterhin als `null` gemeldet.
+
+Vor dem Update war der Expo-Launcher geöffnet. Danach erscheinen Startseite
+und Projektformular im vorhandenen ModellbauLog-Stil. Die sechs Vorschläge
+sind bei offener Tastatur unabhängig scrollbar, einschließlich „Sonstiges“.
+Ein leerer Projektname zeigt den Fehler unmittelbar unter dem Feld. Die
+ungespeicherten Testeingaben wurden verworfen.
+
+Ein verschlüsseltes Backup wurde mit Passwortbestätigung bis zur Android-
+Speicherortauswahl erstellt. Abbruch und erneutes Wählen des Speicherorts
+funktionieren. Das nicht gespeicherte Backup wurde anschließend verworfen.
+Eine mit dem ursprünglichen Codec erzeugte Sicherung wurde mit nativer
+Passwortableitung, AES-GCM, SHA-256 und JPEG-Prüfung bis zur Bestätigung
+gelesen. Sie enthält ein Projekt und zwei Bauschritte. Der Import wurde dort
+abgebrochen. Es wurden keine Projekte, Bauschritte oder Fotos übernommen.
+
+Die erste synthetische Backup-Probe enthielt versehentlich das unverkleinerte
+2500-Pixel-Eingabefoto. Die vorhandene Android-Prüfung lehnte es korrekt ab.
+Die feste Legacy-Testdatei enthält jetzt ein mit dem Android-Decoder geprüftes
+32-Pixel-JPEG. Vitest prüft die bytegenaue Übereinstimmung. Dafür wurden nur
+Tests und Testdaten angepasst, kein weiterer APK-Build ausgeführt.
+
+Temporäre Geräte-Testdateien sind entfernt. Ein anschließender Kaltstart
+meldet `LaunchState: COLD` und öffnet direkt die unveränderte leere Projektliste.
+Es besteht keine adb-Portweiterleitung. Projektfotos wurden mangels gespeicherter
+Projekte nicht am Gerät abgenommen. Ihre Auswahl, Reihenfolge und der davon
+unabhängige aktuelle Bauschritt sind durch die Repository-Tests abgedeckt.
+Es gab keine umfangreiche visuelle Testreihe, keinen Store-Build und keinen Push.

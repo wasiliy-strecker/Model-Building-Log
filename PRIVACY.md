@@ -1,6 +1,12 @@
 # Datenschutz für ModellbauLog
 
-Stand: 2. Oktober 2026.
+Stand: 21. Oktober 2026.
+
+Die vollständigen Fassungen liegen unter
+[Datenschutzerklärung](docs/datenschutz/index.html) und
+[Privacy Policy](docs/privacy/index.html). Beide Seiten sind lokal vorbereitet.
+GitHub Pages und der zugehörige App-Link werden erst mit einem gesonderten
+Veröffentlichungsauftrag aktiviert.
 
 ModellbauLog speichert Projekte, Bauschritte, Notizen und Fotos lokal im
 privaten Speicher der jeweiligen Android-App. Die App übermittelt diese
@@ -23,10 +29,15 @@ des von dir gewählten Anbieters.
 
 Daten bleiben gespeichert, bis du sie in ModellbauLog löschst, Android-App-Daten
 entfernst oder die App deinstallierst. Extern gespeicherte oder geteilte Backups
-werden dabei nicht entfernt. Die App verwendet kein Android-Systembackup.
+werden dabei nicht entfernt. Automatische Android-Cloud-Backups und
+Geräteübertragungen sind ausdrücklich ausgeschlossen.
 Dev und Store besitzen voneinander unabhängige Speicherbereiche.
 
-Die Entwicklungsvariante lädt Programmcode über einen lokalen Metro-Server.
-Dieser Entwicklungsablauf ist getrennt von der Speicherung der Projektinhalte.
+Store und die eigenständige Dev-Preview haben keine Netzwerkberechtigungen.
+Nur Dev-Debug lädt Programmcode über einen lokalen Metro-Server. Dieser
+Entwicklungsablauf ist getrennt von der Speicherung der Projektinhalte.
 
-Entwickler und Datenschutzkontakt: Wasiliy Strecker, AppFabrik AI.
+Verantwortlich: Wasiliy Strecker, AppFabrik AI, Ludwigstrasse 23,
+86152 Augsburg, Deutschland.
+
+Datenschutzkontakt: contact@appfabrik-ai.de. Support: support@appfabrik-ai.de.

@@ -1,6 +1,7 @@
 import type {
   BuildStep,
   Project,
+  ProjectPhoto,
   Reminder,
   BuildStepDraft,
 } from '../../core/domain/models';
@@ -27,6 +28,7 @@ export type DashboardItem = {
   project: Project;
   latest: BuildStep | null;
   lastEdited: string;
+  photo: ProjectPhoto | null;
 };
 export type ProjectSort = 'lastEdited' | 'name' | 'modelType';
 export const sortLabels: Record<ProjectSort, string> = {

@@ -19,6 +19,14 @@ import org.robolectric.annotation.GraphicsMode
 class PhotoFilesTest {
     private val context get() = RuntimeEnvironment.getApplication()
 
+    @Test fun legacyBackupFixtureContainsAnAndroidReadablePhoto() {
+        val photo = File(context.cacheDir, "legacy-backup-photo.jpg")
+        requireNotNull(javaClass.getResourceAsStream("/legacy-backup-photo.jpg")).use { input ->
+            photo.outputStream().use { input.copyTo(it) }
+        }
+        validatePhoto(photo)
+    }
+
     @Test fun decoderAcceptsJpegAndRejectsBrokenOrOversizedImages() {
         val valid = File(context.cacheDir, "valid.jpg")
         val bitmap = Bitmap.createBitmap(16, 16, Bitmap.Config.ARGB_8888)

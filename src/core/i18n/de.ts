@@ -1,4 +1,26 @@
 export const de = {
+  backupProgress: {
+    preparing: 'Backup wird vorbereitet',
+    checking: 'Dateien werden geprüft',
+    encrypting: 'Backup wird verschlüsselt',
+    decrypting: 'Backup wird entschlüsselt',
+    restoring: 'Backup wird wiederhergestellt',
+    preparingLocation: 'Speicherort wird vorbereitet …',
+    files: '{completed} von {total}',
+  },
+  validation: {
+    projectName: 'Bitte einen Projektnamen eingeben.',
+    shortText: 'Dieses Feld darf höchstens 500 Zeichen enthalten.',
+    stepNumber: 'Bitte eine ganze Schrittnummer ab 0 eingeben.',
+    occurredAt: 'Bitte ein gültiges Datum und eine Uhrzeit auswählen.',
+    note: 'Die Notiz darf höchstens 20.000 Zeichen enthalten.',
+  },
+  projectPhoto: {
+    unavailable: 'Bild nicht verfügbar',
+    unavailableLabel: 'Bild von {title} nicht verfügbar',
+    enlargeLabel: 'Bild von {title} vergrößern',
+  },
+  startup: { loading: 'ModellbauLog wird gestartet' },
   modelTypes: {
     aircraft: 'Flugzeug',
     vehicle: 'Fahrzeug',

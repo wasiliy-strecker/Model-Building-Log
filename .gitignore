@@ -21,3 +21,7 @@ test-results/
 .DS_Store
 
 __pycache__/
+
+# Private Store upload identity and credentials
+android/key.properties
+*.p12

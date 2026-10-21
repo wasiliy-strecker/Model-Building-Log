@@ -8,6 +8,7 @@ import {
 import * as SQLite from 'expo-sqlite';
 import * as Crypto from 'expo-crypto';
 import { StartupError, StartupPending } from './startup/startup';
+import { expoBackupCrypto } from './backup/expo-backup-crypto';
 import { androidPasswordKey } from './backup/password-key';
 import { migrate, SqlRepository } from './database/repository';
 import { ExpoVault } from './files/expo-vault';
@@ -105,7 +106,12 @@ async function createServices(): Promise<Services> {
     log,
     backup: new BackupService(
       log,
-      new BackupCodec(env, androidPhotoInspector, androidPasswordKey),
+      new BackupCodec(
+        env,
+        androidPhotoInspector,
+        androidPasswordKey,
+        expoBackupCrypto,
+      ),
     ),
     media,
     native: modelNative,

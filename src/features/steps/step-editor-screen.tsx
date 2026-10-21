@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import { FormErrorScroll } from '../../core/ui/form-error-scroll';
 import { messages } from '../../core/i18n';
 import { View } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
@@ -10,6 +12,7 @@ import {
   Field,
   Notice,
   Page,
+  useTheme,
 } from '../../core/ui/components';
 import { PhotoEditor, type PhotoActions } from '../media/attachments';
 import { useStepEditor } from './use-step-editor';
@@ -20,6 +23,8 @@ export function StepEditorScreen() {
     stepId?: string;
   }>();
   const vm = useStepEditor(projectId, stepId);
+  const anchors = useRef<Record<string, View | null>>({});
+  const c = useTheme();
   const draft = vm.draft;
   if (!draft)
     return (
@@ -38,6 +43,7 @@ export function StepEditorScreen() {
   };
   return (
     <Page>
+      <FormErrorScroll target={vm.errorTarget} anchors={anchors} />
       <Stack.Screen
         options={{
           title: stepId ? 'Bauschritt bearbeiten' : 'Bauschritt erfassen',
@@ -77,47 +83,83 @@ export function StepEditorScreen() {
       ) : (
         <View style={{ gap: 16 }}>
           <PhotoEditor photos={form.photos} actions={actions} />
-          <Field
-            label={messages.stepFields.number.label}
-            placeholder={messages.stepFields.number.placeholder}
-            keyboardType="number-pad"
-            value={form.number}
-            onChangeText={(v) => vm.change('number', v)}
-            editable={!vm.busy}
-            autoFocus={
-              !stepId && draft.captureSource === 'manual' && !form.number
-            }
-            maxLength={500}
-          />
+          <View
+            ref={(view) => {
+              anchors.current.number = view;
+            }}
+            collapsable={false}
+          >
+            <Field
+              error={vm.fieldErrors.number}
+              label={messages.stepFields.number.label}
+              placeholder={messages.stepFields.number.placeholder}
+              keyboardType="number-pad"
+              value={form.number}
+              onChangeText={(v) => vm.change('number', v)}
+              editable={!vm.busy}
+              autoFocus={
+                !stepId && draft.captureSource === 'manual' && !form.number
+              }
+              maxLength={500}
+            />
+          </View>
           <Body muted>{messages.stepFields.number.helper}</Body>
-          <Field
-            label={messages.stepFields.title.label}
-            placeholder={messages.stepFields.title.placeholder}
-            value={form.title}
-            onChangeText={(v) => vm.change('title', v)}
-            editable={!vm.busy}
-            maxLength={500}
-          />
+          <View
+            ref={(view) => {
+              anchors.current.title = view;
+            }}
+            collapsable={false}
+          >
+            <Field
+              error={vm.fieldErrors.title}
+              label={messages.stepFields.title.label}
+              placeholder={messages.stepFields.title.placeholder}
+              value={form.title}
+              onChangeText={(v) => vm.change('title', v)}
+              editable={!vm.busy}
+              maxLength={500}
+            />
+          </View>
           <Card>
             <Body strong>{messages.stepFields.occurredAt.title}</Body>
-            <DateField
-              label={messages.stepFields.occurredAt.label}
-              time
-              value={form.occurredAt}
-              onChange={(v) => vm.change('occurredAt', v)}
-              disabled={vm.busy}
-            />
+            <View
+              ref={(view) => {
+                anchors.current.occurredAt = view;
+              }}
+              collapsable={false}
+            >
+              <DateField
+                label={messages.stepFields.occurredAt.label}
+                time
+                value={form.occurredAt}
+                onChange={(v) => vm.change('occurredAt', v)}
+                disabled={vm.busy}
+              />
+              {!!vm.fieldErrors.occurredAt && (
+                <Body style={{ color: c.danger }}>
+                  {vm.fieldErrors.occurredAt}
+                </Body>
+              )}
+            </View>
           </Card>
-          <Field
-            label={messages.stepFields.note.label}
-            placeholder={messages.stepFields.note.placeholder}
-            multiline
-            numberOfLines={4}
-            maxLength={20000}
-            value={form.note}
-            onChangeText={(v) => vm.change('note', v)}
-            editable={!vm.busy}
-          />
+          <View
+            ref={(view) => {
+              anchors.current.note = view;
+            }}
+            collapsable={false}
+          >
+            <Field
+              error={vm.fieldErrors.note}
+              label={messages.stepFields.note.label}
+              placeholder={messages.stepFields.note.placeholder}
+              multiline
+              numberOfLines={4}
+              maxLength={20000}
+              value={form.note}
+              onChangeText={(v) => vm.change('note', v)}
+              editable={!vm.busy}
+            />
+          </View>
           <Button
             icon={
               stepId || draft.captureSource !== 'photo'

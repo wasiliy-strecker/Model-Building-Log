@@ -11,6 +11,8 @@ Die Übersicht zeigt Projekte mit aktuellem Bauschritt und Foto. Projekte lassen
 sich suchen, sortieren, anlegen und bearbeiten. Ein Projekt enthält einen
 Pflichtnamen und die optionalen Angaben Modelltyp, Hersteller und Material.
 Modelltypen können frei eingegeben oder aus Vorschlägen gewählt werden.
+Das Vorschaubild stammt aus dem zeitlich letzten Bauschritt mit Foto.
+Neuere Schritte ohne Foto ändern den aktuellen Stand, behalten aber dieses Bild.
 
 Im Projekt führt „Bauschritt erfassen“ zur manuellen Eingabe, Kamera oder Galerie.
 Ein Bauschritt enthält eine ganze Schrittnummer ab 0, einen optionalen Titel,
@@ -73,8 +75,10 @@ npm run install:dev -- DEVICE_ID
 ```
 
 `npm run build:preview` ist ein optionaler, ausdrücklich anzufordernder
-DevRelease-Build mit eingebettetem JavaScript. Der normale Ablauf baut keine
-Store-Version und erhöht keine Versionsnummer.
+DevRelease-Build mit eingebettetem JavaScript. Nach
+`npm run install:preview -- DEVICE_ID` startet er auch ohne Metro direkt in die
+App. Für die eigenständige Vorschau sind keine Netzwerkrechte vorhanden.
+Der normale Ablauf baut keine Store-Version und erhöht keine Versionsnummer.
 
 ## Struktur und Identität
 
@@ -93,15 +97,20 @@ Store-Version und erhöht keine Versionsnummer.
 Dev: `com.appfactory.modellbaulog.dev`, sichtbarer Name `ModellbauLog Dev`.
 Store: `com.appfactory.modellbaulog`, sichtbarer Name `ModellbauLog`.
 Store-Debug und Store-Profile sind gesperrt. Store-Release erhält keine
-Dev-Signierung. Die Dev-Signatur liegt app-lokal in `.local/dev.keystore` und
+Dev-Signierung. Ein eigener privater Upload-Schlüssel ist erforderlich,
+andernfalls brechen Store-Paketaufgaben ab. Die Dev-Signatur liegt app-lokal in `.local/dev.keystore` und
 wird nicht versioniert. Das Build-Skript erhält sie auch bei einer Neuerzeugung
 des Android-Ordners. Expo Prebuild läuft normalerweise mit `--no-clean`.
 
 Die Datenbank heißt `modellbaulog.db`. Fotos liegen im privaten App-Speicher.
-Android-Systembackups sind ausgeschaltet. Das eigene Backupformat verwendet
+Android-Cloud-Backups und Geräteübertragung sind ausdrücklich ausgeschlossen.
+Das eigene Backupformat verwendet
 `.mlbackup`, `modellbaulog_backup` und `MLBACK01`. Backups anderer Apps werden
 abgewiesen. AES-256-GCM mit authentifiziertem Header und PBKDF2-HMAC-SHA-256
 mit 600000 Runden schützen den Container.
+SHA-256 und AES-GCM verwenden die nativen Expo-Funktionen. Die native
+Passwortableitung ab Android 8 und der bisherige Fallback für Android 7 bleiben
+erhalten. Vorhandene Sicherungen bleiben lesbar.
 
 Ein Backup enthält gespeicherte Projekte, Bauschritte und Fotos. Entwürfe
 gehören nicht zum Export. Lokale Entwürfe bleiben beim Wiederherstellen erhalten.
@@ -116,4 +125,6 @@ Das eigene App-Icon liegt als SVG in `assets/branding`.
 
 [Referenzabgleich](docs/PROCESSING_PARITY.md),
 [Prüfung und manuelle Schritte](docs/VALIDATION.md),
+[Android-Varianten und Signierung](docs/ANDROID_RELEASES.md),
+[Abhängigkeiten](docs/DEPENDENCIES.md),
 [Datenschutz](PRIVACY.md) und [Drittanbieterhinweise](THIRD_PARTY_NOTICES.md).

@@ -12,6 +12,13 @@ import {
 } from '../domain/models';
 
 const order = 'occurred_at DESC,created_at DESC,id DESC';
+function latestPhotoQuery(projectId: '?' | 'p.id') {
+  return `SELECT json_object('stepId',s.id,'number',json_extract(s.body,'$.number'),
+    'title',json_extract(s.body,'$.title'),'occurredAt',s.occurred_at,'photo',json(a.value)) body
+    FROM steps s,json_each(s.body,'$.photos') a WHERE s.project_id=${projectId}
+    ORDER BY s.occurred_at DESC,s.created_at DESC,s.id DESC,CAST(a.key AS INTEGER) ASC LIMIT 1`;
+}
+
 export async function migrate(db: SqlConnection): Promise<void> {
   await db.exec(
     'PRAGMA foreign_keys=ON; PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000;',
@@ -94,8 +101,10 @@ export class SqlRepository implements Repository {
         body: string;
         latest: string | null;
         lastEdited: string;
+        photo: string | null;
       }>(`
         SELECT p.body,
+          (${latestPhotoQuery('p.id')}) photo,
           (SELECT s.body FROM steps s WHERE s.project_id=p.id ORDER BY ${order} LIMIT 1) latest,
           max(json_extract(p.body,'$.updatedAt'),coalesce((SELECT max(json_extract(s.body,'$.updatedAt')) FROM steps s WHERE s.project_id=p.id),json_extract(p.body,'$.updatedAt'))) lastEdited
         FROM projects p ORDER BY lastEdited DESC,p.id ASC`);
@@ -103,7 +112,16 @@ export class SqlRepository implements Repository {
         project: JSON.parse(r.body) as Project,
         latest: r.latest ? (JSON.parse(r.latest) as BuildStep) : null,
         lastEdited: r.lastEdited,
+        photo: r.photo ? (JSON.parse(r.photo) as ProjectPhoto) : null,
       }));
+    });
+  }
+  latestPhoto(projectId: string): Promise<ProjectPhoto | null> {
+    return this.queue.run(async () => {
+      const row = (
+        await this.db.all<{ body: string }>(latestPhotoQuery('?'), projectId)
+      )[0];
+      return row ? (JSON.parse(row.body) as ProjectPhoto) : null;
     });
   }
   steps(projectId: string, search = '', offset = 0, limit = PAGE_SIZE) {

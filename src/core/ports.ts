@@ -17,8 +17,14 @@ export interface Repository {
   project(id: string): Promise<Project | null>;
   step(id: string): Promise<BuildStep | null>;
   dashboard(): Promise<
-    { project: Project; latest: BuildStep | null; lastEdited: string }[]
+    {
+      project: Project;
+      latest: BuildStep | null;
+      lastEdited: string;
+      photo: ProjectPhoto | null;
+    }[]
   >;
+  latestPhoto(projectId: string): Promise<ProjectPhoto | null>;
   steps(
     projectId: string,
     search?: string,
