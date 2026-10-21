@@ -16,6 +16,8 @@ import {
 } from '../../core/ui/components';
 import { PhotoEditor, type PhotoActions } from '../media/attachments';
 import { useStepEditor } from './use-step-editor';
+import { CaptureGuidance } from './capture-guidance';
+import { PhotoExamplesButton } from './photo-examples-button';
 
 export function StepEditorScreen() {
   const { projectId, stepId } = useLocalSearchParams<{
@@ -52,30 +54,25 @@ export function StepEditorScreen() {
       <Notice error text={vm.error} />
       {vm.phase === 'choose' ? (
         <>
-          <Card>
-            <Body strong style={{ fontSize: 18 }}>
-              Merke dir, wo du weitermachst.
-            </Body>
-            <Body>{messages.stepFields.captureHint}</Body>
-            <Body muted>{messages.stepFields.photoHint}</Body>
-          </Card>
+          <CaptureGuidance />
+          <PhotoExamplesButton disabled={vm.busy} />
           <Button
             icon="edit_note_outlined"
-            title="Stand eintragen"
+            title={messages.stepFields.withoutPhoto}
             disabled={vm.busy}
             onPress={() => void vm.chooseManual()}
           />
           <Button
             secondary
             icon="photo_camera_outlined"
-            title="Modell fotografieren"
+            title={messages.stepFields.takePhoto}
             disabled={vm.busy}
             onPress={() => void vm.pick('camera')}
           />
           <Button
             secondary
             icon="photo_library_outlined"
-            title="Fotos aus Galerie"
+            title={messages.stepFields.fromGallery}
             disabled={vm.busy}
             onPress={() => void vm.pick('gallery')}
           />

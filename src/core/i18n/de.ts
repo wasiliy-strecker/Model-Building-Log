@@ -52,6 +52,12 @@ export const de = {
     defaultName: 'Modellbauprojekt',
   },
   stepFields: {
+    captureTitle: 'Für ein gut erkennbares Foto',
+    captureTips: {
+      framing: 'Modell und aktuellen Bauschritt vollständig aufnehmen',
+      lighting: 'Spiegelungen, Schatten und Unschärfe vermeiden',
+      comparison: 'Für Vergleiche einen ähnlichen Blickwinkel wählen',
+    },
     number: {
       label: 'Aktueller Bauschritt *',
       placeholder: 'z. B. 12',
@@ -72,9 +78,32 @@ export const de = {
         'Farben, Teile und Arbeitsschritte, z. B. Grundierung, Farbnummer oder nächste Handgriffe',
     },
     captureHint:
-      'Trage deinen aktuellen Bauschritt ein. Fotos und Notizen halten fest, wie dein Modell gerade aussieht.',
+      'Den aktuellen Bauschritt trägst du anschließend selbst ein. Die Schrittnummer ist ein Pflichtfeld. Fotos und eine Notiz sind optional.',
     photoHint:
-      'Für spätere Vergleiche helfen ein ähnlicher Blickwinkel und gutes Licht. Fotos werden lokal als JPEG mit höchstens 1920 Pixeln gespeichert. Standort- und Aufnahmemetadaten werden nicht übernommen.',
+      'Das Foto wird für die lokale Speicherung auf maximal 1920 Pixel an der längsten Kante verkleinert und als JPEG optimiert. Aufnahme- und Standortmetadaten werden nicht übernommen.',
+    withoutPhoto: 'Ohne Foto erfassen',
+    takePhoto: 'Foto aufnehmen',
+    fromGallery: 'Fotos aus Galerie',
+  },
+  photoExamples: {
+    open: 'Beispiele ansehen',
+    title: 'Beispielfotos',
+    close: 'Schließen',
+    dismiss: 'Beispiele schließen',
+    unavailable: 'Beispiel konnte nicht geladen werden.',
+    imageLabel: 'Beispielfoto: {label}',
+    guidance:
+      'Modell und Bauschritt gut erkennbar aufnehmen. Trage danach selbst ein, bei welchem Bauschritt du gerade aufgehört hast.',
+    previous: 'Vorheriges Beispiel',
+    next: 'Nächstes Beispiel',
+    position: '{current} von {total}',
+    attribution: 'KI-generierte Beispiele · nur zur Ansicht',
+    labels: {
+      aircraft: 'Flugzeug · Cockpit montieren',
+      vehicle: 'Fahrzeug · Karosserie lackieren',
+      ship: 'Schiff · Rumpf beplanken',
+      diorama: 'Diorama · Gelände gestalten',
+    },
   },
   reminders: {
     title: 'Projekterinnerung',
