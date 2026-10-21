@@ -468,6 +468,42 @@ export function ActionRow({ children }: { children: ReactNode[] }) {
     </View>
   );
 }
+function FloatingFieldLabel({
+  label,
+  color,
+}: {
+  label: string;
+  color?: string;
+}) {
+  const c = useTheme();
+  return (
+    <View
+      pointerEvents="none"
+      style={{
+        position: 'absolute',
+        top: -10,
+        left: 12,
+        paddingHorizontal: 4,
+        borderRadius: 8,
+        overflow: 'hidden',
+        backgroundColor: c.background,
+        zIndex: 2,
+      }}
+    >
+      <Text
+        style={{
+          color: color ?? c.muted,
+          fontFamily: 'Roboto',
+          fontSize: 12,
+          lineHeight: 18,
+        }}
+      >
+        {label}
+      </Text>
+    </View>
+  );
+}
+
 export function Field({
   label,
   leading,
@@ -501,23 +537,10 @@ export function Field({
         }}
       >
         {floated && (
-          <Text
-            pointerEvents="none"
-            style={{
-              position: 'absolute',
-              top: -10,
-              left: 12,
-              paddingHorizontal: 4,
-              backgroundColor: c.background,
-              color: error ? c.danger : focused ? c.primary : c.muted,
-              fontFamily: 'Roboto',
-              fontSize: 12,
-              lineHeight: 18,
-              zIndex: 2,
-            }}
-          >
-            {label}
-          </Text>
+          <FloatingFieldLabel
+            label={label}
+            color={error ? c.danger : focused ? c.primary : c.muted}
+          />
         )}
         {!!leading && (
           <View style={{ paddingLeft: 12, paddingRight: 4 }}>
@@ -637,21 +660,7 @@ export function SelectField({
         opacity: disabled ? 0.5 : 1,
       }}
     >
-      <Text
-        style={{
-          position: 'absolute',
-          top: -10,
-          left: 12,
-          paddingHorizontal: 4,
-          backgroundColor: c.background,
-          color: c.muted,
-          fontFamily: 'Roboto',
-          fontSize: 12,
-          lineHeight: 18,
-        }}
-      >
-        {label}
-      </Text>
+      <FloatingFieldLabel label={label} />
       {!!icon && <Icon name={icon} color={c.muted} />}
       <Text
         style={{
@@ -740,21 +749,7 @@ export function DateField({
       }}
     >
       {picker.dialog}
-      <Text
-        style={{
-          position: 'absolute',
-          top: -10,
-          left: 12,
-          paddingHorizontal: 4,
-          backgroundColor: c.background,
-          color: c.muted,
-          fontFamily: 'Roboto',
-          fontSize: 12,
-          lineHeight: 18,
-        }}
-      >
-        {label}
-      </Text>
+      <FloatingFieldLabel label={label} />
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={label}
