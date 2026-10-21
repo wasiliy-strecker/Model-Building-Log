@@ -1,4 +1,5 @@
 import { PageOverlayHost } from './page-overlay';
+import { overlayFrameStyle } from './overlay-frame';
 import { useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   ActivityIndicator,
@@ -865,8 +866,7 @@ export function BusyOverlay({
           accessibilityLiveRegion="polite"
           style={{
             backgroundColor: c.card,
-            borderWidth: 1,
-            borderColor: c.border,
+            ...overlayFrameStyle,
             borderRadius: 28,
             padding: 24,
             width: '100%',

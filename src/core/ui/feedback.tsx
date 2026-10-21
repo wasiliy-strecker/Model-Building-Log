@@ -26,6 +26,7 @@ import Animated from 'react-native-reanimated';
 import { useSheetDrag } from './use-sheet-drag';
 import { Snackbar } from './snackbar';
 import { DialogActions } from './dialog-actions';
+import { overlayFrameStyle } from './overlay-frame';
 export type Choice = {
   value: string;
   label: string;
@@ -191,8 +192,9 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
                 style={[
                   {
                     backgroundColor: bottomSheet ? c.elevated : c.card,
-                    borderWidth: 1,
-                    borderColor: c.border,
+                    ...(question?.anchor
+                      ? { borderWidth: 1, borderColor: c.border }
+                      : overlayFrameStyle),
                     ...(bottomSheet
                       ? {
                           elevation: 24,

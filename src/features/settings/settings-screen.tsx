@@ -20,6 +20,7 @@ import {
 } from '../../core/ui/components';
 import { Icon } from '../../core/ui/icon';
 import { DialogActions } from '../../core/ui/dialog-actions';
+import { overlayFrameStyle } from '../../core/ui/overlay-frame';
 import { useSettings } from './use-settings';
 function PasswordDialog({
   confirm,
@@ -74,8 +75,7 @@ function PasswordDialog({
           accessibilityViewIsModal
           style={{
             backgroundColor: c.card,
-            borderWidth: 1,
-            borderColor: c.border,
+            ...overlayFrameStyle,
             borderRadius: 28,
             padding: 24,
             gap: 16,

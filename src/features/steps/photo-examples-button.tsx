@@ -17,6 +17,7 @@ import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Body, Button, IconButton, useTheme } from '../../core/ui/components';
 import { useSheetDrag } from '../../core/ui/use-sheet-drag';
+import { overlayFrameStyle } from '../../core/ui/overlay-frame';
 import { photoExamples, type PhotoExample } from './photo-examples';
 
 export function PhotoExamplesButton({
@@ -135,8 +136,7 @@ function PhotoExamplesGallery({ close }: { close(): void }) {
               style={[
                 {
                   backgroundColor: c.card,
-                  borderWidth: 1,
-                  borderColor: c.border,
+                  ...overlayFrameStyle,
                   borderTopLeftRadius: 28,
                   borderTopRightRadius: 28,
                   width: '100%',
