@@ -36,10 +36,10 @@ export function DialogActions({
           ? c.ink + '61'
           : action.filled
             ? action.danger
-              ? c.onDanger
+              ? c.onDestructive
               : c.onPrimary
             : action.danger
-              ? c.danger
+              ? c.destructive
               : c.primary;
         return (
           <Pressable
@@ -58,13 +58,13 @@ export function DialogActions({
               borderColor: action.disabled
                 ? c.ink + '1F'
                 : action.danger
-                  ? c.danger
+                  ? c.destructive
                   : c.primary,
               backgroundColor: action.filled
                 ? action.disabled
                   ? c.disabled
                   : action.danger
-                    ? c.danger
+                    ? c.destructiveContainer
                     : c.primary
                 : 'transparent',
               flexDirection: 'row',

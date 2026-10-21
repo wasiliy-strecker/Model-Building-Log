@@ -344,10 +344,10 @@ export function Button({
     ? c.ink + '61'
     : secondary || textOnly
       ? danger
-        ? c.danger
+        ? c.destructive
         : c.primary
       : danger
-        ? c.onDanger
+        ? c.onDestructive
         : c.onPrimary;
   return (
     <Pressable
@@ -369,14 +369,18 @@ export function Button({
         paddingHorizontal: 20,
         borderRadius: 40,
         borderWidth: secondary ? 1 : 0,
-        borderColor: disabled ? c.ink + '1F' : danger ? c.danger : c.primary,
+        borderColor: disabled
+          ? c.ink + '1F'
+          : danger
+            ? c.destructive
+            : c.primary,
         backgroundColor:
           secondary || textOnly
             ? 'transparent'
             : disabled
               ? c.disabled
               : danger
-                ? c.danger
+                ? c.destructiveContainer
                 : c.primary,
         justifyContent: 'center',
         alignItems: 'center',

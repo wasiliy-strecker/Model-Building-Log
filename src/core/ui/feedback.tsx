@@ -415,7 +415,7 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
                                 cardOptions && o.disabled
                                   ? c.ink + '61'
                                   : o.danger
-                                    ? c.danger
+                                    ? c.destructive
                                     : c.primary
                               }
                             />
@@ -439,7 +439,7 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
                                     (cardOptions || plainMenu) && o.disabled
                                       ? c.ink + '61'
                                       : o.danger
-                                        ? c.danger
+                                        ? c.destructive
                                         : c.ink,
                                 },
                               ]}

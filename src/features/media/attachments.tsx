@@ -72,6 +72,7 @@ export function PhotoGallery({
         {
           value: 'remove',
           label: 'Foto entfernen',
+          danger: true,
         },
       ],
     });
