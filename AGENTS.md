@@ -55,8 +55,18 @@ beibehalten und den leichtesten passenden Weg verwenden.
   passenden Dev-Neubau. `npm run build:dev` erzeugt DevDebug. Beide Dev-Modi
   verwenden dieselbe eigene Paketkennung und app-lokale Signatur.
 
-Vor Neustart oder Installation offene Eingaben prüfen und schützen. Vor einem
-Neubau den konkreten Grund nennen. Speicherplatzschonend nur die benötigte
+Der Nutzer erlaubt Dev-Updates und notwendige App-Neustarts ausdrücklich auch
+bei geöffneter App und ungespeicherten Formulareingaben. Der mögliche Verlust
+dieser aktuellen Eingaben ist akzeptiert. Deshalb weder das Prüfen oder Sichern
+offener Eingaben noch eine Entsperrung des Smartphones zur Voraussetzung machen.
+Keine Rückfrage oder Wartezeit allein deswegen. Gespeicherte Projekte, Fotos,
+Entwürfe und andere App-Daten bleiben geschützt. Weiterhin ausschließlich
+datenbewahrend installieren, niemals deinstallieren oder App-Daten löschen.
+Ein Sperrbildschirm kann die sichtbare Prüfung verhindern, nicht aber ein
+technisch mögliches Update. Nur echte Installationsfehler oder erforderliche
+Android-Systembestätigungen können eine Nutzeraktion nötig machen.
+
+Vor einem Neubau den konkreten Grund nennen. Speicherplatzschonend nur die benötigte
 Smartphone-Architektur bauen, derzeit ARM64, und keine zusätzlichen APK-Kopien
 oder Store-Artefakte erzeugen. Reine Dokumentationsänderungen benötigen kein
 Geräteupdate. Ohne angeschlossenes Gerät das fehlende Update ausdrücklich
