@@ -119,7 +119,9 @@ Fotos werden als JPEG neu kodiert und auf höchstens 1920 Pixel Kantenlänge
 verkleinert. Backups sind auf 128 MiB, das Inhaltsverzeichnis auf 16 MiB und auf
 30000 Dateien begrenzt. Eine einzelne Datei darf höchstens 50 MiB groß sein.
 
-Gestaltung: Petrol, warme helle Flächen, Kupferakzente und ein dunkles Systemthema.
+Gestaltung: dauerhaft dunkles Anthrazit, weiße Schrift und kräftiges Gelb für
+Aktionen. Gelb gefüllte Buttons verwenden dunkle Schrift. Karten, Eingaben und
+Dialoge haben dezente graue Konturen. Die App folgt nicht dem System-Farbmodus.
 Das eigene App-Icon liegt als SVG in `assets/branding`.
 `python3 scripts/generate_icons.py` erzeugt die PNGs mit librsvg und cairo.
 

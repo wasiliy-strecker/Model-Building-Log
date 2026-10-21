@@ -224,3 +224,37 @@ Es besteht keine adb-Portweiterleitung. Projektfotos wurden mangels gespeicherte
 Projekte nicht am Gerät abgenommen. Ihre Auswahl, Reihenfolge und der davon
 unabhängige aktuelle Bauschritt sind durch die Repository-Tests abgedeckt.
 Es gab keine umfangreiche visuelle Testreihe, keinen Store-Build und keinen Push.
+
+## Farbwechsel vom 21. Oktober 2026
+
+Die freigegebenen Vorschauen werden als festes dunkles Theme umgesetzt. Die
+Farbrollen liegen in `src/core/ui/palette.ts`. Expo verwendet ebenfalls dauerhaft
+Dunkelmodus. Startansicht und Theme verwenden denselben anthrazitfarbenen Hintergrund.
+
+`npm run check` besteht mit 35 Tests, Prettier, ESLint und TypeScript.
+`npm run check:native` besteht mit 51 Tests, null Lint-Fehlern und den 24
+bestehenden Hinweisen. Der vorhandene Test für reguläre und Test-Erinnerungen
+prüft Gelb (`#FFD600`) in beiden Benachrichtigungsmodi und das eigene Symbol.
+Eine kleine Kontrastberechnung ergibt 15,26:1 für Haupttext auf Karten,
+8,44:1 für Hilfetext, 12,94:1 für dunklen Text auf gelben Buttons,
+11,28:1 für gelbe sekundäre Aktionen und 7,72:1 für gefüllte Fehleraktionen.
+
+SVG-Symbole neu erzeugt, Prebuild und `npm run build:preview` erfolgreich.
+Der Build ist wegen der eingebetteten Symbole und nativen Farbänderungen nötig.
+Das Build-Skript führt Prebuild erneut aus und erhält die neuen Einstellungen.
+Die DevRelease-Vorschau wurde nach Paket-, Versions-, Debug-, Installer- und
+Signaturprüfung mit `npm run install:preview -- A5CS024205005243` datenbewahrend
+installiert. Version bleibt 1.0.0 (1), Paket `com.appfactory.modellbaulog.dev`.
+Die APK ist nicht debuggable und hat weiterhin keine Netzwerkrechte.
+
+Auf dem HONOR BVL-N49 sind Übersicht, Projektformular, gelber Eingabefokus und
+deaktivierter Speichern-Button geprüft. Ein Kaltstart bei vorübergehend hellem
+Smartphone-Modus meldet `LaunchState: COLD`. Die App bleibt anthrazitfarben mit
+weißer Schrift und gelben Aktionen. Anschließend den vorherigen dunklen
+Systemmodus wiederhergestellt. Das vorhandene Projekt bleibt erhalten.
+Weitere Gerätebedienung ist wegen paralleler Bedienung von ZählerstandLog pausiert.
+Es wurde kein neues Projekt gespeichert und kein vorhandenes Projekt geändert.
+
+Ausstehend ist die kurze Sichtprüfung von Feldfehler, Dialog, Bottom Sheet und
+Test-Benachrichtigung. Keine aufwendige visuelle Testreihe, kein Store-Build und
+kein Push.

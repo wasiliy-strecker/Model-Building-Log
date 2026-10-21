@@ -6,8 +6,9 @@ const config: ExpoConfig = {
   version: '1.0.0',
   scheme: 'modellbaulog',
   orientation: 'default',
-  userInterfaceStyle: 'automatic',
-  backgroundColor: '#315F69',
+  userInterfaceStyle: 'dark',
+  backgroundColor: '#141517',
+  primaryColor: '#FFD600',
   platforms: ['android'],
   icon: './assets/icon.png',
   android: {
@@ -16,7 +17,7 @@ const config: ExpoConfig = {
     allowBackup: false,
     adaptiveIcon: {
       foregroundImage: './assets/icon-foreground.png',
-      backgroundColor: '#315F69',
+      backgroundColor: '#141517',
     },
     permissions: [
       'android.permission.CAMERA',
@@ -44,8 +45,8 @@ const config: ExpoConfig = {
         image: './assets/icon-foreground.png',
         imageWidth: 256,
         resizeMode: 'contain',
-        backgroundColor: '#315F69',
-        dark: { backgroundColor: '#315F69' },
+        backgroundColor: '#141517',
+        dark: { backgroundColor: '#141517' },
       },
     ],
     'expo-font',

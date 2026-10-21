@@ -63,7 +63,7 @@ export function Snackbar({
         paddingBottom: 14 + safe.bottom,
         paddingLeft: 24 + safe.left,
         paddingRight: 24 + safe.right,
-        backgroundColor: c.dark ? '#E0E2E8' : '#2D3135',
+        backgroundColor: c.elevated,
         elevation: 6,
       }}
     >
@@ -74,7 +74,7 @@ export function Snackbar({
           lineHeight: 20,
           letterSpacing: 0.25,
           textAlign: 'center',
-          color: c.dark ? '#2D3135' : '#F1F4F7',
+          color: c.ink,
         }}
       >
         {message}

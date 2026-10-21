@@ -152,7 +152,7 @@ internal enum class ReminderAvailability(val wireValue: String) {
 }
 
 internal object ReminderNotifier {
-    private val notificationColor = Color.rgb(49, 95, 105)
+    private val notificationColor = Color.rgb(255, 214, 0)
     private const val normalChannelId = "modellbaulog_reminders"
     private const val alarmChannelId = "modellbaulog_alarm_reminders_v1"
     private const val recordNotificationId = 1001

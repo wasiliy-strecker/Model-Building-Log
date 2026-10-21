@@ -21,13 +21,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScrollContext } from './scroll-host';
 import { useMaterialDateTime } from './material-date-time';
 import { localDate } from './date-time-model';
-import { light, useTheme } from './theme';
+import { useTheme } from './theme';
 import { Icon, type IconName } from './icon';
 import { useFeedback, type MenuAnchor } from './feedback';
 import { useIsFocused } from 'expo-router/react-navigation';
 import { useStartupLayout } from '../startup/startup';
 export { useTheme } from './theme';
-export const colors = light;
+export { palette as colors } from './palette';
 export const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
@@ -346,7 +346,7 @@ export function Button({
         ? c.danger
         : c.primary
       : danger
-        ? '#FFFFFF'
+        ? c.onDanger
         : c.onPrimary;
   return (
     <Pressable
@@ -368,7 +368,7 @@ export function Button({
         paddingHorizontal: 20,
         borderRadius: 40,
         borderWidth: secondary ? 1 : 0,
-        borderColor: disabled ? c.ink + '1F' : danger ? c.danger : c.outline,
+        borderColor: disabled ? c.ink + '1F' : danger ? c.danger : c.primary,
         backgroundColor:
           secondary || textOnly
             ? 'transparent'
@@ -418,7 +418,7 @@ export function Fab({
       accessibilityRole="button"
       onPress={onPress}
       style={({ pressed }) => ({
-        backgroundColor: c.soft,
+        backgroundColor: c.primary,
         minHeight: 56,
         paddingHorizontal: 20,
         paddingVertical: 16,
@@ -431,14 +431,14 @@ export function Fab({
         opacity: pressed ? 0.8 : 1,
       })}
     >
-      <Icon name={icon} color={c.onSoft} size={22} />
+      <Icon name={icon} color={c.onPrimary} size={22} />
       <Text
         style={{
           fontFamily: 'RobotoMedium',
           fontWeight: '600',
           fontSize: 16,
           lineHeight: 20,
-          color: c.onSoft,
+          color: c.onPrimary,
           flexShrink: 1,
           textAlign: 'center',
         }}
@@ -492,7 +492,7 @@ export function Field({
       <View
         style={{
           borderWidth: focused ? 2 : 1,
-          borderColor: error ? c.danger : focused ? c.primary : c.muted,
+          borderColor: error ? c.danger : focused ? c.primary : c.border,
           borderRadius: 14,
           backgroundColor: c.input,
           minHeight: 56,
@@ -539,7 +539,8 @@ export function Field({
             focused ? props.placeholder : floated ? props.placeholder : label
           }
           placeholderTextColor={c.muted}
-          selectionColor={c.primary}
+          cursorColor={c.primary}
+          selectionColor={c.selection}
           style={[
             {
               flex: 1,
@@ -624,7 +625,7 @@ export function SelectField({
       style={{
         minHeight: 56,
         borderWidth: 1,
-        borderColor: c.muted,
+        borderColor: c.border,
         borderRadius: 14,
         backgroundColor: c.input,
         paddingLeft: 16,

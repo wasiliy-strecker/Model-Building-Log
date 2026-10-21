@@ -37,6 +37,10 @@ module.exports = function withModellbaulogAndroid(config) {
       '@color/splashscreen_background',
     );
     setItem(app, 'android:windowBackground', '@color/splashscreen_background');
+    setItem(app, 'android:windowLightStatusBar', 'false');
+    setItem(app, 'android:windowLightNavigationBar', 'false');
+    setItem(app, 'android:forceDarkAllowed', 'false');
+    setItem(app, 'colorAccent', '@color/colorPrimary');
     return mod;
   });
   config = withMainActivity(config, (mod) => {

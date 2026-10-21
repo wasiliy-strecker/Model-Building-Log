@@ -13,8 +13,9 @@ import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SystemUI from 'expo-system-ui';
+import { palette } from '../ui/palette';
 
-export const startupColor = '#315F69';
+export const startupColor = palette.background;
 
 // Run before any React rendering. Router must not dismiss the native surface
 // as soon as navigation mounts, while fonts or the first query are still pending.
@@ -136,7 +137,7 @@ export function StartupError({
       <StatusBar style="light" />
       <Text
         accessibilityRole="alert"
-        style={{ color: '#FFFFFF', fontSize: 18 }}
+        style={{ color: palette.ink, fontSize: 18 }}
       >
         {message}
       </Text>
@@ -147,12 +148,16 @@ export function StartupError({
           minHeight: 56,
           padding: 16,
           borderRadius: 28,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: palette.primary,
           justifyContent: 'center',
         }}
       >
         <Text
-          style={{ color: startupColor, fontSize: 16, textAlign: 'center' }}
+          style={{
+            color: palette.onPrimary,
+            fontSize: 16,
+            textAlign: 'center',
+          }}
         >
           Erneut versuchen
         </Text>

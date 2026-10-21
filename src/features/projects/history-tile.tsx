@@ -10,8 +10,6 @@ export function HistoryTile({ item }: { item: HistoryItem }) {
   const [failedUri, setFailedUri] = useState<string>();
   const { step, photoUri, photoCount, progressText, comparison } = item;
   const photoFailed = !!photoUri && failedUri === photoUri;
-  // Match the reference's modelType accent at 14 percent opacity.
-  const dateAccent = c.dark ? '#E2B99B' : '#9A6546';
   return (
     <Card
       onPress={() =>
@@ -20,7 +18,7 @@ export function HistoryTile({ item }: { item: HistoryItem }) {
       style={s.card}
     >
       <View
-        style={[s.dateBadge, { backgroundColor: dateAccent + '24' }]}
+        style={[s.dateBadge, { backgroundColor: c.soft }]}
         accessibilityLabel={`Erfasst am ${dateTime(step.occurredAt)} Uhr`}
       >
         <Icon name="calendar_month_outlined" size={17} />

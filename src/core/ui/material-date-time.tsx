@@ -186,6 +186,8 @@ function Picker({
           }
           placeholder={r.mode === 'date' ? 'TT.MM.JJJJ' : undefined}
           placeholderTextColor={c.muted}
+          cursorColor={c.primary}
+          selectionColor={c.selection}
           maxLength={r.mode === 'time' ? 2 : 10}
           style={{
             ...text,
@@ -194,7 +196,7 @@ function Picker({
             padding: 12,
             borderWidth: 1,
             borderRadius: 8,
-            borderColor: error ? c.danger : c.outline,
+            borderColor: error ? c.danger : c.border,
             backgroundColor: c.input,
           }}
         />

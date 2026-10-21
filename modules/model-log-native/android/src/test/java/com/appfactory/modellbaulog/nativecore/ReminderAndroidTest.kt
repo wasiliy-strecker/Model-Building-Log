@@ -75,7 +75,7 @@ class ReminderAndroidTest {
             assertEquals(2, shadowOf(notifications).allNotifications.size)
             for (notification in shadowOf(notifications).allNotifications) {
                 assertEquals(R.drawable.ic_stat_model, notification.smallIcon.resId)
-                assertEquals(Color.rgb(49, 95, 105), notification.color)
+                assertEquals(Color.rgb(255, 214, 0), notification.color)
                 val intent = shadowOf(notification.contentIntent).savedIntent
                 assertEquals("modellbaulog://project/saved", intent.data.toString())
                 assertEquals(context.packageName, intent.`package` ?: intent.component?.packageName)

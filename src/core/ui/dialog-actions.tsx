@@ -55,7 +55,11 @@ export function DialogActions({
               paddingVertical: 12,
               borderRadius: 40,
               borderWidth: action.outlined ? 1 : 0,
-              borderColor: action.disabled ? c.ink + '1F' : c.outline,
+              borderColor: action.disabled
+                ? c.ink + '1F'
+                : action.danger
+                  ? c.danger
+                  : c.primary,
               backgroundColor: action.filled
                 ? action.disabled
                   ? c.disabled
