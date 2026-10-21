@@ -427,7 +427,7 @@ export function Fab({
         minHeight: 56,
         paddingHorizontal: 20,
         paddingVertical: 16,
-        borderRadius: 16,
+        borderRadius: 999,
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
