@@ -18,7 +18,8 @@ import {
   Notice,
   useTheme,
 } from '../../core/ui/components';
-import { Icon, modelTypeIcon } from '../../core/ui/icon';
+import { Icon } from '../../core/ui/icon';
+import { projectIconOption } from './project-icon-model';
 import { useFeedback } from '../../core/ui/feedback';
 import { useProjects, useProjectDetail } from './use-projects';
 import { HistoryTile } from './history-tile';
@@ -189,7 +190,7 @@ function DashboardCard({
             justifyContent: 'center',
           }}
         >
-          <Icon name={modelTypeIcon(project.modelType)} color={c.primary} />
+          <Icon name={projectIconOption(project).glyph} color={c.primary} />
           {status?.schedules.find((s) => s.recordId === project.id)
             ?.isNotificationActive && (
             <View
@@ -394,7 +395,7 @@ export function ProjectDetailScreen() {
               justifyContent: 'center',
             }}
           >
-            <Icon name={modelTypeIcon(r.modelType)} color={c.primary} />
+            <Icon name={projectIconOption(r).glyph} color={c.primary} />
           </View>
           <Body
             strong

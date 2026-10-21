@@ -68,10 +68,12 @@
   "code": 63059,
   "share_outlined": 62328,
   "keyboard_outlined": 61764,
-  "flight": 58681,
-  "directions_car": 58673,
-  "directions_boat": 58674,
-  "person_outline": 59391,
-  "landscape": 58359,
+  "flight": 58007,
+  "directions_car": 57815,
+  "directions_boat": 57811,
+  "person_outline": 58519,
+  "landscape": 58213,
+  "train": 58997,
+  "rocket_launch": 984413,
   "radio_button_unchecked": 59446
 }

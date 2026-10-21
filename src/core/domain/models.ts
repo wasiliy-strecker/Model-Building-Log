@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { MAX_FILE_BYTES } from '../files/limits';
+import { projectIconIds } from './project-icon';
 
 const id = z.string().uuid();
 const short = z.string().max(500);
@@ -34,6 +35,7 @@ export const projectSchema = z
     id,
     name: short.trim().min(1, 'Bitte einen Projektnamen eingeben.'),
     modelType: short,
+    icon: z.enum(projectIconIds).optional(),
     manufacturer: short,
     material: short,
     reminder: reminderSchema.nullable(),

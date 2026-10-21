@@ -27,16 +27,3 @@ export function Icon({
     </Text>
   );
 }
-export function modelTypeIcon(type: string): IconName {
-  return (
-    (
-      {
-        Flugzeug: 'flight',
-        Fahrzeug: 'directions_car',
-        Schiff: 'directions_boat',
-        Figur: 'person_outline',
-        Diorama: 'landscape',
-      } as Record<string, IconName>
-    )[type] ?? 'build'
-  );
-}

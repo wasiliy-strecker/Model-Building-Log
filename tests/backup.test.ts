@@ -1,6 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { createDecipheriv, pbkdf2Sync } from 'node:crypto';
 import { fixture, photo } from './support';
+import { projectIconOption } from '../src/features/projects/project-icon-model';
 
 const fixtures: Awaited<ReturnType<typeof fixture>>[] = [];
 async function setup() {
@@ -13,9 +14,16 @@ afterEach(async () => {
 });
 const password = 'Modell26';
 
-it('exports independently decryptable authenticated backups and restores ordered photos', async () => {
+it('exports independently decryptable backups and restores ordered photos and optional project symbols', async () => {
   const source = await setup(),
     target = await setup();
+  await source.log.saveProject({ ...source.project, icon: 'rocket' });
+  const automaticProject = {
+    ...source.project,
+    id: source.env.id(),
+    modelType: 'Eisenbahn',
+  };
+  await source.log.saveProject(automaticProject);
   const draft = await source.log.draft(source.project.id);
   draft.form = {
     ...draft.form,
@@ -51,6 +59,12 @@ it('exports independently decryptable authenticated backups and restores ordered
     'A.jpg',
   ]);
   expect(restored.rows[0]?.note).toBe('Farbe 71.010');
+  const manual = (await target.repo.project(source.project.id))!;
+  expect(manual.icon).toBe('rocket');
+  expect(projectIconOption(manual).id).toBe('rocket');
+  const automatic = (await target.repo.project(automaticProject.id))!;
+  expect(automatic).not.toHaveProperty('icon');
+  expect(projectIconOption(automatic).id).toBe('train');
 });
 
 it('rejects wrong passwords, tampering and foreign identities without changing local data', async () => {

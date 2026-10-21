@@ -109,6 +109,26 @@ export const de = {
     diorama: 'Diorama',
     other: 'Sonstiges',
   },
+  projectIcons: {
+    title: 'Projektsymbol',
+    helper:
+      'Das Symbol erscheint in der Projektübersicht und in den Projektdetails.',
+    automatic: 'Automatisch nach Modelltyp',
+    automaticLabel: 'Automatisch nach Modelltyp: {symbol}',
+    optionLabel: 'Projektsymbol: {symbol}',
+    selected: 'Ausgewählt: {symbol}',
+    selectedAutomatic: 'Ausgewählt: {symbol} (automatisch)',
+    labels: {
+      aircraft: 'Flugzeug',
+      vehicle: 'Fahrzeug',
+      ship: 'Schiff',
+      figure: 'Figur',
+      diorama: 'Diorama',
+      train: 'Eisenbahn',
+      rocket: 'Rakete',
+      tools: 'Werkzeug',
+    },
+  },
   projectFields: {
     modelType: {
       label: 'Modelltyp (optional)',

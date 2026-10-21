@@ -11,6 +11,11 @@ Die Übersicht zeigt Projekte mit aktuellem Bauschritt und Foto. Projekte lassen
 sich suchen, sortieren, anlegen und bearbeiten. Ein Projekt enthält einen
 Pflichtnamen und die optionalen Angaben Modelltyp, Hersteller und Material.
 Modelltypen können frei eingegeben oder aus Vorschlägen gewählt werden.
+Das Projektsymbol wird automatisch aus dem Modelltyp gewählt. Im Projektformular
+stehen außerdem acht Symbole zur eigenen Auswahl bereit. Eine eigene Auswahl
+bleibt bei Änderungen des Modelltyps erhalten. „Automatisch nach Modelltyp“
+setzt sie zurück. Das Symbol erscheint in Übersicht und Projektdetails und wird
+im verschlüsselten Backup mitgesichert. Ältere Projekte nutzen die Automatik.
 Das Vorschaubild stammt aus dem zeitlich letzten Bauschritt mit Foto.
 Neuere Schritte ohne Foto ändern den aktuellen Stand, behalten aber dieses Bild.
 

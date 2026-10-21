@@ -14,6 +14,7 @@ import {
 import { SuggestionField } from '../../core/ui/suggestion-field';
 import { useProjectEditor } from './use-project-editor';
 import { ReminderEditor } from './reminder-editor';
+import { ProjectIconPicker } from './project-icon-picker';
 export function ProjectEditorScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const vm = useProjectEditor(id);
@@ -92,6 +93,12 @@ export function ProjectEditorScreen() {
           }
           style={{ gap: 16 }}
         >
+          <ProjectIconPicker
+            value={r.icon}
+            modelType={r.modelType}
+            disabled={vm.busy}
+            onChange={(value) => vm.change('icon', value)}
+          />
           <View
             ref={(view) => {
               anchors.current.name = view;
