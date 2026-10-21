@@ -82,9 +82,10 @@ it('saves photo order and replacement, preserves old files on discard and cleans
   const again = await f.log.draft(f.project.id, saved);
   again.form.photos = [b, a];
   const reordered = (await f.log.saveStep(again)).step;
-  expect(
-    (await f.repo.photos(f.project.id)).rows.map((p) => p.photo.name),
-  ).toEqual(['B.jpg', 'A.jpg']);
+  expect((await f.repo.step(saved.id))?.photos.map((p) => p.name)).toEqual([
+    'B.jpg',
+    'A.jpg',
+  ]);
   const replacement = await f.log.draft(f.project.id, reordered);
   const d = await f.log.importPhoto(await photo(), 'D.jpg');
   replacement.form.photos = [b, d];

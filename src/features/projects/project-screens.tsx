@@ -453,19 +453,6 @@ export function ProjectDetailScreen() {
         />
       </View>
       <Notice error text={vm.error} />
-      {vm.photoCount >= 2 && (
-        <Button
-          secondary
-          icon="compare"
-          title="Fotos vergleichen"
-          onPress={() =>
-            router.push({
-              pathname: '/project/compare',
-              params: { projectId: id },
-            })
-          }
-        />
-      )}
       {vm.drafts.map((draft) => (
         <Card key={draft.id}>
           <Body strong>Gesicherter Entwurf</Body>

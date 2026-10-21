@@ -32,11 +32,6 @@ export interface Repository {
     limit?: number,
   ): Promise<{ rows: BuildStep[]; total: number }>;
   previousStep(step: BuildStep): Promise<BuildStep | null>;
-  photos(
-    projectId: string,
-    offset?: number,
-    limit?: number,
-  ): Promise<{ rows: ProjectPhoto[]; total: number }>;
   drafts(): Promise<BuildStepDraft[]>;
   saveDraft(draft: BuildStepDraft): Promise<void>;
   removeDraft(id: string): Promise<void>;

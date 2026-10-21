@@ -159,39 +159,6 @@ export class SqlRepository implements Repository {
         )[0] ?? null,
     );
   }
-  photos(projectId: string, offset = 0, limit = 40) {
-    return this.queue.run(async () => {
-      const rows = await this.db.all<{
-        stepId: string;
-        number: string;
-        title: string;
-        occurredAt: string;
-        photo: string;
-      }>(
-        `
-        SELECT s.id stepId,json_extract(s.body,'$.number') number,json_extract(s.body,'$.title') title,s.occurred_at occurredAt,p.value photo
-        FROM steps s,json_each(s.body,'$.photos') p WHERE s.project_id=?
-        ORDER BY s.occurred_at DESC,s.created_at DESC,s.id DESC,CAST(p.key AS INTEGER) ASC LIMIT ? OFFSET ?`,
-        projectId,
-        limit,
-        offset,
-      );
-      const total =
-        (
-          await this.db.all<{ n: number }>(
-            "SELECT coalesce(sum(json_array_length(body,'$.photos')),0) n FROM steps WHERE project_id=?",
-            projectId,
-          )
-        )[0]?.n ?? 0;
-      return {
-        rows: rows.map((r): ProjectPhoto => ({
-          ...r,
-          photo: JSON.parse(r.photo),
-        })),
-        total,
-      };
-    });
-  }
   drafts() {
     return this.queue.run(() => this.bodies<BuildStepDraft>('drafts'));
   }

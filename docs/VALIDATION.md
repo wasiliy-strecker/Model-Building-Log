@@ -76,9 +76,10 @@ aufwendigen visuellen Testreihen oder Emulator-Reihen durchgeführt.
    Der gespeicherte Stand und seine Fotos bleiben erhalten.
    Während offener Fotoauswahl die App beenden. Nach Neustart den Entwurf
    weiterführen und die wiederhergestellten Fotos oder die Fehlermeldung prüfen.
-5. Fotos verschiedener Schritte in eigener Reihenfolge auswählen und vergleichen.
-   Mehr als drei Bilder wählen und scrollen. Im Hochformat zwei und im Querformat
-   drei Spalten prüfen. Ein Vergleichsfoto groß öffnen und zur Auswahl zurückkehren.
+5. In Projekt und Bauschrittdetails erscheinen keine Fotovergleichsaktionen.
+   Auch der zusätzliche Button „Fotos sortieren“ entfällt. Über „Bearbeiten“
+   bleiben Ziehen und Verschieben im Fotomenü verfügbar. Der Fotovergleich
+   wurde am 21. Oktober 2026 entfernt, ältere Prüfergebnisse bleiben dokumentiert.
 6. Mehr als zehn Schritte erfassen. Den Verlauf weiterblättern und nach Titel,
    Farbnotiz oder Datum suchen. Ein vorhandener Schritt bleibt bearbeitbar.
 7. Backup mit Passwort erstellen. Dateiauswahl abbrechen und erneut speichern.

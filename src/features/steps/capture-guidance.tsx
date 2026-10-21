@@ -12,7 +12,7 @@ export function CaptureGuidance() {
       <View>
         <Body>• {copy.captureTips.framing}</Body>
         <Body>• {copy.captureTips.lighting}</Body>
-        <Body>• {copy.captureTips.comparison}</Body>
+        <Body>• {copy.captureTips.perspective}</Body>
       </View>
       <Body muted>{copy.photoHint}</Body>
       <Body>{copy.captureHint}</Body>

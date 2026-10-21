@@ -18,9 +18,10 @@ der zeitlich neueste Bauschritt, nicht die höchste Schrittnummer. Bearbeiten
 ersetzt den aktuellen Datensatz ohne Revisionen.
 
 Keine OCR, Scanner, PDF-Funktionen, Teilelager, Einkaufsverwaltung oder Cloud.
-Fotoauswahl und Vergleich haben keine feste Mengenbegrenzung. Technische
-Backup-Größenlimits bleiben erhalten. Dateibereinigung erst nach erfolgreichen
-Transaktionen. Gespeicherte Fotos und Entwürfe bei der Referenzprüfung beachten.
+Fotoauswahl hat keine feste Mengenbegrenzung. Fotos werden im Editor sortiert.
+Kein eigener Fotovergleich. Technische Backup-Größenlimits bleiben erhalten.
+Dateibereinigung erst nach erfolgreichen Transaktionen. Gespeicherte Fotos und
+Entwürfe bei der Referenzprüfung beachten.
 
 ## Entwicklung und Prüfung
 

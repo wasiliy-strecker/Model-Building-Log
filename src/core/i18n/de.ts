@@ -56,7 +56,7 @@ export const de = {
     captureTips: {
       framing: 'Modell und aktuellen Bauschritt vollständig aufnehmen',
       lighting: 'Spiegelungen, Schatten und Unschärfe vermeiden',
-      comparison: 'Für Vergleiche einen ähnlichen Blickwinkel wählen',
+      perspective: 'Einen Blickwinkel mit gut sichtbaren Details wählen',
     },
     number: {
       label: 'Aktueller Bauschritt *',

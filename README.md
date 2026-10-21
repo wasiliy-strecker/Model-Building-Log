@@ -27,11 +27,6 @@ Sortieren. Entfernte Fotos werden erst gelöscht, wenn kein gespeicherter
 Bauschritt oder Entwurf sie mehr benötigt. Offene Bauschritt-Entwürfe werden
 lokal gesichert und sind im Projekt wieder erreichbar.
 
-„Fotos vergleichen“ bietet Projektfotos über mehrere Bauschritte hinweg.
-Die Auswahl ist nicht auf zwei Fotos begrenzt. Ihre Reihenfolge bestimmt die
-Reihenfolge im Vergleich. Im Hochformat stehen zwei Bilder, im Querformat drei
-Bilder nebeneinander. Größere Vergleiche sind scrollbar.
-
 Optionale Projekterinnerungen sind zunächst ausgeschaltet und werden lokal von
 Android geplant. Einstellungen bieten verschlüsselte Backups mit Passwort,
 Speichern, Teilen und Wiederherstellen. Es gibt keine Konten, Cloud, Werbung,
@@ -87,7 +82,7 @@ Der normale Ablauf baut keine Store-Version und erhöht keine Versionsnummer.
 | `src/app`                  | Schlanke Expo-Router-Routen und Bootstrap                      |
 | `src/features/projects`    | Übersicht, Projektdetails, Verlauf und Erinnerungen            |
 | `src/features/steps`       | Bauschritte, Entwürfe und Geschäftsregeln                      |
-| `src/features/media`       | Fotos, Viewer und Vergleich                                    |
+| `src/features/media`       | Fotoeditor und Vollbildansicht                                 |
 | `src/features/settings`    | Einstellungen und Backup-Dialoge                               |
 | `src/core`                 | Ports, SQLite, Dateiablage, Backups, Medienadapter und UI      |
 | `modules/model-log-native` | JPEG-Prüfung, Backup-Dateispeicherung und Android-Erinnerungen |

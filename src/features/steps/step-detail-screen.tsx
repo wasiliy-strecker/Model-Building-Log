@@ -38,14 +38,6 @@ export function StepDetailScreen() {
           <Body strong style={{ fontSize: 16 }}>
             Aktuelle Fotos ({step.photos.length})
           </Body>
-          {step.photos.length > 1 && (
-            <Button
-              secondary
-              icon="swap_horiz"
-              title="Fotos sortieren"
-              onPress={edit}
-            />
-          )}
           <PhotoGallery photos={step.photos} />
         </View>
       )}
@@ -74,19 +66,6 @@ export function StepDetailScreen() {
           title="Bearbeiten"
           onPress={edit}
         />
-        {vm.photoCount >= 2 && (
-          <Button
-            secondary
-            icon="compare"
-            title="Fotos vergleichen"
-            onPress={() =>
-              router.push({
-                pathname: '/project/compare',
-                params: { projectId: step.projectId },
-              })
-            }
-          />
-        )}
         <Button
           secondary
           danger

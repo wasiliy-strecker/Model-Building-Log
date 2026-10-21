@@ -105,10 +105,6 @@ function Routes() {
           options={{ title: 'Bauschritt erfassen' }}
         />
         <Stack.Screen name="step/[id]" options={{ title: 'Bauschritt' }} />
-        <Stack.Screen
-          name="project/compare"
-          options={{ title: 'Fotos vergleichen' }}
-        />
         <Stack.Screen name="settings" options={{ title: 'Einstellungen' }} />
       </Stack>
     </NavigationThemeProvider>

@@ -10,7 +10,6 @@ export function useStepDetail(id: string) {
   const [step, setStep] = useState<BuildStep>(),
     [project, setProject] = useState<Project>(),
     [loading, setLoading] = useState(true);
-  const [photoCount, setPhotoCount] = useState(0);
   const task = useTask(),
     feedback = useFeedback();
   const { setError } = task;
@@ -21,16 +20,12 @@ export function useStepDetail(id: string) {
       log.repository
         .step(id)
         .then(async (step) => {
-          const [project, photos] = step
-            ? await Promise.all([
-                log.repository.project(step.projectId),
-                log.repository.photos(step.projectId, 0, 0),
-              ])
-            : [null, { total: 0 }];
+          const project = step
+            ? await log.repository.project(step.projectId)
+            : null;
           if (active) {
             setStep(step ?? undefined);
             setProject(project ?? undefined);
-            setPhotoCount(photos.total);
             setError('');
           }
         })
@@ -51,7 +46,6 @@ export function useStepDetail(id: string) {
     step,
     project,
     loading,
-    photoCount,
     ...task,
     remove: async () => {
       if (!step) return;

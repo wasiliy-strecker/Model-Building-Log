@@ -107,9 +107,6 @@ export function stepDifference(
 ): string {
   return (BigInt(current.number) - BigInt(previous.number)).toString();
 }
-export function photoReference(item: ProjectPhoto): string {
-  return `${item.stepId}:${item.photo.id}`;
-}
 export function snapshotFiles(data: Snapshot): string[] {
   return [...new Set(data.steps.flatMap((s) => s.photos.map((p) => p.file)))];
 }
