@@ -1,6 +1,7 @@
 # Android-Varianten und Signierung
 
-Stand: 21. Oktober 2026. Es wurde kein Store-Artefakt erstellt oder hochgeladen.
+Stand: 22. Oktober 2026. Erste Store-Auslieferung: 1.0.0 (1).
+Kein automatischer Upload oder Play-Release.
 
 | Variante     | Paket                             | Signatur                          | Start und Netzwerk                             |
 | ------------ | --------------------------------- | --------------------------------- | ---------------------------------------------- |
@@ -53,7 +54,48 @@ Der zweite Aufruf muss bei nicht vorhandener Datei fehlschlagen. Die Prüfung
 kontrolliert den privaten Schlüssel, den Alias, die Zertifikatsgültigkeit und
 die Trennung vom Dev-Zertifikat. Store-Aufgaben zum Packen und Signieren hängen
 von dieser Prüfung ab. Dev-Builds und reine Manifestprüfungen benötigen keinen
-Store-Schlüssel. Ein späterer Store-Build oder Upload benötigt einen eigenen Auftrag.
+Store-Schlüssel. Store-Build und Upload benötigen jeweils einen eigenen Auftrag.
+
+## Store-AAB erstellen
+
+```bash
+npm run check
+npm run check:native
+npm run check:store
+npm run build:store
+```
+
+Der Build verwendet die vorhandene private Upload-Identität und erzeugt
+`storeRelease` für ARM64 und x86_64. Paketkennung ist
+`com.appfactory.modellbaulog`, App-Name `ModellbauLog`. Version und Versionscode
+stammen aus `app.config.ts` und müssen mit der Android-Konfiguration
+übereinstimmen. Die erste bekannte Auslieferung verwendet 1.0.0 (1).
+Für spätere Uploads den Versionscode erhöhen und die Konfiguration vor dem
+Build mit Expo Prebuild synchronisieren.
+
+Der Helfer benötigt Bundletool unter
+`~/.local/share/app-factory/tools/bundletool-all-1.18.3.jar` oder im ausdrücklich
+gesetzten Pfad `BUNDLETOOL_JAR`. Er kontrolliert die mit dem Expo-Plugin
+übereinstimmende Android-Konfiguration und bricht bei fehlender privater
+Signierung ab. Nach dem Build prüft er die tatsächliche AAB mit Bundletool,
+Jarsigner und dem eigenen öffentlichen Upload-Zertifikat.
+
+Geprüft werden Paket, Name, Version, eingebettetes JavaScript, Berechtigungen,
+Backup-Sperren und 16-KB-Ausrichtung aller nativen Bibliotheken. Build-Werkzeuge
+dürfen laut Source Map nicht im JavaScript der App enthalten sein.
+
+Erst nach erfolgreicher Prüfung entstehen die benannte Datei und ein
+JSON-Prüfbericht unter `build/releases/production/`:
+
+```text
+modellbaulog-1.0.0-build-1-production.aab
+modellbaulog-1.0.0-build-1-production.json
+```
+
+Vorhandene Auslieferungen werden nicht überschrieben. Die AAB kann für Play-Tests
+und die Produktion verwendet werden. Der Befehl installiert keine App auf dem
+Smartphone und führt keinen Upload aus. Dev-Installation und Dev-Daten bleiben
+unverändert.
 
 ## Eigenständige Dev-Vorschau
 

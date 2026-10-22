@@ -17,7 +17,9 @@
     "check:native": "bash scripts/check-native.sh",
     "build:preview": "bash scripts/build-preview.sh",
     "install:preview": "bash scripts/install-preview.sh",
-    "install:dev": "bash scripts/install-dev.sh"
+    "install:dev": "bash scripts/install-dev.sh",
+    "build:store": "bash scripts/build_store_aab.sh",
+    "check:store": "python3 -m unittest discover -s scripts -p test_store_aab.py"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "5.2.14",

@@ -113,6 +113,13 @@ DevRelease-Build mit eingebettetem JavaScript. Nach
 App. Für die eigenständige Vorschau sind keine Netzwerkrechte vorhanden.
 Der normale Ablauf baut keine Store-Version und erhöht keine Versionsnummer.
 
+Für einen ausdrücklich beauftragten Store-Release erzeugt `npm run build:store`
+eine signierte und geprüfte AAB unter `build/releases/production/`.
+Die erste Auslieferung heißt `modellbaulog-1.0.0-build-1-production.aab`.
+Der Helfer erhält bestehende Auslieferungen und führt weder eine Installation
+noch einen Upload aus. Einzelheiten stehen in
+[Android-Varianten und Signierung](docs/ANDROID_RELEASES.md).
+
 ## Struktur und Identität
 
 | Bereich                    | Zuständigkeit                                                         |
