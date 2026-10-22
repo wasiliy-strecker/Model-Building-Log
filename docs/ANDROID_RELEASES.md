@@ -97,6 +97,39 @@ und die Produktion verwendet werden. Der Befehl installiert keine App auf dem
 Smartphone und führt keinen Upload aus. Dev-Installation und Dev-Daten bleiben
 unverändert.
 
+## Zurückgestellte Play-Hinweise
+
+Entscheidung vom 22. Oktober 2026: Die geprüfte Store-AAB 1.0.0 (1) bleibt die
+aktuelle Auslieferung. Der zuvor besprochene Optimierungsrelease mit
+Versionscode 2 ist zurückgestellt. Keine Code- oder Versionsänderung und kein
+neuer Build allein aufgrund der gezeigten Hinweise. Eine Play-Freigabe wird
+damit nicht zugesichert. Zusätzliche blockierende Meldungen separat prüfen.
+
+Für ein späteres Update offen:
+
+- R8 ist im aktuellen Release-Build deaktiviert. Play meldet 1 % Obfuskation.
+  Optimierung und Verkleinerung im Expo-Plugin erhalten, den optimierten Build
+  gezielt prüfen und Mapping sowie Release-Prüfung ergänzen.
+- Die Fotoprüfung lädt Bilder ohne Sampling. JPEG-Typ und die Grenze von
+  1920 Pixeln je Kante werden bereits vor dem Decodieren geprüft. Speicherbedarf
+  verringern, ohne die Lesbarkeitsprüfung oder gespeicherte Fotos zu beeinträchtigen.
+- Die PDF-Ansicht verwendet keine expliziten Decodieroptionen. Die Vorschau
+  wird bereits passend zur Anzeige mit maximal 2048 Pixeln je Kante gerendert
+  und in einem begrenzten Bildcache gehalten. Keine unnötige zweite Verkleinerung.
+- Veraltete Edge-to-edge-Aufrufe aus React Native und Material bei späteren
+  kompatiblen Bibliotheksupdates prüfen. Kein großer Framework-Wechsel allein
+  wegen dieser Warnung.
+
+R8-Korrektur und Prüfung vor Februar 2027 abschließen. Ab Februar 2027 fordert
+Google für Apps mit mehr als 10 MB DEX-Code jeweils mindestens 25 % Optimierung,
+Obfuskation und Verkleinerung. Die tatsächlichen Play-Werte erst nach einem
+künftigen Upload bestätigen. Quelle, geprüft am 22. Oktober 2026:
+[Google Play: technische Qualitätsanforderungen](https://support.google.com/googleplay/android-developer/answer/17492799?hl=en-GB).
+
+Die offenen Punkte sind zusätzlich im Workspace unter `CODEX/OPEN_ITEMS.md`
+vorgemerkt. Andere Apps bei ihrem nächsten Update einzeln prüfen. Gleiche
+Warnungstexte belegen keine identische Ursache.
+
 ## Eigenständige Dev-Vorschau
 
 ```bash
